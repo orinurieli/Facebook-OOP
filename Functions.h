@@ -1,6 +1,9 @@
 #ifndef __FUNCTIONS_H
 #define __FUNCTIONS_H
 
+
+#include <vector>
+using namespace std;
 #include "Operation.h"
 #include "Page.h"
 #include "Status.h"
@@ -11,10 +14,10 @@ int displayMenu();
 int doesUserExist(const char* name, Operation* system);
 int doesPageExist(const char* name, Operation* system);
 
-User** initiateUsers();
-void initiateFriendships(User** allUsers);
-Page** initiatePages(Operation* system, User** allUsers);
-void initiatePageLikes(Operation* system, User** allUsers, Page** pages);
+vector<User*> initiateUsers();
+void initiateFriendships(vector<User*> allUsers);
+vector<Page*> initiatePages(Operation* system, vector<User*> allUsers);
+void initiatePageLikes(Operation* system, vector<User*> allUsers, vector<Page*> pages);
 void initiateStatuses(Operation* system);
 
 void getUserInput(Operation* system);

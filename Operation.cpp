@@ -10,11 +10,11 @@ class Page;
 
 Operation::Operation()
 {
-	_allUsers = nullptr;
-	_allPages = nullptr;
+	//_allUsers.resize(1);
+	//_allPages = nullptr;
 }
 
-void Operation::initiateData(User** initUsers, Page** initPages)
+void Operation::initiateData(vector<User*> initUsers, vector<Page*> initPages)
 {
 	_allUsers = initUsers;
 	_allPages = initPages;
@@ -23,12 +23,13 @@ void Operation::initiateData(User** initUsers, Page** initPages)
 
 void Operation::addUserToOperation(User* userToAdd)
 {
-	int i = 0;
+	_allUsers.push_back(userToAdd);
+	/*int i = 0;
 
 	if (_maxUsers == _numOfUsers)
 	{
 		_maxUsers *= 2;
-		User** newUsers = new User * [_maxUsers];
+		vector<User*> newUsers = new User * [_maxUsers];
 		for (i = 0; i < _numOfUsers; i++)
 			newUsers[i] = _allUsers[i];
 
@@ -37,26 +38,27 @@ void Operation::addUserToOperation(User* userToAdd)
 		delete[] newUsers;
 	}
 
-	_allUsers[_numOfUsers] = userToAdd;
+	_allUsers[_numOfUsers] = userToAdd;*/
 	_numOfUsers++;
 	cout << endl << "Hey, " << userToAdd->getName() << " Welcome to Facebook :) " << endl << endl;
 }
 
 void Operation::addPageToOperation(Page* pageToAdd)
 {
-	int i = 0;
+	_allPages.push_back(pageToAdd);
+	/*int i = 0;
 
 	if (_maxPages == _numOfPages)
 	{
 		_maxPages *= 2;
-		Page** newPages = new Page * [_maxPages];
+		vector<Page*> newPages = new Page * [_maxPages];
 		for (i = 0; i < _numOfPages; i++)
 			newPages[i] = _allPages[i];
 
 		_allPages = newPages;
 	}
 
-	_allPages[_numOfPages] = pageToAdd;
+	_allPages[_numOfPages] = pageToAdd;*/
 	_numOfPages++;
 
 	cout << "Congrats! Your page: " << pageToAdd->getName() << " is Live on Facebook." << endl << endl;
@@ -108,15 +110,18 @@ void Operation::handleMenu(int userChoice)
 		case 6: // Add a new friend
 			cout << endl;
 			current_user = askForUsername(this, 0);
-			if(current_user)
+			if (current_user)
 				current_user->addFriend(this);
 			break;
 		case 7: // Unfriend
+			// Error - if i add and then remove, then try to
+			// display friends it will exit the program
 			current_user = askForUsername(this, 0);
 			if (current_user)
 				current_user->cancelFriendship(*this);
 			break;
 		case 8: // Like a page
+			// Error - handle if I already liked it dont like again
 			current_user = askForUsername(this, 0);
 			if (current_user)
 				current_user->likePage(*this);
@@ -147,15 +152,15 @@ void Operation::handleMenu(int userChoice)
 
 Operation::~Operation()
 {
-	for (int i = 0; i < _numOfUsers; i++)
+	/*for (int i = 0; i < _numOfUsers; i++)
 	{
 		delete[] _allUsers[i];
 	}
-	delete[] _allUsers;
+	delete[] _allUsers;*/
 
-	for (int i = 0; i < _numOfPages; i++)
+	/*for (int i = 0; i < _numOfPages; i++)
 	{
 		delete[] _allPages[i];
 	}
-	delete[] _allPages;
+	delete[] _allPages;*/
 }

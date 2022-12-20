@@ -1,6 +1,8 @@
 // Gon Etgar 316354653
 // Ori Nurieli 208952341
 #include <iostream>
+#include <vector>
+#include <string>
 using namespace std;
 
 #include "User.h"
@@ -12,8 +14,8 @@ using namespace std;
 int main()
 {
 	Operation system;
-	User** initUsers = new User * [5]; // todo -> free??
-	Page** initPages = new Page * [3];
+	vector<User*> initUsers; // todo -> free??
+	vector<Page*> initPages;
 	int userChoice = 0;
 
 	// ################################ initiate data ################################

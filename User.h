@@ -2,6 +2,9 @@
 #define __USER_H
 #define _CRT_SECURE_NO_WARNINGS
 
+
+#include <vector>
+using namespace std;
 #include <string.h>
 #include "Status.h"
 #include "Clock.h"
@@ -13,9 +16,10 @@ class User
 {
 	char* _name;
 	Clock _birthday;
-	User** _friendsList;
-	Status** _statuses;
-	Page** _likedPages;
+	vector <User*> _friendsList;
+	Status
+		_statuses;
+	vector<Page*> _likedPages;
 
 	int _numOfFriends = 0;
 	int _maxNumOfFriends = 1;
@@ -29,9 +33,10 @@ public:
 	User(const User&) = delete; // we delete the copy c'tor because we dont want to duplicate a user
 
 	const char* getName() const { return _name; }
-	User** getFriendsList() { return _friendsList; }
-	Page** getLikedPagesList() { return _likedPages; }
-	const int getNumOfStatuses() const { return _numOfStatuses; };
+	vector<User*> getFriendsList() { return _friendsList; }
+	void pushToFriendsList(User* newFriend) { _friendsList.push_back(newFriend); }
+	vector<Page*> getLikedPagesList() { return _likedPages; }
+	const int getNumOfStatuses() const { return _numOfStatuses; }
 	const int getNumOfFriends() const { return _numOfFriends; }
 	const int getNumOfPages() const { return _numOfPages; }
 	Status** getAllStatuses() { return _statuses; }
@@ -43,7 +48,7 @@ public:
 
 	void addFriend(Operation* system);
 	User* operator+=(User* other);
-	
+
 	void cancelFriendship(Operation& system);
 	int searchFriendInFriendList(User& other);
 	void removeFriendFromFriendList(int indexToRemove);

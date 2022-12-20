@@ -22,8 +22,8 @@ User::User(const char* name, Clock birthday, int maxNumFriends, int numFriends, 
 	_numOfPages = numPages;
 
 	_statuses = new Status * [_maxNumOfStatuses];
-	_likedPages = new Page * [_maxNumOfPages];
-	_friendsList = new User * [_maxNumOfFriends];
+	//_likedPages = new Page * [_maxNumOfPages];
+	//_friendsList.resize(1);
 }
 
 // ################## create status ############## //
@@ -53,20 +53,20 @@ void User::addFriend(Operation* system)
 	if (friendToAdd == nullptr)
 		return;
 
-	this->reallocFriendList();
-	friendToAdd->reallocFriendList();
+	/*this->reallocFriendList();
+	friendToAdd->reallocFriendList();*/
 
 	*this += friendToAdd;
-	cout << "\nHello " << _name << ", you have added " << friendToAdd->_name << " to your friend list." << endl << endl;
+	cout << "\n" << _name << ", you have added " << friendToAdd->_name << " to your friend list." << endl << endl;
 }
 
 // after we checked for place in both arrays, we add both users to eachothers friend list.
 User* User::operator+=(User* other)
 {
-	_friendsList[_numOfFriends] = other;
+	_friendsList.push_back(other);
 	_numOfFriends++;
 
-	other->_friendsList[other->_numOfFriends] = this;
+	other->_friendsList.push_back(this);
 	other->_numOfFriends++;
 
 	return this;
@@ -114,8 +114,8 @@ int User::searchFriendInFriendList(User& other)
 void User::removeFriendFromFriendList(int indexToRemove)
 {
 	_friendsList[indexToRemove] = nullptr; // point the friend's place in the array on null
-	
-	if(_numOfFriends > 1 && indexToRemove != _numOfFriends-1)
+
+	if (_numOfFriends > 1 && indexToRemove != _numOfFriends - 1)
 	{// if friend is not last, and there is more than 1 friend on the array, switch between the last one on the array to the one we deleted
 		_friendsList[indexToRemove] = _friendsList[_numOfFriends - 1];
 		_friendsList[_numOfFriends - 1] = nullptr;
@@ -134,17 +134,16 @@ void User::likePage(Operation& system)
 		return;
 	}
 
-	this->reallocPagesList(); // check if user has enough space for the page, and realloc if needed
+	//this->reallocPagesList(); // check if user has enough space for the page, and realloc if needed
 	*this += new_page; // add page to the user's likedPages list
 	new_page->addFanToPage(&system, this); // add user to the page's fansList
 
 	cout << _name << " liked " << new_page->getName() << endl << endl;
 }
 
-// we know both arrays has enough space
 User* User::operator+=(Page* fanPage) // add page to user's liked pages array
 {
-	_likedPages[_numOfPages] = fanPage;
+	_likedPages.push_back(fanPage);
 	_numOfPages++;
 	return this;
 }
@@ -164,13 +163,14 @@ void User::dislikePage(Operation* system)
 
 	for (int i = 0; i < _numOfPages && !found; i++)
 	{
+		// Error: _likedPages is empty
+		// we didnt do for both sides!
 		if (page_to_dislike == _likedPages[i]) // page is in likedPages
 		{
 			// there is only one page in the array, or the page to dislike is the last one
 			if (i == _numOfPages - 1)
-			{
 				_likedPages[i] = nullptr;
-			}
+
 			else // in the "middle"
 			{ // swap the one we dislike, with the last one
 				_likedPages[i] = _likedPages[_numOfPages - 1];
@@ -256,13 +256,14 @@ void User::displayAllStatuses()
 void User::displayAllFriends()
 {
 	cout << "\n" << _name << "'s friends:" << endl;
-
-	if (_numOfFriends == 0)
+	// gon i changed numOfFriends to _friendsList.size()
+	if (_friendsList.size() == 0)
 		cout << "None :(" << endl << endl;
 	else
 	{
+		cout << "inside else" << endl;
 		cout << endl;
-		for (int i = 0; i < _numOfFriends; i++)
+		for (int i = 0; i < _friendsList.size(); i++)
 		{
 			cout << "friend #" << i + 1 << ":\n";
 			cout << "Name: " << _friendsList[i]->getName() << endl;
@@ -285,17 +286,17 @@ User::~User()
 	}
 	delete[] _statuses;
 
-	for (int i = 0; i < _numOfPages; i++)
+	/*for (int i = 0; i < _numOfPages; i++)
 	{
 		delete[] _likedPages[i];
 	}
-	delete[] _likedPages;
+	delete[] _likedPages;*/
 
-	for (int i = 0; i < _numOfFriends; i++)
+	/*for (int i = 0; i < _numOfFriends; i++)
 	{
 		delete[] _friendsList[i];
 	}
-	delete[] _friendsList;
+	delete[] _friendsList;*/
 }
 
 // checks if the array reaches its physical size, and increases it if needed.
@@ -315,46 +316,47 @@ void User::reallocStatuses()
 }
 
 // checks if the array reaches its physical size, and increases it if needed.
-void User::reallocFriendList()
-{
-	if (_numOfFriends == _maxNumOfFriends)
-	{
-		_maxNumOfFriends *= 2;
-		User** newFriendList = new User * [_maxNumOfFriends];
-
-		for (int i = 0; i < _numOfFriends; i++)
-			newFriendList[i] = _friendsList[i];
-
-		delete[]_friendsList;
-		_friendsList = newFriendList;
-	}
-}
+//void User::reallocFriendList()
+//{
+//	if (_numOfFriends == _maxNumOfFriends)
+//	{
+//		_maxNumOfFriends *= 2;
+//		vector<User*> newFriendList = new User * [_maxNumOfFriends];
+//
+//		for (int i = 0; i < _numOfFriends; i++)
+//			newFriendList[i] = _friendsList[i];
+//
+//		delete[]_friendsList;
+//		_friendsList = newFriendList;
+//	}
+//}
 
 // checks if the pages list has enough space, and if not increases it
-void User::reallocPagesList()
-{
-	if (_numOfPages == _maxNumOfPages)
-	{
-		_maxNumOfPages *= 2;
-		Page** new_liked_pages = new Page * [_maxNumOfPages];
-
-		for (int i = 0; i < _numOfPages; i++)
-			new_liked_pages[i] = _likedPages[i];
-
-		_likedPages = new_liked_pages;
-		new_liked_pages = nullptr;
-		delete[] new_liked_pages;
-	}
-}
+//void User::reallocPagesList()
+//{
+//	if (_numOfPages == _maxNumOfPages)
+//	{
+//		_maxNumOfPages *= 2;
+//		vector<Page*> new_liked_pages = new Page * [_maxNumOfPages];
+//
+//		for (int i = 0; i < _numOfPages; i++)
+//			new_liked_pages[i] = _likedPages[i];
+//
+//		_likedPages = new_liked_pages;
+//		new_liked_pages = nullptr;
+//		delete[] new_liked_pages;
+//	}
+//}
 
 
 // TODO check if we need these funcs
 void User::addPageToLikedPagesList(Operation* system, Page* pageToLike)
 {
-	if (_numOfPages == _maxNumOfPages)
+	_likedPages.push_back(pageToLike);
+	/*if (_numOfPages == _maxNumOfPages)
 	{
 		_maxNumOfPages *= 2;
-		Page** new_liked_pages = new Page * [_maxNumOfPages];
+		vector<Page*> new_liked_pages = new Page * [_maxNumOfPages];
 
 		for (int i = 0; i < _numOfPages; i++)
 			new_liked_pages[i] = _likedPages[i];
@@ -364,7 +366,7 @@ void User::addPageToLikedPagesList(Operation* system, Page* pageToLike)
 		delete[] new_liked_pages;
 	}
 
-	_likedPages[_numOfPages] = pageToLike;
+	_likedPages[_numOfPages] = pageToLike;*/
 	_numOfPages++;
 
 	// here add fan to page:

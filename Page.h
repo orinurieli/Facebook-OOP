@@ -3,6 +3,9 @@
 
 //class User;
 //class Status;
+#include <vector>
+using namespace std;
+
 #include "Status.h"
 #include "User.h"
 
@@ -11,8 +14,9 @@ class Page
 {
 private:
 	char* _name;
-	User** _fansList;
-	Status** _statuses;
+	vector<User*> _fansList;
+	Status
+		_statuses;
 
 	int _numOfFans = 0;
 	int _maxFans = 2;
@@ -27,9 +31,9 @@ public:
 	const char* getName() const { return _name; };
 	const int getNumOfFans() const { return _numOfFans; };
 	const int getMaxNumOfFans() const { return _numOfFans; };
-	User** getFanList() const { return _fansList; }
+	vector<User*> getFanList() const { return _fansList; }
 	char* setName(char* name) { _name = name; };
-	char* setNumOfFans(int newNumOfFans) { _numOfFans = newNumOfFans;  };
+	char* setNumOfFans(int newNumOfFans) { _numOfFans = newNumOfFans; };
 
 	void addFanToPage(Operation* system, User* currentUser);
 	Page* operator+=(User* currentUser);

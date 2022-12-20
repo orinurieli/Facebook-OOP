@@ -5,59 +5,58 @@ using namespace std;
 #define NOT_FOUND -1
 
 // fills allUsers array with members
-User** initiateUsers()
+vector<User*> initiateUsers()
 {
-	User** initUsers = new User * [5];
-
+	vector<User*> initUsers;
 	User* user1 = new User("Keren Kalif", Clock(15, 4, 1990), 2, 2, 2, 1);
-	initUsers[0] = user1;
+	initUsers.push_back(user1);
 	User* user2 = new User("Steve Jobs", Clock(24, 2, 1955), 2, 2, 2, 1);
-	initUsers[1] = user2;
+	initUsers.push_back(user2);
 	User* user3 = new User("Mark Zuckerberg", Clock(14, 5, 1984), 4, 3, 2, 2);
-	initUsers[2] = user3;
+	initUsers.push_back(user3);
 	User* user4 = new User("Ori Nurieli", Clock(1, 7, 1997), 2, 1, 4, 3);
-	initUsers[3] = user4;
+	initUsers.push_back(user4);
 	User* user5 = new User("Gon Etgar", Clock(21, 10, 1996), 2, 2, 4, 3);
-	initUsers[4] = user5;
+	initUsers.push_back(user5);
 
 	initiateFriendships(initUsers);
 	return initUsers;
 }
 
 // fills list of friends for some members to initiate the program
-void initiateFriendships(User** allUsers)
+void initiateFriendships(vector<User*> allUsers)
 {
-	allUsers[0]->getFriendsList()[0] = allUsers[1];
-	allUsers[1]->getFriendsList()[0] = allUsers[0];
+	allUsers[0]->pushToFriendsList(allUsers[1]);
+	allUsers[1]->pushToFriendsList(allUsers[0]);
 
-	allUsers[0]->getFriendsList()[1] = allUsers[2];
-	allUsers[2]->getFriendsList()[0] = allUsers[0];
+	allUsers[0]->pushToFriendsList(allUsers[2]);
+	allUsers[2]->pushToFriendsList(allUsers[0]);
 
-	allUsers[1]->getFriendsList()[1] = allUsers[2];
-	allUsers[2]->getFriendsList()[1] = allUsers[1];
+	allUsers[1]->pushToFriendsList(allUsers[2]);
+	allUsers[2]->pushToFriendsList(allUsers[1]);
 
-	allUsers[4]->getFriendsList()[0] = allUsers[3];
-	allUsers[3]->getFriendsList()[0] = allUsers[4];
+	allUsers[4]->pushToFriendsList(allUsers[3]);
+	allUsers[3]->pushToFriendsList(allUsers[4]);
 
-	allUsers[4]->getFriendsList()[1] = allUsers[2];
-	allUsers[2]->getFriendsList()[2] = allUsers[4];
+	allUsers[4]->pushToFriendsList(allUsers[2]);
+	allUsers[2]->pushToFriendsList(allUsers[4]);
 }
 
 // fills the pages array with pages
-Page** initiatePages(Operation* system, User** allUsers)
+vector<Page*> initiatePages(Operation* system, vector<User*> allUsers)
 {
-	Page** initPages = new Page * [5];
+	vector<Page*> initPages;
 
 	Page* maccabi_haifa = new Page("Maccabi Haifa");
-	initPages[0] = maccabi_haifa;
+	initPages.push_back(maccabi_haifa);
 	Page* harry_potter = new Page("Harry Potter");
-	initPages[1] = harry_potter;
+	initPages.push_back(harry_potter);
 	Page* pink_floyd = new Page("Pink Floyd");
-	initPages[2] = pink_floyd;
+	initPages.push_back(pink_floyd);
 	Page* led_zeppelin = new Page("Led Zeppelin");
-	initPages[3] = led_zeppelin;
+	initPages.push_back(led_zeppelin);
 	Page* cakes = new Page("Cakes");
-	initPages[4] = cakes;
+	initPages.push_back(cakes);
 
 	initiatePageLikes(system, allUsers, initPages);
 
@@ -65,12 +64,12 @@ Page** initiatePages(Operation* system, User** allUsers)
 }
 
 // initiate likes on pages from users
-void initiatePageLikes(Operation* system, User** allUsers, Page** pages)
+void initiatePageLikes(Operation* system, vector<User*> allUsers, vector<Page*> pages)
 {
 	pages[0]->addFanToPage(system, allUsers[3]);
 	pages[1]->addFanToPage(system, allUsers[4]);
 	pages[3]->addFanToPage(system, allUsers[1]);
-	pages[4]->addFanToPage(system, allUsers[0]);
+	pages[2]->addFanToPage(system, allUsers[0]);
 	pages[4]->addFanToPage(system, allUsers[3]);
 	pages[4]->addFanToPage(system, allUsers[4]);
 }
@@ -78,7 +77,7 @@ void initiatePageLikes(Operation* system, User** allUsers, Page** pages)
 // initiate status for each user
 void initiateStatuses(Operation* system)
 {
-	User** allUsers = system->getAllUsers();
+	vector<User*> allUsers = system->getAllUsers();
 
 	for (int i = 0; i < system->getNumOfUsers(); i++)
 	{
@@ -118,7 +117,7 @@ int displayMenu()
 int doesUserExist(const char* name, Operation* system)
 {
 	int index;
-	User** allUsers = system->getAllUsers();
+	vector<User*> allUsers = system->getAllUsers();
 
 	for (index = 0; index < system->getNumOfUsers(); index++)
 	{
@@ -133,7 +132,7 @@ int doesUserExist(const char* name, Operation* system)
 int doesPageExist(const char* name, Operation* system)
 {
 	int index;
-	Page** allPages = system->getAllPages();
+	vector<Page*> allPages = system->getAllPages();
 
 	for (index = 0; index < system->getNumOfPages(); index++)
 	{
@@ -191,8 +190,8 @@ void getUserOrPageInput(int userChoice, Operation* system)
 	char* username = new char[MAX_CHARACTERS];
 	char* pageName = new char[MAX_CHARACTERS];
 
-	User** allUsers = system->getAllUsers();
-	Page** allPages = system->getAllPages();
+	vector<User*> allUsers = system->getAllUsers();
+	vector<Page*> allPages = system->getAllPages();
 
 	bool isUserToDisplay = 0;
 
@@ -217,6 +216,7 @@ void getUserOrPageInput(int userChoice, Operation* system)
 				allUsers[friendIndex]->displayAllStatuses();
 				break;
 			case 11:
+				cout << "here";
 				allUsers[friendIndex]->displayAllFriends();
 				break;
 			default:
@@ -260,7 +260,7 @@ void getUserOrPageInput(int userChoice, Operation* system)
 // returns pointer to the page, and null if not found
 Page* getPageDetails(Operation* system)
 {
-	Page** allPages = system->getAllPages();
+	vector<Page*> allPages = system->getAllPages();
 	char pageName[MAX_CHARACTERS];
 	int index = 0;
 
@@ -286,7 +286,7 @@ User* askForUsername(Operation* system, int flag)
 
 	cout << "Please enter ";
 	flag == 0 ? cout << "your username: " : cout << "friend's name: ";
-	if(flag == 0)
+	if (flag == 0)
 		cin.ignore();
 	cin.getline(username, MAX_CHARACTERS);
 	userIndex = doesUserExist(username, system);

@@ -10,7 +10,7 @@ Page::Page(const char* name)
 	_name = new char[MAX_CHARACTERS];
 	_name = _strdup(name);
 
-	_fansList = new User * [1];
+	//_fansList.resize(1);
 	_statuses = new Status * [1];
 }
 
@@ -20,7 +20,8 @@ void Page::createStatus()
 	if (_maxStatuses == _numOfStatuses)
 	{
 		_maxStatuses *= 2;
-		Status** newStatuses = new Status * [_maxStatuses];
+		Status
+			newStatuses = new Status * [_maxStatuses];
 		for (int i = 0; i < _numOfStatuses; i++)
 			newStatuses[i] = _statuses[i];
 
@@ -70,31 +71,33 @@ void Page::displayAllFans()
 // receives fan and adds him to the page's fan list
 void Page::addFanToPage(Operation* system, User* currentUser)
 {
-	this->reallocFanList(); // if the fansList array ran out of space
 	*this += currentUser;
+	// Error: Gon - here add page to user->_likedPages
+	// we only add fan to page but not page to fan so it crashes
 }
 
 // checks if the array reaches its physical size, and if so increases it
-void Page::reallocFanList()
+//void Page::reallocFanList()
+//{
+//	if (_numOfFans == _maxFans)
+//	{
+//		_maxFans *= 2;
+//		vector<User*> new_fans_list = new User * [_maxFans];
+//
+//		for (int i = 0; i < _numOfFans; i++)
+//			new_fans_list[i] = _fansList[i];
+//
+//		_fansList = new_fans_list;
+//		new_fans_list = nullptr;
+//		delete[] new_fans_list;
+//	}
+//}
+
+
+// adds user to fan list
+Page* Page::operator+=(User* currentUser)
 {
-	if (_numOfFans == _maxFans)
-	{
-		_maxFans *= 2;
-		User** new_fans_list = new User * [_maxFans];
-
-		for (int i = 0; i < _numOfFans; i++)
-			new_fans_list[i] = _fansList[i];
-
-		_fansList = new_fans_list;
-		new_fans_list = nullptr;
-		delete[] new_fans_list;
-	}
-}
-
-
-Page* Page::operator+=(User* currentUser) // adds user to fan list
-{
-	_fansList[_numOfFans] = currentUser;
+	_fansList.push_back(currentUser);
 	_numOfFans++;
 	return this;
 }
@@ -129,9 +132,9 @@ Page::~Page()
 	}
 	delete[] _statuses;
 
-	for (int i = 0; i < _numOfFans; i++)
+	/*for (int i = 0; i < _numOfFans; i++)
 	{
 		delete[] _fansList[i];
 	}
-	delete[] _fansList;
+	delete[] _fansList;*/
 }
