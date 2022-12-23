@@ -113,13 +113,15 @@ int User::searchFriendInFriendList(User& other)
 // removes "friendToRemove" from friend list, if he's not in the end of the array, switch between the last friend to him. 
 void User::removeFriendFromFriendList(int indexToRemove)
 {
-	_friendsList[indexToRemove] = nullptr; // point the friend's place in the array on null
+	_friendsList[indexToRemove] = nullptr;
 
 	if (_numOfFriends > 1 && indexToRemove != _numOfFriends - 1)
-	{// if friend is not last, and there is more than 1 friend on the array, switch between the last one on the array to the one we deleted
+	{
+		// if friend is not last, and there is more than 1 friend on the array - swap them
 		_friendsList[indexToRemove] = _friendsList[_numOfFriends - 1];
 		_friendsList[_numOfFriends - 1] = nullptr;
 	}
+
 	_numOfFriends--; // update number of friends
 }
 
@@ -232,7 +234,7 @@ void User::displayRecentStatusesOfaFriend(Operation* system)
 void User::displayAllStatuses()
 {
 	cout << endl << _name << "'s Statuses:\n";
-	if (_numOfStatuses == 0) cout << "None." << endl;
+	if (_numOfStatuses == 0) cout << "None." << endl << endl;
 	else {
 		for (int i = 0; i < _numOfStatuses; i++)
 		{
@@ -254,14 +256,15 @@ void User::displayAllStatuses()
 void User::displayAllFriends()
 {
 	cout << "\n" << _name << "'s friends:" << endl;
-	// gon i changed numOfFriends to _friendsList.size()
-	if (_friendsList.size() == 0)
+	int numOfFriends = this->getNumOfFriends();
+
+	if (numOfFriends == 0)
 		cout << "None :(" << endl << endl;
 	else
 	{
 		cout << "inside else" << endl;
 		cout << endl;
-		for (int i = 0; i < _friendsList.size(); i++)
+		for (int i = 0; i < numOfFriends; i++)
 		{
 			cout << "friend #" << i + 1 << ":\n";
 			cout << "Name: " << _friendsList[i]->getName() << endl;

@@ -77,7 +77,6 @@ void initiatePageLikes(Operation* system, vector<User*> allUsers, vector<Page*> 
 // initiate status for each user
 void initiateStatuses(Operation* system)
 {
-	cout << "hello error";
 	vector<User*> allUsers = system->getAllUsers();
 
 	for (int i = 0; i < system->getNumOfUsers(); i++)
@@ -86,7 +85,6 @@ void initiateStatuses(Operation* system)
 		Status* newStatus = new Status("Hello world", date.getDate());
 		allUsers[i]->createStatus(newStatus);
 	}
-	cout << "after error";
 }
 
 int displayMenu()
