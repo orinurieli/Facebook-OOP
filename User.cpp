@@ -21,7 +21,7 @@ User::User(const char* name, Clock birthday, int maxNumFriends, int numFriends, 
 	_maxNumOfPages = maxPages;
 	_numOfPages = numPages;
 
-	_statuses = new Status * [_maxNumOfStatuses];
+	//_statuses = new Status * [_maxNumOfStatuses];
 	//_likedPages = new Page * [_maxNumOfPages];
 	//_friendsList.resize(1);
 }
@@ -30,15 +30,15 @@ User::User(const char* name, Clock birthday, int maxNumFriends, int numFriends, 
 
 void User::createStatus(Status* initStatus)
 {
-	this->reallocStatuses();
+	//this->reallocStatuses();
 
-	if (initStatus != nullptr) _statuses[_numOfStatuses] = initStatus;
+	if (initStatus != nullptr) _statuses.push_back(initStatus);
 
 	else {
 		Status* newStatus = new Status();
 		newStatus->getStatusInfo(newStatus);
 		cout << "Status Uploaded!" << endl << endl;
-		_statuses[_numOfStatuses] = newStatus;
+		_statuses.push_back(newStatus);
 	}
 	_numOfStatuses++;
 }
@@ -202,7 +202,7 @@ void User::displayRecentStatusesOfaFriend(Operation* system)
 		cout << "---------------------------------" << endl;
 		cout << "Friend's name: " << _friendsList[i]->getName() << endl;
 		cout << _friendsList[i]->getName() << "'s 10 Most Recent Statuses Are:" << endl;
-		Status** friend_status_list = _friendsList[i]->getAllStatuses();
+		vector<Status*> friend_status_list = _friendsList[i]->getAllStatuses();
 		int num_statuses = _friendsList[i]->getNumOfStatuses();
 
 		if (num_statuses == 0)
@@ -227,7 +227,6 @@ void User::displayRecentStatusesOfaFriend(Operation* system)
 	}
 }
 
-// ################## display all statuses ############## //
 
 // shows all statuses of a chosen user
 void User::displayAllStatuses()
@@ -250,7 +249,6 @@ void User::displayAllStatuses()
 	}
 }
 
-// ################## display all friends ############## //
 
 // shows all friends of a user
 void User::displayAllFriends()
@@ -280,11 +278,11 @@ User::~User()
 {
 	delete[] _name;
 
-	for (int i = 0; i < _numOfStatuses; i++)
+	/*for (int i = 0; i < _numOfStatuses; i++)
 	{
 		delete[] _statuses[i];
 	}
-	delete[] _statuses;
+	delete[] _statuses;*/
 
 	/*for (int i = 0; i < _numOfPages; i++)
 	{
@@ -300,20 +298,20 @@ User::~User()
 }
 
 // checks if the array reaches its physical size, and increases it if needed.
-void User::reallocStatuses()
-{
-	if (_maxNumOfStatuses == _numOfStatuses)
-	{
-		_maxNumOfStatuses *= 2;
-		Status** newStatuses = new Status * [_maxNumOfStatuses];
-
-		for (int i = 0; i < _numOfStatuses; i++)
-			newStatuses[i] = _statuses[i];
-
-		delete[] _statuses;
-		_statuses = newStatuses;
-	}
-}
+//void User::reallocStatuses()
+//{
+//	if (_maxNumOfStatuses == _numOfStatuses)
+//	{
+//		_maxNumOfStatuses *= 2;
+//		vector<Status*> newStatuses = new Status * [_maxNumOfStatuses];
+//
+//		for (int i = 0; i < _numOfStatuses; i++)
+//			newStatuses[i] = _statuses[i];
+//
+//		delete[] _statuses;
+//		_statuses = newStatuses;
+//	}
+//}
 
 // checks if the array reaches its physical size, and increases it if needed.
 //void User::reallocFriendList()

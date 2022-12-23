@@ -18,16 +18,14 @@ int main()
 	vector<Page*> initPages;
 	int userChoice = 0;
 
-	// ################################ initiate data ################################
-
+	// ################################ Initiate data ################################
 	initUsers = initiateUsers();
 	initPages = initiatePages(&system, initUsers);
 	system.initiateData(initUsers, initPages);
 
 	cout << "Hello, Welcome To Facebook :)" << endl << endl;
 
-	//// ################################ Menu ################################ 
-
+	// ################################ Menu ################################ 
 	do {
 		userChoice = displayMenu();
 		system.handleMenu(userChoice);

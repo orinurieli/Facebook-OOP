@@ -15,8 +15,7 @@ class Page
 private:
 	char* _name;
 	vector<User*> _fansList;
-	Status
-		_statuses;
+	vector<Status*>_statuses;
 
 	int _numOfFans = 0;
 	int _maxFans = 2;
@@ -37,7 +36,7 @@ public:
 
 	void addFanToPage(Operation* system, User* currentUser);
 	Page* operator+=(User* currentUser);
-	void reallocFanList();
+	//void reallocFanList();
 
 	void removeFan(User* removeUser);
 	void createStatus();

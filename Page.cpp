@@ -11,13 +11,13 @@ Page::Page(const char* name)
 	_name = _strdup(name);
 
 	//_fansList.resize(1);
-	_statuses = new Status * [1];
+	//_statuses = new Status * [1];
 }
 
 // creates a status for a page
 void Page::createStatus()
 {
-	if (_maxStatuses == _numOfStatuses)
+	/*if (_maxStatuses == _numOfStatuses)
 	{
 		_maxStatuses *= 2;
 		Status
@@ -27,11 +27,11 @@ void Page::createStatus()
 
 		delete[] _statuses;
 		_statuses = newStatuses;
-	}
+	}*/
 
 	Status* newStatus = new Status();
 	newStatus->getStatusInfo(newStatus);
-	_statuses[_numOfStatuses] = newStatus;
+	_statuses.push_back(newStatus);
 	cout << "Status Uploaded!" << endl << endl;
 	_numOfStatuses++;
 }
@@ -126,11 +126,11 @@ Page::~Page()
 {
 	delete _name;
 
-	for (int i = 0; i < _numOfStatuses; i++)
+	/*for (int i = 0; i < _numOfStatuses; i++)
 	{
 		delete[] _statuses[i];
 	}
-	delete[] _statuses;
+	delete[] _statuses;*/
 
 	/*for (int i = 0; i < _numOfFans; i++)
 	{

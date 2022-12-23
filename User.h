@@ -17,8 +17,7 @@ class User
 	char* _name;
 	Clock _birthday;
 	vector <User*> _friendsList;
-	Status
-		_statuses;
+	vector<Status*> _statuses;
 	vector<Page*> _likedPages;
 
 	int _numOfFriends = 0;
@@ -39,7 +38,7 @@ public:
 	const int getNumOfStatuses() const { return _numOfStatuses; }
 	const int getNumOfFriends() const { return _numOfFriends; }
 	const int getNumOfPages() const { return _numOfPages; }
-	Status** getAllStatuses() { return _statuses; }
+	vector<Status*> getAllStatuses() { return _statuses; }
 	const Clock getBirthday() const { return _birthday; }
 	void setName(char* username) { _name = username; };
 	void setBirthday(Clock birthday) { _birthday = birthday; }
@@ -62,9 +61,9 @@ public:
 	void displayAllStatuses();
 	void displayAllFriends();
 
-	void reallocStatuses();
+	/*void reallocStatuses();
 	void reallocFriendList();
-	void reallocPagesList();
+	void reallocPagesList();*/
 
 	~User();
 
