@@ -36,10 +36,10 @@ void Page::createStatus()
 	_numOfStatuses++;
 }
 
-void Page::displayAllStatuses()
+void Page::displayAllStatuses() throw (const char*)
 {
 	cout << endl << _name << " Statuses: " << endl;
-	if (_numOfStatuses == 0) cout << "None." << endl;
+	if (_numOfStatuses == 0) throw "oops, no statuses to display. \n";
 	for (int i = 0; i < _numOfStatuses; i++)
 	{
 		cout << "---------------------------------" << endl;
@@ -54,12 +54,12 @@ void Page::displayAllStatuses()
 	cout << endl;
 }
 
-void Page::displayAllFans()
+void Page::displayAllFans() throw (const char*)
 {
 	cout << endl << _name << " Fans:\n";
 
 	if (_numOfFans == 0)
-		cout << "None :(" << endl;
+		throw "oops, no fans to display. \n";
 	else {
 		for (int i = 0; i < _numOfFans; i++)
 			cout << _fansList[i]->getName() << endl;
@@ -76,23 +76,6 @@ void Page::addFanToPage(Operation* system, User* currentUser)
 	// we only add fan to page but not page to fan so it crashes
 }
 
-// checks if the array reaches its physical size, and if so increases it
-//void Page::reallocFanList()
-//{
-//	if (_numOfFans == _maxFans)
-//	{
-//		_maxFans *= 2;
-//		vector<User*> new_fans_list = new User * [_maxFans];
-//
-//		for (int i = 0; i < _numOfFans; i++)
-//			new_fans_list[i] = _fansList[i];
-//
-//		_fansList = new_fans_list;
-//		new_fans_list = nullptr;
-//		delete[] new_fans_list;
-//	}
-//}
-
 
 // adds user to fan list
 Page* Page::operator+=(User* currentUser)
@@ -103,7 +86,7 @@ Page* Page::operator+=(User* currentUser)
 }
 
 // this function receives pointer to a user and removes it from array of fans.
-void Page::removeFan(User* removeUser)
+void Page::removeFan(User* removeUser) throw (const char*)
 {
 	for (int i = 0; i < _numOfFans; i++)
 	{
@@ -119,6 +102,7 @@ void Page::removeFan(User* removeUser)
 			}
 			_numOfFans--;
 		}
+		else throw "wait.. the user is not a fan so we can not remove him. \n";
 	}
 }
 

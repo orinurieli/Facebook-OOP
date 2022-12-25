@@ -23,12 +23,20 @@ int main()
 	initPages = initiatePages(&system, initUsers);
 	system.initiateData(initUsers, initPages);
 
-	cout << "Hello, Welcome To Facebook :)" << endl << endl;
+	//set_terminate(newTerminate);
 
 	// ################################ Menu ################################ 
+	cout << "Hello, Welcome To Facebook :)" << endl << endl;
 	do {
-		userChoice = displayMenu();
-		system.handleMenu(userChoice);
+		try
+		{
+			userChoice = displayMenu();
+			system.handleMenu(userChoice);
+		}
+		catch (const char* err)
+		{
+			cout << endl << "error thrown: " << err << endl << endl;
+		}
 	} while (userChoice > 0 || userChoice < 13);
 
 	return 0;

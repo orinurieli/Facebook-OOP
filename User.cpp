@@ -27,13 +27,9 @@ User::User(const char* name, Clock birthday, int maxNumFriends, int numFriends, 
 }
 
 // ################## create status ############## //
-
 void User::createStatus(Status* initStatus)
 {
-	//this->reallocStatuses();
-
 	if (initStatus != nullptr) _statuses.push_back(initStatus);
-
 	else {
 		Status* newStatus = new Status();
 		newStatus->getStatusInfo(newStatus);
@@ -46,15 +42,15 @@ void User::createStatus(Status* initStatus)
 // ################## add friend ############## //
 
 // this function connects 2 users to be friends
-void User::addFriend(Operation* system)
+void User::addFriend(Operation* system) throw (const char*)
 {
 	User* friendToAdd = askForUsername(system, 1);
 
 	if (friendToAdd == nullptr)
+	{
+		throw "Didn't find user name.";
 		return;
-
-	/*this->reallocFriendList();
-	friendToAdd->reallocFriendList();*/
+	}
 
 	*this += friendToAdd;
 	cout << "\n" << _name << ", you have added " << friendToAdd->_name << " to your friend list." << endl << endl;
@@ -75,7 +71,7 @@ User* User::operator+=(User* other)
 // ################## unfriend ############## //
 
 // this function cancel friendship between 2 users
-void User::cancelFriendship(Operation& system)
+void User::cancelFriendship(Operation& system) throw (const char*)
 {
 	User* friend_to_delete = askForUsername(&system, 1);
 	if (friend_to_delete == nullptr)
@@ -83,7 +79,10 @@ void User::cancelFriendship(Operation& system)
 
 	int friend_index = this->searchFriendInFriendList(*friend_to_delete);
 	if (friend_index == NOT_FOUND)
+	{
+		throw "Didn't find user name.";
 		return;
+	}
 
 	int user_index = friend_to_delete->searchFriendInFriendList(*this);
 
@@ -94,7 +93,7 @@ void User::cancelFriendship(Operation& system)
 }
 
 // searches a friend in the user's friend list
-int User::searchFriendInFriendList(User& other)
+int User::searchFriendInFriendList(User& other) throw (const char*)
 {
 	int friend_to_delete_index = NOT_FOUND;
 
@@ -105,7 +104,7 @@ int User::searchFriendInFriendList(User& other)
 	}
 
 	if (friend_to_delete_index == NOT_FOUND)
-		cout << "The friend was not found on your friend list!\n\n";
+		throw "The friend was not found on your friend list!\n\n";
 
 	return friend_to_delete_index;
 }
@@ -127,16 +126,15 @@ void User::removeFriendFromFriendList(int indexToRemove)
 
 // ################## like page ############## //
 
-void User::likePage(Operation& system)
+void User::likePage(Operation& system) throw (const char*)
 {
 	Page* new_page = getPageDetails(&system);
 	if (new_page == nullptr)
 	{
-		cout << "Page doesn't exist.\n";
+		throw "Page doesn't exist.\n";
 		return;
 	}
 
-	//this->reallocPagesList(); // check if user has enough space for the page, and realloc if needed
 	*this += new_page; // add page to the user's likedPages list
 	new_page->addFanToPage(&system, this); // add user to the page's fansList
 
@@ -152,16 +150,18 @@ User* User::operator+=(Page* fanPage) // add page to user's liked pages array
 
 // ################## dislike page ############## //
 
-void User::dislikePage(Operation* system)
+void User::dislikePage(Operation* system) throw (const char*)
 {
 	Page* page_to_dislike = getPageDetails(system);
 	bool found = false;
 
 	if (page_to_dislike == nullptr)
 	{
-		cout << "Page was not found." << endl;
+		throw "Page was not found.";
 		return;
 	}
+
+	if (_numOfPages != _likedPages.size()) throw "miscalculating the size of _likedPages array.";
 
 	for (int i = 0; i < _numOfPages && !found; i++)
 	{
@@ -174,7 +174,7 @@ void User::dislikePage(Operation* system)
 				_likedPages[i] = nullptr;
 
 			else // in the "middle"
-			{ // swap the one we dislike, with the last one
+			{
 				_likedPages[i] = _likedPages[_numOfPages - 1];
 				_likedPages[_numOfPages - 1] = nullptr;
 			}
@@ -185,7 +185,7 @@ void User::dislikePage(Operation* system)
 	}
 
 	if (!found)
-		cout << "Page was not found on your Liked Pages list." << endl << endl;
+		throw "Page was not found on your Liked Pages list.";
 	else
 		cout << endl << this->getName() << " disliked " << page_to_dislike->getName() << endl << endl;
 }
@@ -193,12 +193,13 @@ void User::dislikePage(Operation* system)
 // ################## display 10 recent statuses ############## //
 
 // 10 most recent statuses of all his friends
-void User::displayRecentStatusesOfaFriend(Operation* system)
+void User::displayRecentStatusesOfaFriend(Operation* system) throw (const char*)
 {
 	const int NUM_STATUSES_TO_DISPLAY = 10;
 
 	if (_numOfFriends == 0)
-		cout << "No friends to display." << endl << endl;
+		throw "No friends to display.";
+
 	for (int i = 0; i < _numOfFriends; i++) // go over friends list
 	{
 		cout << "---------------------------------" << endl;
@@ -208,7 +209,7 @@ void User::displayRecentStatusesOfaFriend(Operation* system)
 		int num_statuses = _friendsList[i]->getNumOfStatuses();
 
 		if (num_statuses == 0)
-			cout << "No statuses to display." << endl;
+			throw "No statuses to display.";
 		else
 		{
 			int stop_loop;
@@ -253,16 +254,15 @@ void User::displayAllStatuses()
 
 
 // shows all friends of a user
-void User::displayAllFriends()
+void User::displayAllFriends() throw (const char*)
 {
 	cout << "\n" << _name << "'s friends:" << endl;
 	int numOfFriends = this->getNumOfFriends();
 
 	if (numOfFriends == 0)
-		cout << "None :(" << endl << endl;
+		throw "No friends to display :(";
 	else
 	{
-		cout << "inside else" << endl;
 		cout << endl;
 		for (int i = 0; i < numOfFriends; i++)
 		{
@@ -375,19 +375,19 @@ void User::addPageToLikedPagesList(Operation* system, Page* pageToLike)
 }
 
 // receives pointer to a page or null
-void User::likePageTemp(Page* pageToLike, Operation* system)
+void User::likePageTemp(Page* pageToLike, Operation* system) throw (const char*)
 {
-	if (pageToLike != nullptr) // we need to add this page to user
+	if (pageToLike != nullptr)
 	{
 		addPageToLikedPagesList(system, pageToLike);
-		cout << _name << " liked " << pageToLike->getName() << endl;
+		cout << endl << _name << " liked " << pageToLike->getName() << endl;
 	}
-	else // we need to ask the user which page to add
+	else
 	{
 		Page* new_page = getPageDetails(system);
 		if (new_page == nullptr)
 		{
-			cout << "Page doesn't exist.\n";
+			throw "Page doesn't exist.\n";
 			return;
 		}
 
@@ -398,7 +398,7 @@ void User::likePageTemp(Page* pageToLike, Operation* system)
 
 // todo - delete this func
 // ask for name and search it on allUsers array, returns the user's index, or -1 if not found
-int User::askForName(Operation* system, int flag)
+int User::askForName(Operation* system, int flag) throw (const char*)
 {
 	char* username = new char[MAX_CHARACTERS];
 	int userIndex;
@@ -408,7 +408,7 @@ int User::askForName(Operation* system, int flag)
 	cin.getline(username, MAX_CHARACTERS);
 	userIndex = doesUserExist(username, system);
 	if (userIndex == NOT_FOUND)
-		cout << "User not found!\n\n";
+		throw "User not found!\n\n";
 
 	delete[] username;
 	return userIndex;

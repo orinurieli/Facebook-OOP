@@ -3,6 +3,7 @@
 
 
 #include <vector>
+#include <string>
 using namespace std;
 #include "Operation.h"
 #include "Page.h"
@@ -25,5 +26,8 @@ void addPageToSystem(Operation* system);
 void getUserOrPageInput(int userChoice, Operation* system);
 Page* getPageDetails(Operation* system);
 User* askForUsername(Operation* system, int flag);
+
+bool isCharsOnly(const std::string& str);
+void newTerminate();
 
 #endif // __FUNCTIONS_H

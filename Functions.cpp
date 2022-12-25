@@ -87,7 +87,7 @@ void initiateStatuses(Operation* system)
 	}
 }
 
-int displayMenu()
+int displayMenu() throw (const char*)
 {
 	int choice;
 
@@ -110,7 +110,10 @@ int displayMenu()
 	if (choice > 0 && choice << 13)
 		return choice;
 	else
-		return 12;
+	{
+		throw "Invalid Choice!";
+		return 12; // maybe causing an error
+	}
 }
 
 // returns the user's index in allUsers array, and -1 if not found.
@@ -144,7 +147,7 @@ int doesPageExist(const char* name, Operation* system)
 }
 
 // to enter a new user to the system
-void getUserInput(Operation* system)
+void getUserInput(Operation* system) throw (const char*)
 {
 	char* username = new char[MAX_CHARACTERS];
 
@@ -155,17 +158,28 @@ void getUserInput(Operation* system)
 	// validate username
 	if (doesUserExist(username, system) >= 0)
 	{
-		cout << "username is already taken" << endl << endl;
+		//cout << "username is already taken" << endl << endl;
+		throw "username is already taken";
 		delete[] username;
 		return;
 	}
 
-	Clock birthday = birthday.getBirthdayInput();
+	Clock birthday;
+	try
+	{
+		birthday = birthday.getBirthdayInput();
+	}
+	catch (const char* err)
+	{
+		cout << endl << "error while entering birhtday input: " << err << endl << endl;
+		return;
+	}
+
 	User* userToAdd = new User(username, birthday, 1, 0, 1, 0);
 	system->addUserToOperation(userToAdd);
 }
 
-void addPageToSystem(Operation* system)
+void addPageToSystem(Operation* system) throw (const char*)
 {
 	char* pageName = new char[MAX_CHARACTERS];
 
@@ -175,7 +189,7 @@ void addPageToSystem(Operation* system)
 
 	// validate username
 	if (doesPageExist(pageName, system) >= 0) {
-		cout << "Page name is already taken." << endl << endl;
+		throw "Page name is already taken.";
 		return;
 	}
 
@@ -184,7 +198,7 @@ void addPageToSystem(Operation* system)
 	system->addPageToOperation(pageToAdd);
 }
 
-void getUserOrPageInput(int userChoice, Operation* system)
+void getUserOrPageInput(int userChoice, Operation* system) throw (const char*)
 {
 	// userChoice is according to handleMenu()
 	char* username = new char[MAX_CHARACTERS];
@@ -197,9 +211,20 @@ void getUserOrPageInput(int userChoice, Operation* system)
 
 	cout << "Choose: " << endl;
 	cout << "0 - Page" << endl << "1 - User" << endl;
-	cin >> isUserToDisplay;
 
-	if (isUserToDisplay) { // the choice was User
+	try
+	{
+		cin >> isUserToDisplay;
+		if (isUserToDisplay != 0 || isUserToDisplay != 1) throw "You can choose only 0 or 1.";
+	}
+	catch (const char* err)
+	{
+		cout << err << endl;
+		return;
+	}
+
+	if (isUserToDisplay) // the choice was User
+	{
 		cout << "Please enter username: ";
 		cin.ignore();
 		cin.getline(username, MAX_CHARACTERS);
@@ -216,14 +241,13 @@ void getUserOrPageInput(int userChoice, Operation* system)
 				allUsers[friendIndex]->displayAllStatuses();
 				break;
 			case 11:
-				cout << "here";
 				allUsers[friendIndex]->displayAllFriends();
 				break;
 			default:
 				break;
 			}
 		}
-		else cout << "user was not found" << endl;
+		else throw "user was not found.";
 	}
 	else  // choice was Page
 	{
@@ -249,7 +273,7 @@ void getUserOrPageInput(int userChoice, Operation* system)
 				break;
 			}
 		}
-		else cout << "page was not found" << endl;
+		else throw "page was not found.";
 	}
 
 	delete[]username;
@@ -278,7 +302,7 @@ Page* getPageDetails(Operation* system)
 
 // ask for name and search it on allUsers array, returns the user's pointer, or nullptr if not found
 // if flag is 0 we request the user's name, and 1 to ask another user name (friend).
-User* askForUsername(Operation* system, int flag)
+User* askForUsername(Operation* system, int flag) throw (const char*)
 {
 	User* user = nullptr;
 	char* username = new char[MAX_CHARACTERS];
@@ -291,10 +315,25 @@ User* askForUsername(Operation* system, int flag)
 	cin.getline(username, MAX_CHARACTERS);
 	userIndex = doesUserExist(username, system);
 	if (userIndex == NOT_FOUND)
-		flag == 0 ? cout << "User not found!\n\n" : cout << "Friend not found!\n\n";
+		flag == 0 ? throw "User not found!" : cout << "Friend not found!\n\n";
 	else
 		user = system->getAllUsers()[userIndex];
 
 	delete[] username;
 	return user;
+}
+
+// todo: use this after we switch everything to string to validate and throw expections
+bool isCharsOnly(const std::string& str) {
+	for (char c : str)
+	{
+		if (!isalpha(c))  // checks if its a letter
+			return false;
+	}
+	return true;
+}
+
+void newTerminate()
+{
+	cout << "oops, looks like a problem occured." << endl << "Please call support and don't lower our grade :)" << endl << endl;
 }

@@ -80,7 +80,7 @@ void Operation::displayAllEntities()
 }
 
 // this function navigates the user's choice from the menu to the relevent functions
-void Operation::handleMenu(int userChoice)
+void Operation::handleMenu(int userChoice) throw (const char*)
 {
 	User* current_user = nullptr;
 	// todo - think about the "askForUsername" -> code duplicate
@@ -114,14 +114,11 @@ void Operation::handleMenu(int userChoice)
 				current_user->addFriend(this);
 			break;
 		case 7: // Unfriend
-			// Error - if i add and then remove, then try to
-			// display friends it will exit the program
 			current_user = askForUsername(this, 0);
 			if (current_user)
 				current_user->cancelFriendship(*this);
 			break;
 		case 8: // Like a page
-			// Error - handle if I already liked it dont like again
 			current_user = askForUsername(this, 0);
 			if (current_user)
 				current_user->likePage(*this);
@@ -145,7 +142,7 @@ void Operation::handleMenu(int userChoice)
 		}
 	}
 	else {
-		cout << endl << "Invalid Input, try again." << endl << endl;
+		throw "Invalid Input, try again.";
 		return;
 	}
 }
