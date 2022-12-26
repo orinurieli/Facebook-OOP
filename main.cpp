@@ -37,6 +37,14 @@ int main()
 		{
 			cout << endl << "error thrown: " << err << endl << endl;
 		}
+		catch (std::invalid_argument& err)
+		{
+			cout << endl << "Invalid Argument: " << err.what() << endl << endl;
+		}
+		catch (std::exception& err)
+		{
+			cout << endl << "General Error: " << err.what() << endl << endl;
+		}
 	} while (userChoice > 0 || userChoice < 13);
 
 	return 0;

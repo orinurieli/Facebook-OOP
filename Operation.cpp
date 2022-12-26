@@ -80,7 +80,7 @@ void Operation::displayAllEntities()
 }
 
 // this function navigates the user's choice from the menu to the relevent functions
-void Operation::handleMenu(int userChoice) throw (const char*)
+void Operation::handleMenu(int userChoice) noexcept(false)
 {
 	User* current_user = nullptr;
 	// todo - think about the "askForUsername" -> code duplicate
@@ -142,7 +142,7 @@ void Operation::handleMenu(int userChoice) throw (const char*)
 		}
 	}
 	else {
-		throw "Invalid Input, try again.";
+		throw invalid_argument("Invalid Menu Choice! Please choose between 1-12.");
 		return;
 	}
 }

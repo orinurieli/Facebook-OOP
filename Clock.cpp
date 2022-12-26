@@ -65,22 +65,61 @@ void Clock::displayHour()
 }
 
 // to enter a date manually
-Clock Clock::getBirthdayInput() throw (const char*)
+Clock Clock::getBirthdayInput() noexcept(false)
 {
 	int d, m, y;
 
 	cout << "Please enter date of birth:\n";
 	cout << "Day: ";
 	cin >> d;
-	if (d > 31 || d < 0) throw "Invalid Day";
+	while (true)
+	{
+		try
+		{
+			if (d > 31 || d < 0) throw invalid_argument("Invalid Day input.");
+			else break;
+		}
+		catch (const invalid_argument& err)
+		{
+			cout << endl << err.what() << endl;
+			cout << "Please choose a day between 1-31: ";
+			cin >> d;
+		}
+	}
 
 	cout << "Month: ";
 	cin >> m;
-	if (m > 12 || m < 1) throw "Invalid Month";
+	while (true)
+	{
+		try
+		{
+			if (m > 12 || m < 1) throw invalid_argument("Invalid Month input");
+			else break;
+		}
+		catch (const invalid_argument& err)
+		{
+			cout << endl << err.what() << endl;
+			cout << "Please choose a month between 1-12: ";
+			cin >> m;
+		}
+	}
 
 	cout << "Year: ";
 	cin >> y;
-	if (y > 2023 || y < 1900) throw "Invalid Year";
+	while (true)
+	{
+		try
+		{
+			if (y > 2023 || y < 1900) throw invalid_argument("Invalid Year input");
+			else break;
+		}
+		catch (const invalid_argument& err)
+		{
+			cout << endl << err.what() << endl;
+			cout << "Please choose year between 1900-2023: ";
+			cin >> y;
+		}
+	}
 
 	Clock res(d, m, y);
 

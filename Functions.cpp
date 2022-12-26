@@ -179,7 +179,7 @@ void getUserInput(Operation* system) throw (const char*)
 	system->addUserToOperation(userToAdd);
 }
 
-void addPageToSystem(Operation* system) throw (const char*)
+void addPageToSystem(Operation* system) noexcept(false)
 {
 	char* pageName = new char[MAX_CHARACTERS];
 
@@ -188,9 +188,22 @@ void addPageToSystem(Operation* system) throw (const char*)
 	cin.getline(pageName, MAX_CHARACTERS);
 
 	// validate username
-	if (doesPageExist(pageName, system) >= 0) {
-		throw "Page name is already taken.";
-		return;
+	while (true)
+	{
+		try
+		{
+			if (doesPageExist(pageName, system) >= 0) {
+				throw "Page name is already taken.";
+			}
+			else break;
+		}
+		catch (const char* err)
+		{
+			cout << endl << err << endl;
+			cout << "Please choose a different name: ";
+			//cin.ignore();
+			cin.getline(pageName, MAX_CHARACTERS);
+		}
 	}
 
 	Page* pageToAdd = new Page(pageName);
@@ -198,7 +211,7 @@ void addPageToSystem(Operation* system) throw (const char*)
 	system->addPageToOperation(pageToAdd);
 }
 
-void getUserOrPageInput(int userChoice, Operation* system) throw (const char*)
+void getUserOrPageInput(int userChoice, Operation* system) noexcept(false)
 {
 	// userChoice is according to handleMenu()
 	char* username = new char[MAX_CHARACTERS];
@@ -207,20 +220,26 @@ void getUserOrPageInput(int userChoice, Operation* system) throw (const char*)
 	vector<User*> allUsers = system->getAllUsers();
 	vector<Page*> allPages = system->getAllPages();
 
-	bool isUserToDisplay = 0;
+	int isUserToDisplay = -1;
 
 	cout << "Choose: " << endl;
 	cout << "0 - Page" << endl << "1 - User" << endl;
 
-	try
+	while (isUserToDisplay != 0 && isUserToDisplay != 1)
 	{
-		cin >> isUserToDisplay;
-		if (isUserToDisplay != 0 || isUserToDisplay != 1) throw "You can choose only 0 or 1.";
-	}
-	catch (const char* err)
-	{
-		cout << err << endl;
-		return;
+		try
+		{
+			cin >> isUserToDisplay;
+			if (isUserToDisplay != 0 && isUserToDisplay != 1)
+				throw invalid_argument("You can choose only 0 or 1.");
+			else break;
+		}
+		catch (invalid_argument& err)
+		{
+			cout << err.what() << endl;
+			cout << endl << "Choose: " << endl;
+			cout << "0 - Page" << endl << "1 - User" << endl;
+		}
 	}
 
 	if (isUserToDisplay) // the choice was User
@@ -247,7 +266,7 @@ void getUserOrPageInput(int userChoice, Operation* system) throw (const char*)
 				break;
 			}
 		}
-		else throw "user was not found.";
+		else throw invalid_argument("user was not found.");
 	}
 	else  // choice was Page
 	{
@@ -273,7 +292,7 @@ void getUserOrPageInput(int userChoice, Operation* system) throw (const char*)
 				break;
 			}
 		}
-		else throw "page was not found.";
+		else throw invalid_argument("page was not found.");
 	}
 
 	delete[]username;
