@@ -47,6 +47,12 @@ public:
 
 	void addFriend(Operation* system);
 	User* operator+=(User* other);
+	void compareNumOfFriends(Operation& system);
+	bool operator<(User& other);
+	bool operator>(User& other);
+	bool operator<(Page& fanPage);
+	bool operator>(Page& fanPage);
+
 
 	void cancelFriendship(Operation& system);
 	int searchFriendInFriendList(User& other);

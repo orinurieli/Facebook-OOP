@@ -3,6 +3,8 @@
 using namespace std;
 
 #define NOT_FOUND -1
+#define USER 0 // for the askForUsername func. todo- can be done with enum (not necessary)
+#define FRIEND 1
 
 // fills allUsers array with members
 vector<User*> initiateUsers()
@@ -328,13 +330,13 @@ User* askForUsername(Operation* system, int flag) throw (const char*)
 	int userIndex;
 
 	cout << "Please enter ";
-	flag == 0 ? cout << "your username: " : cout << "friend's name: ";
-	if (flag == 0)
+	flag == USER ? cout << "your username: " : cout << "friend's name: ";
+	if (flag == USER)
 		cin.ignore();
 	cin.getline(username, MAX_CHARACTERS);
 	userIndex = doesUserExist(username, system);
 	if (userIndex == NOT_FOUND)
-		flag == 0 ? throw "User not found!" : cout << "Friend not found!\n\n";
+		flag == USER ? throw "User not found!" : cout << "Friend not found!\n\n";
 	else
 		user = system->getAllUsers()[userIndex];
 

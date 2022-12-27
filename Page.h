@@ -35,7 +35,12 @@ public:
 	char* setNumOfFans(int newNumOfFans) { _numOfFans = newNumOfFans; };
 
 	void addFanToPage(Operation* system, User* currentUser);
-	Page* operator+=(User* currentUser);
+	Page& operator+=(User& currentUser);
+	bool operator<(Page& other);
+	bool operator>(Page& other);
+	bool operator<(User& currentUser);
+	bool operator>(User& currentUser);
+
 	//void reallocFanList();
 
 	void removeFan(User* removeUser);

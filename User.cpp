@@ -43,7 +43,7 @@ void User::createStatus(Status* initStatus)
 
 // this function connects 2 users to be friends
 void User::addFriend(Operation* system) throw (const char*)
-{
+{// todo-> change system to byref
 	User* friendToAdd = askForUsername(system, 1);
 
 	if (friendToAdd == nullptr)
@@ -66,6 +66,51 @@ User* User::operator+=(User* other)
 	other->_numOfFriends++;
 
 	return this;
+}
+
+void User::compareNumOfFriends(Operation& system) // todo-> delete later. only to check the < operator
+{
+	User* friendToCompare = askForUsername(&system, 1);
+
+	if (friendToCompare)
+	{
+		if (this < friendToCompare)
+			cout << _name << " has more friends than " << friendToCompare->_name << endl;
+		else
+			cout << friendToCompare->_name << " has more friends than " << _name << endl;
+	}
+}
+
+// compare number of friends between 2 users
+bool User::operator<(User& other)// TODO -> where the hell to use this function?
+{
+	return (_numOfFriends < other._numOfFriends);
+}
+
+// compare number of friends between 2 users
+bool User::operator>(User& other)
+{
+	return (_numOfFriends > other._numOfFriends);
+}
+
+// compare the user's number of friends to a page's number of fans
+bool User::operator<(Page& fanPage)
+{
+	return (_numOfFriends < fanPage.getNumOfFans());
+}
+
+// compare the user's number of friends to a page's number of fans
+bool User::operator>(Page& fanPage)
+{
+	return (_numOfFriends > fanPage.getNumOfFans());
+}
+
+// todo-> do we need to LEMAMESH all the collection (< and >) ???
+// compare friends/fans between a user and a fan page.
+// returns true if the page has more fans, and false if the user has more friends.
+bool User::operator<(Page& fanPage)
+{
+	return(_numOfFriends < fanPage.getNumOfFans());
 }
 
 // ################## unfriend ############## //

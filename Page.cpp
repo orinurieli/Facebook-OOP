@@ -68,22 +68,50 @@ void Page::displayAllFans() throw (const char*)
 	cout << endl;
 }
 
+// ################## like page ############## //
+
 // receives fan and adds him to the page's fan list
 void Page::addFanToPage(Operation* system, User* currentUser)
 {
-	*this += currentUser;
+	*this += *currentUser;
 	// Error: Gon - here add page to user->_likedPages
 	// we only add fan to page but not page to fan so it crashes
 }
 
-
 // adds user to fan list
-Page* Page::operator+=(User* currentUser)
+Page& Page::operator+=(User& currentUser)
 {
-	_fansList.push_back(currentUser);
+	_fansList.push_back(&currentUser);
 	_numOfFans++;
-	return this;
+	return *this;
 }
+
+// compare number of fans between two pages
+bool Page::operator<(Page& other)
+{
+	return (_numOfFans < other._numOfFans);
+}
+
+// compare number of fans between two pages
+bool Page::operator>(Page& other)
+{
+	return (_numOfFans > other._numOfFans);
+}
+
+// compare the page's number of fans to a user's number of friends
+bool Page::operator<(User& currentUser)
+{
+	return (_numOfFans < currentUser.getNumOfFriends());
+}
+
+// compare the page's number of fans to a user's number of friends
+bool Page::operator>(User& currentUser)
+{
+	return (_numOfFans > currentUser.getNumOfFriends());
+}
+
+// ################## unlike page ############## //
+
 
 // this function receives pointer to a user and removes it from array of fans.
 void Page::removeFan(User* removeUser) throw (const char*)
