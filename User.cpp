@@ -105,14 +105,6 @@ bool User::operator>(Page& fanPage)
 	return (_numOfFriends > fanPage.getNumOfFans());
 }
 
-// todo-> do we need to LEMAMESH all the collection (< and >) ???
-// compare friends/fans between a user and a fan page.
-// returns true if the page has more fans, and false if the user has more friends.
-bool User::operator<(Page& fanPage)
-{
-	return(_numOfFriends < fanPage.getNumOfFans());
-}
-
 // ################## unfriend ############## //
 
 // this function cancel friendship between 2 users

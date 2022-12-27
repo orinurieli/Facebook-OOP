@@ -2,7 +2,6 @@
 #define __STATUS_H
 
 #define _CRT_SECURE_NO_WARNINGS
-#include <chrono>
 #include <ctime>  
 #include <string.h>
 const int MAX_CHARACTERS = 256;
@@ -21,6 +20,9 @@ public:
 	Clock getDateAndHour() { return _time; }
 	Clock getStatusTime();
 	void getStatusInfo(Status* newStatus);
+
+	/*bool operator==(Status& other);
+	bool operator!=(Status& other);*/
 
 	~Status();
 };

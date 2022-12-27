@@ -114,8 +114,8 @@ void Operation::handleMenu(int userChoice) noexcept(false)
 				current_user->addFriend(this);
 
 			//todo-> delete later. only for debugging
-			cout << "\nChecking < operator:\n\n";
-			current_user->compareNumOfFriends(*this);
+			/*cout << "\nChecking < operator:\n\n";
+			current_user->compareNumOfFriends(*this);*/
 
 			break;
 		case 7: // Unfriend
