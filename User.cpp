@@ -30,7 +30,8 @@ User::User(const char* name, Clock birthday, int maxNumFriends, int numFriends, 
 void User::createStatus(Status* initStatus)
 {
 	if (initStatus != nullptr) _statuses.push_back(initStatus);
-	else {
+	else
+	{
 		Status* newStatus = new Status();
 		newStatus->getStatusInfo(newStatus);
 		cout << "Status Uploaded!" << endl << endl;

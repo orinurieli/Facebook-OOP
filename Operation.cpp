@@ -112,11 +112,6 @@ void Operation::handleMenu(int userChoice) noexcept(false)
 			current_user = askForUsername(this, 0);
 			if (current_user)
 				current_user->addFriend(this);
-
-			//todo-> delete later. only for debugging
-			/*cout << "\nChecking < operator:\n\n";
-			current_user->compareNumOfFriends(*this);*/
-
 			break;
 		case 7: // Unfriend
 			current_user = askForUsername(this, 0);

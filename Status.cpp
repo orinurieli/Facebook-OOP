@@ -4,17 +4,17 @@
 using namespace std;
 #include "Status.h"
 
-Status::Status()
-{
-	_text = new char[MAX_CHARACTERS];
-	_time = Clock();
-}
+//Status::Status() // todo- delete once the string works
+//{
+//	_text = new char[MAX_CHARACTERS];
+//	_time = Clock();
+//}
 
-Status::Status(const char* text, Clock time)
-{
-	_text = _strdup(text);
-	_time = time;
-}
+//Status::Status(const char* text, Clock time) // todo- delete if string works
+//{
+//	_text = _strdup(text);
+//	_time = time;
+//}
 
 Clock Status::getStatusTime()
 {
@@ -23,7 +23,13 @@ Clock Status::getStatusTime()
 
 void Status::getStatusInfo(Status* newStatus)
 {
-	char* tempStr = new char[MAX_CHARACTERS];
+	string text;
+
+	cout << "Please insert your status: ";
+	getline(cin, text);
+	
+	newStatus->_text = text;
+	/*char* tempStr = new char[MAX_CHARACTERS]; // todo- delete once the string works
 
 	cout << "Please insert your status: ";
 	cin.getline(tempStr, MAX_CHARACTERS);
@@ -33,47 +39,21 @@ void Status::getStatusInfo(Status* newStatus)
 	tempStr = nullptr;
 	delete[] tempStr;
 
-	cout << endl;
+	cout << endl;*/
 }
 
 // todo gon-> string
-//bool Status::operator==(Status& other)
-//{
-//	char* other_text = other.getText();
-//	int i=0;
-//	int size1 = sizeof(_text) / sizeof(char);
-//	int size2 = sizeof(other_text) / sizeof(char);
-//
-//	while (i < size1 && i < size2)
-//	{
-//		if (_text[i] != other_text[i])
-//			return false;
-//
-//		i++;
-//	}
-//
-//	return true;
-//}
-//
-//bool Status::operator!=(Status& other)
-//{
-//	char* other_text = other.getText();
-//	int i = 0;
-//	int size1 = sizeof(_text) / sizeof(char);
-//	int size2 = sizeof(other_text) / sizeof(char);
-//
-//	while (i < size1 && i < size2)
-//	{
-//		if (_text[i] != other_text[i])
-//			return true;
-//
-//		i++;
-//	}
-//
-//	return false;
-//}
-
-Status::~Status()
+bool Status::operator==(Status& other)
 {
-	delete _text;
+	return(_text == other._text);
+}
+
+bool Status::operator!=(Status& other)
+{
+	return(_text != other._text);
+}
+
+Status::~Status() // todo
+{
+	//delete _text;
 }
