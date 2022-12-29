@@ -14,11 +14,9 @@ using namespace std;
 // general TODO //
 // 1. change all the getters to const ref
 // 2. in general change objects in funcs to ref or const
-// 3. change to string
 // 4. in page ctor check if there is memory leak
 // 5. delete all the things we put in HEARA
 // 6. initUser and initPages -> move to Operaton c'tor?
-// 7. check what to do about the strcmp with strings
 
 int main()
 {

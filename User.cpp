@@ -11,17 +11,15 @@ class Page;
 
 User::User(const string& name, Clock birthday, int maxNumFriends, int numFriends, int maxPages, int numPages)
 {
-	//_name = new char[MAX_CHARACTERS];
-	//_name = _strdup(name);
 	_name = name;
 	_birthday = birthday;
-
 	_maxNumOfFriends = maxNumFriends;
 	_numOfFriends = numFriends;
-
 	_maxNumOfPages = maxPages;
 	_numOfPages = numPages;
 
+	//_name = new char[MAX_CHARACTERS];
+	//_name = _strdup(name);
 	//_statuses = new Status * [_maxNumOfStatuses];
 	//_likedPages = new Page * [_maxNumOfPages];
 	//_friendsList.resize(1);
@@ -48,13 +46,19 @@ void User::addFriend(Operation& system) throw (const char*)
 {
 	User* friendToAdd = askForUsername(system, 1);
 
-	// TODO - add checking for:
-	// if the user adds someone who is already on his friendlist
-	// if the user adds himself
-
 	if (friendToAdd == nullptr)
 	{
 		throw "Didn't find user name.";
+		return;
+	}
+	else if (friendToAdd == this)
+	{
+		throw "You can't add yourself as a friend.";
+		return;
+	}
+	else if (searchFriendInFriendList(*friendToAdd) != NOT_FOUND)
+	{
+		throw "Friend is already on your friend list.";
 		return;
 	}
 
@@ -122,7 +126,7 @@ void User::cancelFriendship(Operation& system) throw (const char*)
 	cout << endl << _name << ", you have removed " << friend_to_delete->_name << " from your friend list." << endl << endl;
 }
 
-// searches a friend in the user's friend list
+// searches a friend in the user's friend list, returns the friend index in the vector, or -1 if not found
 int User::searchFriendInFriendList(User& other) throw (const char*)
 {
 	int friend_to_delete_index = NOT_FOUND;
