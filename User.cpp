@@ -352,54 +352,6 @@ User::~User()
 	delete[] _friendsList;*/
 }
 
-// checks if the array reaches its physical size, and increases it if needed.
-//void User::reallocStatuses()
-//{
-//	if (_maxNumOfStatuses == _numOfStatuses)
-//	{
-//		_maxNumOfStatuses *= 2;
-//		vector<Status*> newStatuses = new Status * [_maxNumOfStatuses];
-//
-//		for (int i = 0; i < _numOfStatuses; i++)
-//			newStatuses[i] = _statuses[i];
-//
-//		delete[] _statuses;
-//		_statuses = newStatuses;
-//	}
-//}
-
-// checks if the array reaches its physical size, and increases it if needed.
-//void User::reallocFriendList()
-//{
-//	if (_numOfFriends == _maxNumOfFriends)
-//	{
-//		_maxNumOfFriends *= 2;
-//		vector<User*> newFriendList = new User * [_maxNumOfFriends];
-//
-//		for (int i = 0; i < _numOfFriends; i++)
-//			newFriendList[i] = _friendsList[i];
-//
-//		delete[]_friendsList;
-//		_friendsList = newFriendList;
-//	}
-//}
-
-// checks if the pages list has enough space, and if not increases it
-//void User::reallocPagesList()
-//{
-//	if (_numOfPages == _maxNumOfPages)
-//	{
-//		_maxNumOfPages *= 2;
-//		vector<Page*> new_liked_pages = new Page * [_maxNumOfPages];
-//
-//		for (int i = 0; i < _numOfPages; i++)
-//			new_liked_pages[i] = _likedPages[i];
-//
-//		_likedPages = new_liked_pages;
-//		new_liked_pages = nullptr;
-//		delete[] new_liked_pages;
-//	}
-//}
 
 
 // TODO check if we need these funcs
@@ -433,22 +385,3 @@ void User::likePageTemp(Page* pageToLike, Operation& system) throw (const char*)
 	}
 }
 
-// todo - delete this func
-// ask for name and search it on allUsers array, returns the user's index, or -1 if not found
-int User::askForName(Operation& system, int flag) throw (const char*)
-{
-	//char* username = new char[MAX_CHARACTERS];
-	string username;
-	int userIndex;
-
-	cout << "Please enter ";
-	flag == 0 ? cout << "your username: " : cout << "friend's name: ";
-	//cin.getline(username, MAX_CHARACTERS);
-	getline(cin, username);
-	userIndex = doesUserExist(username, system);
-	if (userIndex == NOT_FOUND)
-		throw "User not found!\n\n";
-
-	//delete[] username;
-	return userIndex;
-}

@@ -64,17 +64,10 @@ public:
 	void displayAllStatuses();
 	void displayAllFriends();
 
-	/*void reallocStatuses();
-	void reallocFriendList();
-	void reallocPagesList();*/
-
-	~User();
-
-
-	// todo - check if we need these funcs
-	int askForName(Operation& system, int flag);
 	void likePageTemp(Page* pageToLike, Operation& system);
 	void addPageToLikedPagesList(Operation& system, Page* pageToLike);
+
+	~User();
 };
 
 #endif // __USER_H
