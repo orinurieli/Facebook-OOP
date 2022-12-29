@@ -34,7 +34,7 @@ public:
 	const string& getName() const { return _name; };
 	const int getNumOfFans() const { return _numOfFans; };
 	const int getMaxNumOfFans() const { return _numOfFans; };
-	vector<User*> getFanList() const { return _fansList; } // change to ref
+	vector<User*> getFanList() const { return _fansList; } // todo change to ref
 	bool setPageName(const string& name) { _name = name; };
 	bool setNumOfFans(int newNumOfFans) { _numOfFans = newNumOfFans; };
 

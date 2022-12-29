@@ -157,21 +157,21 @@ void User::removeFriendFromFriendList(int indexToRemove)
 		_friendsList[_numOfFriends - 1] = nullptr;
 	}
 
-	_numOfFriends--; // update number of friends
+	_numOfFriends--;
 }
 
 // ################## like page ############## //
-
 void User::likePage(Operation& system) throw (const char*)
 {
 	Page* new_page = getPageDetails(system);
-	if (new_page == nullptr) // check if page exists in the system
+	if (new_page == nullptr)
 	{
 		throw "Page doesn't exist.\n";
 		return;
 	}
 	if (PageExistInLikedPages(new_page->getName()))	// check if the user already liked this page
 	{ //TODO fix this func! doesnt work correctly
+		// gon - i checked and it works :)
 		throw "You already liked this page!.\n";
 		return;
 	}
@@ -181,14 +181,16 @@ void User::likePage(Operation& system) throw (const char*)
 	cout << _name << " liked " << new_page->getName() << endl << endl;
 }
 
-User* User::operator+=(Page* fanPage) // add page to user's liked pages vector
+// add page to user's liked pages vector
+User* User::operator+=(Page* fanPage)
 {
 	_likedPages.push_back(fanPage);
 	_numOfPages++;
 	return this;
 }
 
-bool User::PageExistInLikedPages(const string& pageName) // check if the user liked a certain page
+// check if the user liked a certain page
+bool User::PageExistInLikedPages(const string& pageName)
 {
 	for (const Page* page : _likedPages)
 	{
@@ -215,7 +217,6 @@ void User::dislikePage(Operation& system) throw (const char*)
 
 	for (int i = 0; i < _numOfPages && !found; i++)
 	{
-		// Error: _likedPages is empty
 		// we didnt do for both sides!
 		if (page_to_dislike == _likedPages[i]) // page is in likedPages
 		{
@@ -405,23 +406,8 @@ User::~User()
 void User::addPageToLikedPagesList(Operation& system, Page* pageToLike)
 {
 	_likedPages.push_back(pageToLike);
-	/*if (_numOfPages == _maxNumOfPages)
-	{
-		_maxNumOfPages *= 2;
-		vector<Page*> new_liked_pages = new Page * [_maxNumOfPages];
-
-		for (int i = 0; i < _numOfPages; i++)
-			new_liked_pages[i] = _likedPages[i];
-
-		_likedPages = new_liked_pages;
-		new_liked_pages = nullptr;
-		delete[] new_liked_pages;
-	}
-
-	_likedPages[_numOfPages] = pageToLike;*/
 	_numOfPages++;
 
-	// here add fan to page:
 	pageToLike->addFanToPage(system, *this);
 }
 

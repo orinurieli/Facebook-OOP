@@ -69,7 +69,6 @@ void Page::displayAllFans() throw (const char*)
 }
 
 // ################## like page ############## //
-
 // receives fan and adds him to the page's fan list
 void Page::addFanToPage(Operation& system, User& currentUser)
 {
@@ -109,8 +108,6 @@ bool Page::operator>(User& currentUser)
 }
 
 // ################## unlike page ############## //
-
-
 // this function receives pointer to a user and removes it from array of fans.
 void Page::removeFan(User* removeUser) throw (const char*)
 {
