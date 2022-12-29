@@ -107,14 +107,22 @@ int displayMenu() throw (const char*)
 	cout << "11. Display all friends of a friend or page\n";
 	cout << "12. Exit\n";
 
-	cin >> choice;
+	//cin >> choice;
+	if (cin >> choice) {
 
-	if (choice > 0 && choice << 13)
-		return choice;
-	else
-	{
-		throw "Invalid Choice!";
-		return 12; // maybe causing an error
+		if (choice > 0 && choice << 13)
+			return choice;
+		else
+		{
+			throw "Invalid Choice!";
+			return 12; // maybe causing an error
+		}
+	}
+	else {
+		std::cin.clear();
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+		throw "You can't enter a string. Please choose between 1-12.";
 	}
 }
 
@@ -221,7 +229,7 @@ void addPageToSystem(Operation& system) noexcept(false)
 		{
 			cout << endl << err << endl;
 			cout << "Please choose a different name: ";
-			cin.ignore();
+			//cin.ignore();
 			getline(cin, pageName);
 			//cin.getline(pageName, MAX_CHARACTERS);
 		}

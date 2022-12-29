@@ -30,7 +30,7 @@ int main()
 	initPages = initiatePages(system, initUsers);
 	system.initiateData(initUsers, initPages);
 
-	//set_terminate(newTerminate);
+	set_terminate(newTerminate);
 
 	// ################################ Menu ################################ 
 	cout << "Hello, Welcome To Facebook :)" << endl << endl;
