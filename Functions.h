@@ -18,7 +18,7 @@ int doesPageExist(string& name, Operation& system);
 vector<User*> initiateUsers();
 void initiateFriendships(vector<User*> allUsers);
 vector<Page*> initiatePages(Operation& system, vector<User*> allUsers);
-void initiatePageLikes(Operation* system, vector<User*> allUsers, vector<Page*> pages);
+void initiatePageLikes(Operation& system, vector<User*> allUsers, vector<Page*> pages);
 void initiateStatuses(Operation* system);
 
 void getUserInput(Operation& system);

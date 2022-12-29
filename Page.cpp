@@ -71,11 +71,9 @@ void Page::displayAllFans() throw (const char*)
 // ################## like page ############## //
 
 // receives fan and adds him to the page's fan list
-void Page::addFanToPage(Operation* system, User* currentUser)
+void Page::addFanToPage(Operation& system, User& currentUser)
 {
-	*this += *currentUser;
-	// Error: Gon - here add page to user->_likedPages
-	// we only add fan to page but not page to fan so it crashes
+	*this += currentUser;
 }
 
 // adds user to fan list

@@ -38,7 +38,7 @@ public:
 	bool setPageName(const string& name) { _name = name; };
 	bool setNumOfFans(int newNumOfFans) { _numOfFans = newNumOfFans; };
 
-	void addFanToPage(Operation* system, User* currentUser);
+	void addFanToPage(Operation& system, User& currentUser);
 	Page& operator+=(User& currentUser);
 	bool operator<(Page& other);
 	bool operator>(Page& other);

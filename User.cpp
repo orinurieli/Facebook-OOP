@@ -63,10 +63,10 @@ void User::addFriend(Operation& system) throw (const char*)
 	}
 
 	*this += friendToAdd;
-	cout << "\n" << _name << ", you have added " << friendToAdd->_name << " to your friend list." << endl << endl;
+	cout << endl << _name << ", you have added " << friendToAdd->_name << " to your friend list." << endl << endl;
 }
 
-// after we checked for place in both arrays, we add both users to eachothers friend list.
+// adds 2 users to eachothers friend lists.
 User* User::operator+=(User* other)
 {
 	_friendsList.push_back(other);
@@ -169,23 +169,37 @@ void User::removeFriendFromFriendList(int indexToRemove)
 void User::likePage(Operation& system) throw (const char*)
 {
 	Page* new_page = getPageDetails(system);
-	if (new_page == nullptr)
+	if (new_page == nullptr) // check if page exists in the system
 	{
 		throw "Page doesn't exist.\n";
 		return;
 	}
+	if (PageExistInLikedPages(new_page->getName()))	// check if the user already liked this page
+	{ //TODO fix this func! doesnt work correctly
+		throw "You already liked this page!.\n";
+		return;
+	}
 
 	*this += new_page; // add page to the user's likedPages list
-	new_page->addFanToPage(&system, this); // add user to the page's fansList
-
+	new_page->addFanToPage(system, *this); // add user to the page's fansList
 	cout << _name << " liked " << new_page->getName() << endl << endl;
 }
 
-User* User::operator+=(Page* fanPage) // add page to user's liked pages array
+User* User::operator+=(Page* fanPage) // add page to user's liked pages vector
 {
 	_likedPages.push_back(fanPage);
 	_numOfPages++;
 	return this;
+}
+
+bool User::PageExistInLikedPages(const string& pageName) // check if the user liked a certain page
+{
+	for (const Page* page : _likedPages)
+	{
+		if (page->getName() == pageName)
+			return true;
+	}
+	return false;
 }
 
 // ################## dislike page ############## //
@@ -290,6 +304,7 @@ void User::displayAllStatuses()
 			cout << "---------------------------------" << endl;
 		}
 	}
+	cout << endl;
 }
 
 
@@ -411,7 +426,7 @@ void User::addPageToLikedPagesList(Operation& system, Page* pageToLike)
 	_numOfPages++;
 
 	// here add fan to page:
-	pageToLike->addFanToPage(&system, this);
+	pageToLike->addFanToPage(system, *this);
 }
 
 // receives pointer to a page or null

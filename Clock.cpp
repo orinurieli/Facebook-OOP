@@ -116,6 +116,7 @@ Clock Clock::getBirthdayInput() noexcept(false)
 }
 
 // takes a string of char numbers from a certain place, and returns the number
+// TODO add iterators?
 int Clock::stringToNumber(string& str, int start, int end)
 {
 	int res = 0;

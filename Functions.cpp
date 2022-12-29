@@ -61,19 +61,19 @@ vector<Page*> initiatePages(Operation& system, vector<User*> allUsers)
 	initPages.push_back(page4);
 	initPages.push_back(page5);
 
-	initiatePageLikes(&system, allUsers, initPages);
+	initiatePageLikes(system, allUsers, initPages);
 	return initPages;
 }
 
 // initiate likes on pages from users
-void initiatePageLikes(Operation* system, vector<User*> allUsers, vector<Page*> pages)
+void initiatePageLikes(Operation& system, vector<User*> allUsers, vector<Page*> pages)
 {
-	pages[0]->addFanToPage(system, allUsers[3]);
-	pages[1]->addFanToPage(system, allUsers[4]);
-	pages[3]->addFanToPage(system, allUsers[1]);
-	pages[2]->addFanToPage(system, allUsers[0]);
-	pages[4]->addFanToPage(system, allUsers[3]);
-	pages[4]->addFanToPage(system, allUsers[4]);
+	pages[0]->addFanToPage(system, *allUsers[3]);
+	pages[1]->addFanToPage(system, *allUsers[4]);
+	pages[3]->addFanToPage(system, *allUsers[1]);
+	pages[2]->addFanToPage(system, *allUsers[0]);
+	pages[4]->addFanToPage(system, *allUsers[3]);
+	pages[4]->addFanToPage(system, *allUsers[4]);
 }
 
 // initiate status for each user
@@ -231,6 +231,7 @@ void addPageToSystem(Operation& system) noexcept(false)
 	system.addPageToOperation(pageToAdd);
 }
 
+// todo - devide to functions
 void getUserOrPageInput(int userChoice, Operation& system) noexcept(false)
 {
 	// userChoice is according to handleMenu()

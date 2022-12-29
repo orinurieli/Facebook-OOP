@@ -100,10 +100,10 @@ void Operation::handleMenu(int userChoice) noexcept(false)
 			addPageToSystem(*this);
 			break;
 		case CreateNewStatus:
-			getUserOrPageInput(3, *this);
+			getUserOrPageInput(CreateNewStatus, *this);
 			break;
 		case DisplayAllStatuses:
-			getUserOrPageInput(4, *this);
+			getUserOrPageInput(DisplayAllStatuses, *this);
 			break;
 		case Display10RecentStatuses: // Display all 10 recent statuses of all your friends
 			cout << endl;

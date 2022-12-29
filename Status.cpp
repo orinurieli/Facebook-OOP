@@ -42,18 +42,19 @@ void Status::getStatusInfo(Status* newStatus)
 	cout << endl;*/
 }
 
-// todo gon-> string
+// checks if 2 statuses are identical in their text
 bool Status::operator==(Status& other)
 {
 	return(_text == other._text);
 }
 
+// checks if 2 statuses are not identical in their text
 bool Status::operator!=(Status& other)
 {
 	return(_text != other._text);
 }
 
-Status::~Status() // todo
+Status::~Status()
 {
 	//delete _text;
 }

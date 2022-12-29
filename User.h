@@ -57,7 +57,7 @@ public:
 
 	void likePage(Operation& system);
 	User* operator+=(Page* fanPage);
-
+	bool PageExistInLikedPages(const string& pageName);
 	void dislikePage(Operation& system);
 
 	void displayRecentStatusesOfaFriend(Operation* system); // 10 most recent statuses of all his friends
