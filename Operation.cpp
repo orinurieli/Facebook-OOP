@@ -70,7 +70,12 @@ void Operation::displayAllEntities()
 
 	cout << endl << "Users: " << endl;
 	for (int i = 0; i < _numOfUsers; i++)
-		cout << _allUsers[i]->getName() << endl;
+	{
+		cout << _allUsers[i]->getName() << endl << "Birthday: ";
+		Clock d = _allUsers[i]->getBirthday();
+		d.displayDate();
+		cout << endl << endl;
+	}
 
 	cout << endl << "Pages: " << endl;
 	for (int i = 0; i < _numOfPages; i++)
@@ -88,53 +93,53 @@ void Operation::handleMenu(int userChoice) noexcept(false)
 	{
 		switch (userChoice)
 		{
-		case 1: // Add new user
-			getUserInput(this);
+		case AddNewUser:
+			getUserInput(*this);
 			break;
-		case 2: // Add new page
-			addPageToSystem(this);
+		case AddNewPage:
+			addPageToSystem(*this);
 			break;
-		case 3: // Create a new status
-			getUserOrPageInput(3, this);
+		case CreateNewStatus:
+			getUserOrPageInput(3, *this);
 			break;
-		case 4: // Display all statuses
-			getUserOrPageInput(4, this);
+		case DisplayAllStatuses:
+			getUserOrPageInput(4, *this);
 			break;
-		case 5: // Display all 10 recent statuses of all your friends
+		case Display10RecentStatuses: // Display all 10 recent statuses of all your friends
 			cout << endl;
-			current_user = askForUsername(this, 0);
+			current_user = askForUsername(*this, 0);
 			cout << endl;
 			if (current_user)
 				current_user->displayRecentStatusesOfaFriend(this);
 			break;
-		case 6: // Add a new friend
+		case AddNewFriend:
 			cout << endl;
-			current_user = askForUsername(this, 0);
+			current_user = askForUsername(*this, 0);
 			if (current_user)
-				current_user->addFriend(this);
+				current_user->addFriend(*this);
 			break;
-		case 7: // Unfriend
-			current_user = askForUsername(this, 0);
+		case Unfriend:
+			current_user = askForUsername(*this, 0);
 			if (current_user)
 				current_user->cancelFriendship(*this);
 			break;
-		case 8: // Like a page
-			current_user = askForUsername(this, 0);
+		case LikeAPage:
+			current_user = askForUsername(*this, 0);
 			if (current_user)
 				current_user->likePage(*this);
 			break;
-		case 9: // Unlike a page
-			current_user = askForUsername(this, 0);
+		case UnlikeAPage:
+			current_user = askForUsername(*this, 0);
 			if (current_user)
-				current_user->dislikePage(this);
+				current_user->dislikePage(*this);
 			break;
-		case 10: // Display all entities of Facebook
+		case DisplayAllENtitiesOfFacebook: // Display all entities of Facebook
 			displayAllEntities();
 			break;
-		case 11: // Display all friends of a friend or page
-			getUserOrPageInput(11, this);
+		case DisplayAllFriends: // Display all friends of a friend or page
+			getUserOrPageInput(11, *this);
 			break;
-		case 12: // Exit
+		case Exit:
 			cout << "GoodBye";
 			exit(1);
 		default:
@@ -155,9 +160,8 @@ Operation::~Operation()
 	}
 	delete[] _allUsers;*/
 
-	/*for (int i = 0; i < _numOfPages; i++)
+	for (int i = 0; i < _numOfPages; i++) // TODO check it. we allocated each one manually 
 	{
-		delete[] _allPages[i];
+		delete _allPages[i];
 	}
-	delete[] _allPages;*/
 }

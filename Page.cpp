@@ -5,14 +5,14 @@ using namespace std;
 class User;
 class Status;
 
-Page::Page(const char* name)
-{
-	_name = new char[MAX_CHARACTERS];
-	_name = _strdup(name);
+//Page::Page(const char* name)
+//{
+	//_name = new char[MAX_CHARACTERS];
+	//_name = _strdup(name);
 
 	//_fansList.resize(1);
 	//_statuses = new Status * [1];
-}
+//}
 
 // creates a status for a page
 void Page::createStatus()
@@ -39,7 +39,7 @@ void Page::createStatus()
 void Page::displayAllStatuses() throw (const char*)
 {
 	cout << endl << _name << " Statuses: " << endl;
-	if (_numOfStatuses == 0) throw "oops, no statuses to display. \n";
+	if (_numOfStatuses == 0) throw "Oops, no statuses to display. \n";
 	for (int i = 0; i < _numOfStatuses; i++)
 	{
 		cout << "---------------------------------" << endl;
@@ -136,7 +136,7 @@ void Page::removeFan(User* removeUser) throw (const char*)
 
 Page::~Page()
 {
-	delete _name;
+	//delete[] _name;
 
 	/*for (int i = 0; i < _numOfStatuses; i++)
 	{

@@ -6,6 +6,10 @@ using namespace std;
 
 #include "User.h"
 #include "Page.h"
+#include "Clock.h"
+
+enum eUserChoice{AddNewUser=1, AddNewPage, CreateNewStatus, DisplayAllStatuses, Display10RecentStatuses, AddNewFriend, Unfriend, 
+LikeAPage, UnlikeAPage, DisplayAllENtitiesOfFacebook, DisplayAllFriends, Exit};
 
 class Operation
 {

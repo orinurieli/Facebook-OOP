@@ -16,10 +16,10 @@ using namespace std;
 //	_time = time;
 //}
 
-Clock Status::getStatusTime()
-{
-	return _time;
-}
+//Clock Status::getStatusTime()
+//{
+//	return _time;
+//}
 
 void Status::getStatusInfo(Status* newStatus)
 {

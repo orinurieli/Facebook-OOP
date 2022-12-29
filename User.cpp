@@ -43,9 +43,13 @@ void User::createStatus(Status* initStatus)
 // ################## add friend ############## //
 
 // this function connects 2 users to be friends
-void User::addFriend(Operation* system) throw (const char*)
+void User::addFriend(Operation& system) throw (const char*)
 {// todo-> change system to byref
 	User* friendToAdd = askForUsername(system, 1);
+
+	// TODO - add checking for:
+	// if the user adds someone who is already on his friendlist
+	// if the user adds himself
 
 	if (friendToAdd == nullptr)
 	{
@@ -71,7 +75,7 @@ User* User::operator+=(User* other)
 
 void User::compareNumOfFriends(Operation& system) // todo-> delete later. only to check the < operator
 {
-	User* friendToCompare = askForUsername(&system, 1);
+	User* friendToCompare = askForUsername(system, 1);
 
 	if (friendToCompare)
 	{
@@ -111,14 +115,14 @@ bool User::operator>(Page& fanPage)
 // this function cancel friendship between 2 users
 void User::cancelFriendship(Operation& system) throw (const char*)
 {
-	User* friend_to_delete = askForUsername(&system, 1);
+	User* friend_to_delete = askForUsername(system, 1);
 	if (friend_to_delete == nullptr)
 		return;
 
 	int friend_index = this->searchFriendInFriendList(*friend_to_delete);
 	if (friend_index == NOT_FOUND)
 	{
-		throw "Didn't find user name.";
+		throw "User is not on your friend list.";
 		return;
 	}
 
@@ -166,7 +170,7 @@ void User::removeFriendFromFriendList(int indexToRemove)
 
 void User::likePage(Operation& system) throw (const char*)
 {
-	Page* new_page = getPageDetails(&system);
+	Page* new_page = getPageDetails(system);
 	if (new_page == nullptr)
 	{
 		throw "Page doesn't exist.\n";
@@ -188,7 +192,7 @@ User* User::operator+=(Page* fanPage) // add page to user's liked pages array
 
 // ################## dislike page ############## //
 
-void User::dislikePage(Operation* system) throw (const char*)
+void User::dislikePage(Operation& system) throw (const char*)
 {
 	Page* page_to_dislike = getPageDetails(system);
 	bool found = false;
@@ -230,7 +234,7 @@ void User::dislikePage(Operation* system) throw (const char*)
 
 // ################## display 10 recent statuses ############## //
 
-// 10 most recent statuses of all his friends
+// 10 most recent statuses of all his friends 
 void User::displayRecentStatusesOfaFriend(Operation* system) throw (const char*)
 {
 	const int NUM_STATUSES_TO_DISPLAY = 10;
@@ -285,7 +289,7 @@ void User::displayAllStatuses()
 			cout << " | ";
 			_statuses[i]->getStatusTime().displayHour();
 			cout << endl;
-			cout << "---------------------------------" << endl << endl;
+			cout << "---------------------------------" << endl;
 		}
 	}
 }
@@ -389,7 +393,7 @@ User::~User()
 
 
 // TODO check if we need these funcs
-void User::addPageToLikedPagesList(Operation* system, Page* pageToLike)
+void User::addPageToLikedPagesList(Operation& system, Page* pageToLike)
 {
 	_likedPages.push_back(pageToLike);
 	/*if (_numOfPages == _maxNumOfPages)
@@ -409,11 +413,11 @@ void User::addPageToLikedPagesList(Operation* system, Page* pageToLike)
 	_numOfPages++;
 
 	// here add fan to page:
-	pageToLike->addFanToPage(system, this);
+	pageToLike->addFanToPage(&system, this);
 }
 
 // receives pointer to a page or null
-void User::likePageTemp(Page* pageToLike, Operation* system) throw (const char*)
+void User::likePageTemp(Page* pageToLike, Operation& system) throw (const char*)
 {
 	if (pageToLike != nullptr)
 	{
@@ -436,18 +440,20 @@ void User::likePageTemp(Page* pageToLike, Operation* system) throw (const char*)
 
 // todo - delete this func
 // ask for name and search it on allUsers array, returns the user's index, or -1 if not found
-int User::askForName(Operation* system, int flag) throw (const char*)
+int User::askForName(Operation& system, int flag) throw (const char*)
 {
-	char* username = new char[MAX_CHARACTERS];
+	//char* username = new char[MAX_CHARACTERS];
+	string username;
 	int userIndex;
 
 	cout << "Please enter ";
 	flag == 0 ? cout << "your username: " : cout << "friend's name: ";
-	cin.getline(username, MAX_CHARACTERS);
+	//cin.getline(username, MAX_CHARACTERS);
+	getline(cin, username);
 	userIndex = doesUserExist(username, system);
 	if (userIndex == NOT_FOUND)
 		throw "User not found!\n\n";
 
-	delete[] username;
+	//delete[] username;
 	return userIndex;
 }

@@ -35,20 +35,9 @@ Clock::Clock(int day, int month, int year) throw (const char*)
 		cout << err << endl << endl;
 	}
 
-
 	_hours = 0; // in birthday the hour is not important
 	_minutes = 0;
 	_seconds = 0;
-}
-
-Clock Clock::getDate()
-{
-	return *this;
-}
-
-Clock Clock::getHour()
-{
-	return *this;
 }
 
 void Clock::displayDate()
@@ -140,7 +129,8 @@ int Clock::stringToNumber(char* str, int start, int end)
 }
 
 // returns current date and hour
-char* Clock::currentDateTime()
+//char* Clock::currentDateTime()
+void Clock::currentDateTime()
 {
 	time_t now = time(0);
 	struct tm tstruct;
@@ -155,5 +145,5 @@ char* Clock::currentDateTime()
 	_minutes = tstruct.tm_min;
 	_seconds = tstruct.tm_sec;
 
-	return buf;
+	//return buf; // TODO - check if we need to return something from this func at all?? gon
 }

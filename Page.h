@@ -4,19 +4,19 @@
 //class User;
 //class Status;
 #include <vector>
+#include <string>
 using namespace std;
 
 #include "Status.h"
 #include "User.h"
 
-
 class Page
 {
 private:
-	char* _name;
+	//char* _name;
+	string _name;
 	vector<User*> _fansList;
 	vector<Status*>_statuses;
-
 	int _numOfFans = 0;
 	int _maxFans = 2;
 	int _numOfStatuses = 0;
@@ -24,15 +24,20 @@ private:
 
 public:
 	Page() = delete; // we don't want to create a new page without a page name
-	Page(const char* name);
-	Page(const Page* page) = delete; // Prevent duplicate
+	//Page(string& name) : _name(name) {}
+	Page(const string name)
+	{
+		this->_name = name;
+	}
+	Page(const Page* page) = delete; // prevent duplicate
 
-	const char* getName() const { return _name; };
+	//const char* getName() const { return _name; };
+	const string& getName() const { return _name; };
 	const int getNumOfFans() const { return _numOfFans; };
 	const int getMaxNumOfFans() const { return _numOfFans; };
-	vector<User*> getFanList() const { return _fansList; }
-	char* setName(char* name) { _name = name; };
-	char* setNumOfFans(int newNumOfFans) { _numOfFans = newNumOfFans; };
+	vector<User*> getFanList() const { return _fansList; } // change to ref
+	bool setPageName(const string& name) { _name = name; };
+	bool setNumOfFans(int newNumOfFans) { _numOfFans = newNumOfFans; };
 
 	void addFanToPage(Operation* system, User* currentUser);
 	Page& operator+=(User& currentUser);
@@ -51,4 +56,4 @@ public:
 	~Page();
 };
 
-#endif // __PAGE_H
+#endif

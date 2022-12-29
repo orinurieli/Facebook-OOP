@@ -40,12 +40,12 @@ public:
 	const int getNumOfPages() const { return _numOfPages; }
 	vector<Status*> getAllStatuses() { return _statuses; }
 	const Clock getBirthday() const { return _birthday; }
-	void setName(char* username) { _name = username; };
-	void setBirthday(Clock birthday) { _birthday = birthday; }
+	void setUserName(char* username) { _name = username; };
+	void setBirthday(Clock& birthday) { _birthday = birthday; }
 
 	void createStatus(Status* status);
 
-	void addFriend(Operation* system);
+	void addFriend(Operation& system);
 	User* operator+=(User* other);
 	void compareNumOfFriends(Operation& system);
 	bool operator<(User& other);
@@ -61,7 +61,7 @@ public:
 	void likePage(Operation& system);
 	User* operator+=(Page* fanPage);
 
-	void dislikePage(Operation* system);
+	void dislikePage(Operation& system);
 
 	void displayRecentStatusesOfaFriend(Operation* system); // 10 most recent statuses of all his friends
 	void displayAllStatuses();
@@ -75,9 +75,9 @@ public:
 
 
 	// todo - check if we need these funcs
-	int askForName(Operation* system, int flag);
-	void likePageTemp(Page* pageToLike, Operation* system);
-	void addPageToLikedPagesList(Operation* system, Page* pageToLike);
+	int askForName(Operation& system, int flag);
+	void likePageTemp(Page* pageToLike, Operation& system);
+	void addPageToLikedPagesList(Operation& system, Page* pageToLike);
 };
 
 #endif // __USER_H

@@ -45,23 +45,23 @@ void initiateFriendships(vector<User*> allUsers)
 }
 
 // fills the pages array with pages
-vector<Page*> initiatePages(Operation* system, vector<User*> allUsers)
+vector<Page*> initiatePages(Operation& system, vector<User*> allUsers)
 {
 	vector<Page*> initPages;
 
-	Page* maccabi_haifa = new Page("Maccabi Haifa");
-	initPages.push_back(maccabi_haifa);
-	Page* harry_potter = new Page("Harry Potter");
-	initPages.push_back(harry_potter);
-	Page* pink_floyd = new Page("Pink Floyd");
-	initPages.push_back(pink_floyd);
-	Page* led_zeppelin = new Page("Led Zeppelin");
-	initPages.push_back(led_zeppelin);
-	Page* cakes = new Page("Cakes");
-	initPages.push_back(cakes);
+	Page* page1 = new Page((string)"Maccabi Haifa");
+	Page* page2 = new Page((string)"Harry Potter");
+	Page* page3 = new Page((string)"Pink Floyd");
+	Page* page4 = new Page((string)"Led Zeppelin");
+	Page* page5 = new Page((string)"Cakes");
 
-	initiatePageLikes(system, allUsers, initPages);
+	initPages.push_back(page1);
+	initPages.push_back(page2);
+	initPages.push_back(page3);
+	initPages.push_back(page4);
+	initPages.push_back(page5);
 
+	initiatePageLikes(&system, allUsers, initPages);
 	return initPages;
 }
 
@@ -119,50 +119,59 @@ int displayMenu() throw (const char*)
 }
 
 // returns the user's index in allUsers array, and -1 if not found.
-int doesUserExist(const char* name, Operation* system)
+//int doesUserExist(const char* name, Operation* system)
+int doesUserExist(string& name, Operation& system)
 {
-	int index;
-	vector<User*> allUsers = system->getAllUsers();
+	int index, num_of_users = system.getNumOfUsers();
+	vector<User*> allUsers = system.getAllUsers();
 
-	for (index = 0; index < system->getNumOfUsers(); index++)
+	for (index = 0; index < num_of_users; index++)
 	{
-		if (strcmp(allUsers[index]->getName(), name) == 0)
+		//const char* cUser_name = allUsers[index]->getName().c_str;
+		const char* cName_to_check = name.c_str();
+
+		if (strcmp(allUsers[index]->getName(), cName_to_check) == 0)
 			return index;
 	}
 
 	return NOT_FOUND;
 }
 
-// returns the page's index in the allPages array, or -1 if is not found
-int doesPageExist(const char* name, Operation* system)
+// checks if the page "name" exists in the system. returns the page's index in the allPages array, or -1 if is not found
+int doesPageExist(string& name, Operation& system)
 {
-	int index;
-	vector<Page*> allPages = system->getAllPages();
+	int index, num_of_pages = system.getNumOfPages();
+	vector<Page*> allPages = system.getAllPages();
 
-	for (index = 0; index < system->getNumOfPages(); index++)
+	for (index = 0; index < num_of_pages; index++)
 	{
-		if (strcmp(allPages[index]->getName(), name) == 0)
+		const char* cPage_name = allPages[index]->getName().c_str();
+		const char* cName_to_check = name.c_str();
+
+		if (strcmp(cPage_name, cName_to_check) == 0)
 			return index;
 	}
 
 	return NOT_FOUND;
 }
 
-// to enter a new user to the system
-void getUserInput(Operation* system) throw (const char*)
+// in order to enter a new user to the system
+void getUserInput(Operation& system) throw (const char*)
 {
-	char* username = new char[MAX_CHARACTERS];
+	//char* username = new char[MAX_CHARACTERS];
+	string username;
 
 	cout << "Please enter your username: ";
 	cin.ignore();
-	cin.getline(username, MAX_CHARACTERS);
+	getline(cin, username);
+	//cin.getline(username, MAX_CHARACTERS);
 
 	// validate username
 	if (doesUserExist(username, system) >= 0)
 	{
 		//cout << "username is already taken" << endl << endl;
 		throw "username is already taken";
-		delete[] username;
+		//delete[] username;
 		return;
 	}
 
@@ -176,18 +185,22 @@ void getUserInput(Operation* system) throw (const char*)
 		cout << endl << "error while entering birhtday input: " << err << endl << endl;
 		return;
 	}
-
-	User* userToAdd = new User(username, birthday, 1, 0, 1, 0);
-	system->addUserToOperation(userToAdd);
+	
+	const char* TEMPUSERNAME = username.c_str(); // TODO GON change to string
+	User* userToAdd = new User(TEMPUSERNAME, birthday, 1, 0, 1, 0);
+	system.addUserToOperation(userToAdd);
 }
 
-void addPageToSystem(Operation* system) noexcept(false)
+
+void addPageToSystem(Operation& system) noexcept(false)
 {
-	char* pageName = new char[MAX_CHARACTERS];
+	//char* pageName = new char[MAX_CHARACTERS];
+	string pageName;
 
 	cout << "Please enter page name: ";
 	cin.ignore();
-	cin.getline(pageName, MAX_CHARACTERS);
+	getline(cin, pageName);
+	//cin.getline(pageName, MAX_CHARACTERS);
 
 	// validate username
 	while (true)
@@ -203,24 +216,27 @@ void addPageToSystem(Operation* system) noexcept(false)
 		{
 			cout << endl << err << endl;
 			cout << "Please choose a different name: ";
-			//cin.ignore();
-			cin.getline(pageName, MAX_CHARACTERS);
+			cin.ignore();
+			getline(cin, pageName);
+			//cin.getline(pageName, MAX_CHARACTERS);
 		}
 	}
 
 	Page* pageToAdd = new Page(pageName);
-
-	system->addPageToOperation(pageToAdd);
+	system.addPageToOperation(pageToAdd);
 }
 
-void getUserOrPageInput(int userChoice, Operation* system) noexcept(false)
+void getUserOrPageInput(int userChoice, Operation& system) noexcept(false)
 {
 	// userChoice is according to handleMenu()
-	char* username = new char[MAX_CHARACTERS];
-	char* pageName = new char[MAX_CHARACTERS];
+	//char* username = new char[MAX_CHARACTERS];
+	//char* CHARpageName = new char[MAX_CHARACTERS];
 
-	vector<User*> allUsers = system->getAllUsers();
-	vector<Page*> allPages = system->getAllPages();
+	string user_name;
+	string page_name;
+
+	vector<User*> allUsers = system.getAllUsers();
+	vector<Page*> allPages = system.getAllPages();
 
 	int isUserToDisplay = -1;
 
@@ -248,9 +264,10 @@ void getUserOrPageInput(int userChoice, Operation* system) noexcept(false)
 	{
 		cout << "Please enter username: ";
 		cin.ignore();
-		cin.getline(username, MAX_CHARACTERS);
+		getline(cin, user_name);
+		//cin.getline(username, MAX_CHARACTERS);
 
-		int friendIndex = doesUserExist(username, system);
+		int friendIndex = doesUserExist(user_name, system);
 
 		if (friendIndex >= 0) {
 			switch (userChoice)
@@ -274,9 +291,10 @@ void getUserOrPageInput(int userChoice, Operation* system) noexcept(false)
 	{
 		cout << "Please enter page name: ";
 		cin.ignore();
-		cin.getline(pageName, MAX_CHARACTERS);
+		getline(cin, page_name);
+		//cin.getline(CHARpageName, MAX_CHARACTERS);
 
-		int pageIndex = doesPageExist(pageName, system);
+		int pageIndex = doesPageExist(page_name, system);
 
 		if (pageIndex >= 0) {
 			switch (userChoice)
@@ -297,23 +315,25 @@ void getUserOrPageInput(int userChoice, Operation* system) noexcept(false)
 		else throw invalid_argument("page was not found.");
 	}
 
-	delete[]username;
-	delete[]pageName;
+	//delete[]username;
+	//delete[]pageName;
 }
 
 // asks for a page name and search it in the system.
 // returns pointer to the page, and null if not found
-Page* getPageDetails(Operation* system)
+Page* getPageDetails(Operation& system) // *returns a pointer because NULL can be returned*
 {
-	vector<Page*> allPages = system->getAllPages();
-	char pageName[MAX_CHARACTERS];
+	vector<Page*> allPages = system.getAllPages();
+	string page_name;
+	//char pageName[MAX_CHARACTERS];
 	int index = 0;
 
 	cout << "Enter page name: ";
+	getline(cin, page_name);
 	//cin.ignore();
-	cin.getline(pageName, MAX_CHARACTERS);
+	//cin.getline(pageName, MAX_CHARACTERS);
 
-	index = doesPageExist(pageName, system);
+	index = doesPageExist(page_name, system);
 
 	if (index >= 0)
 		return allPages[index];
@@ -323,29 +343,33 @@ Page* getPageDetails(Operation* system)
 
 // ask for name and search it on allUsers array, returns the user's pointer, or nullptr if not found
 // if flag is 0 we request the user's name, and 1 to ask another user name (friend).
-User* askForUsername(Operation* system, int flag) throw (const char*)
+User* askForUsername(Operation& system, int flag) throw (const char*) // *returns a pointer because NULL can be returned*
 {
+	//char* username = new char[MAX_CHARACTERS];
 	User* user = nullptr;
-	char* username = new char[MAX_CHARACTERS];
+	string user_name;
 	int userIndex;
 
 	cout << "Please enter ";
 	flag == USER ? cout << "your username: " : cout << "friend's name: ";
 	if (flag == USER)
 		cin.ignore();
-	cin.getline(username, MAX_CHARACTERS);
-	userIndex = doesUserExist(username, system);
+
+	getline(cin, user_name);
+	//cin.getline(username, MAX_CHARACTERS);
+	userIndex = doesUserExist(user_name, system);
 	if (userIndex == NOT_FOUND)
 		flag == USER ? throw "User not found!" : cout << "Friend not found!\n\n";
 	else
-		user = system->getAllUsers()[userIndex];
+		user = system.getAllUsers()[userIndex];
 
-	delete[] username;
+	//delete[] username;
 	return user;
 }
 
 // todo: use this after we switch everything to string to validate and throw expections
-bool isCharsOnly(const std::string& str) {
+bool isCharsOnly(const string& str)
+{
 	for (char c : str)
 	{
 		if (!isalpha(c))  // checks if its a letter

@@ -19,7 +19,8 @@ public:
 	Clock(int day, int month, int year); // to enter date manually (e.g. in birthday)
 
 	int stringToNumber(char* str, int start, int end);
-	char* currentDateTime();
+	//char* currentDateTime();
+	void currentDateTime();
 	int getDay() { return _day; }
 	int getMonth() { return _month; }
 	int getYear() { return _year; }
@@ -27,8 +28,8 @@ public:
 	int getMinutes() { return _minutes; }
 	int getSeconds() { return _seconds; }
 
-	Clock getDate();
-	Clock getHour();
+	Clock& getDate() { return *this; }
+	Clock& getHour() { return *this; }
 
 	void displayDate();
 	void displayHour();
