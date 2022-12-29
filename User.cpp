@@ -363,25 +363,3 @@ void User::addPageToLikedPagesList(Operation& system, Page* pageToLike)
 	pageToLike->addFanToPage(system, *this);
 }
 
-// receives pointer to a page or null
-void User::likePageTemp(Page* pageToLike, Operation& system) throw (const char*)
-{
-	if (pageToLike != nullptr)
-	{
-		addPageToLikedPagesList(system, pageToLike);
-		cout << endl << _name << " liked " << pageToLike->getName() << endl;
-	}
-	else
-	{
-		Page* new_page = getPageDetails(system);
-		if (new_page == nullptr)
-		{
-			throw "Page doesn't exist.\n";
-			return;
-		}
-
-		addPageToLikedPagesList(system, new_page);
-		cout << endl << this->getUserName() << " liked " << new_page->getName() << endl << endl;
-	}
-}
-

@@ -21,7 +21,7 @@ using namespace std;
 int main()
 {
 	Operation system;
-	vector<User*> initUsers; // todo -> free??
+	vector<User*> initUsers;
 	vector<Page*> initPages;
 	int userChoice = 0;
 
@@ -54,5 +54,6 @@ int main()
 		}
 	} while (userChoice > 0 || userChoice < 13);
 
+	deleteUsersAndPages(initUsers, initPages);
 	return 0;
 }

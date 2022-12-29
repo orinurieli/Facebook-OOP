@@ -64,7 +64,6 @@ public:
 	void displayAllStatuses();
 	void displayAllFriends();
 
-	void likePageTemp(Page* pageToLike, Operation& system);
 	void addPageToLikedPagesList(Operation& system, Page* pageToLike);
 
 	~User();

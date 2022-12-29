@@ -27,7 +27,8 @@ void getUserOrPageInput(int userChoice, Operation& system);
 Page* getPageDetails(Operation& system);
 User* askForUsername(Operation& system, int flag);
 
-bool isCharsOnly(const string& str);
 void newTerminate();
+void deleteUsersAndPages(vector<User*> initUsers, vector<Page*>initPages);
+
 
 #endif // __FUNCTIONS_H

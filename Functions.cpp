@@ -190,7 +190,7 @@ void getUserInput(Operation& system) throw (const char*)
 		cout << endl << "error while entering birhtday input: " << err << endl << endl;
 		return;
 	}
-	
+
 	//const char* TEMPUSERNAME = username.c_str(); // TODO GON change to string
 	User* userToAdd = new User(username, birthday, 1, 0, 1, 0);
 	system.addUserToOperation(userToAdd);
@@ -373,18 +373,19 @@ User* askForUsername(Operation& system, int flag) throw (const char*) // *return
 	return user;
 }
 
-// todo: use this after we switch everything to string to validate and throw expections
-bool isCharsOnly(const string& str)
-{
-	for (char c : str)
-	{
-		if (!isalpha(c))  // checks if its a letter
-			return false;
-	}
-	return true;
-}
+
 
 void newTerminate()
 {
 	cout << "oops, looks like a problem occured." << endl << "Please call support and don't lower our grade :)" << endl << endl;
+}
+
+
+void deleteUsersAndPages(vector<User*> initUsers, vector<Page*> initPages)
+{
+	for (int i = 0; i < initUsers.size(); i++)
+		delete initUsers[i];
+
+	for (int i = 0; i < initPages.size(); i++)
+		delete initPages[i];
 }
