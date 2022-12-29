@@ -13,7 +13,6 @@ using namespace std;
 class Page
 {
 private:
-	//char* _name;
 	string _name;
 	vector<User*> _fansList;
 	vector<Status*>_statuses;
@@ -24,7 +23,7 @@ private:
 
 public:
 	Page() = delete; // we don't want to create a new page without a page name
-	//Page(string& name) : _name(name) {}
+	//Page(string& name) : _name(name) {} // TODO gon check if this ctor works
 	Page(const string name)
 	{
 		this->_name = name;

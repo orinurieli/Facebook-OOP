@@ -62,7 +62,7 @@ void Page::displayAllFans() throw (const char*)
 		throw "oops, no fans to display. \n";
 	else {
 		for (int i = 0; i < _numOfFans; i++)
-			cout << _fansList[i]->getName() << endl;
+			cout << _fansList[i]->getUserName() << endl;
 	}
 
 	cout << endl;

@@ -12,7 +12,6 @@ using namespace std;
 class User;
 
 int displayMenu();
-//int doesUserExist(const char* name, Operation* system);
 int doesUserExist(string& name, Operation& system);
 int doesPageExist(string& name, Operation& system);
 

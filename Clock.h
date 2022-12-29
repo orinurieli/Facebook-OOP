@@ -5,6 +5,8 @@
 #include <ctime>  
 #include <string.h>
 
+enum StringLocation{startDay, endDay, startMonth=3, endMonth=4,	startYear=6, endYear=9};
+
 class Clock
 {
 	int _day;
@@ -18,8 +20,7 @@ public:
 	Clock();
 	Clock(int day, int month, int year); // to enter date manually (e.g. in birthday)
 
-	int stringToNumber(char* str, int start, int end);
-	//char* currentDateTime();
+	int stringToNumber(string& str, int start, int end);
 	void currentDateTime();
 	int getDay() { return _day; }
 	int getMonth() { return _month; }

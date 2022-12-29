@@ -1,9 +1,8 @@
 #ifndef __USER_H
 #define __USER_H
 #define _CRT_SECURE_NO_WARNINGS
-
-
 #include <vector>
+#include <string>
 using namespace std;
 #include <string.h>
 #include "Status.h"
@@ -14,7 +13,7 @@ class Operation;
 
 class User
 {
-	char* _name;
+	string _name;
 	Clock _birthday;
 	vector <User*> _friendsList;
 	vector<Status*> _statuses;
@@ -28,10 +27,10 @@ class User
 	int _maxNumOfPages = 1;
 public:
 	User() = delete; // we don't want to create a new user without a name
-	User(const char* name, Clock birthday, int maxNumFriends, int numFriends, int maxPages, int numPages);
+	User(const string& name, Clock birthday, int maxNumFriends, int numFriends, int maxPages, int numPages);
 	User(const User&) = delete; // we delete the copy c'tor because we dont want to duplicate a user
 
-	const char* getName() const { return _name; }
+	const string& getUserName() const { return _name; }
 	vector<User*> getFriendsList() { return _friendsList; }
 	void pushToFriendsList(User* newFriend) { _friendsList.push_back(newFriend); }
 	vector<Page*> getLikedPagesList() { return _likedPages; }
@@ -40,19 +39,17 @@ public:
 	const int getNumOfPages() const { return _numOfPages; }
 	vector<Status*> getAllStatuses() { return _statuses; }
 	const Clock getBirthday() const { return _birthday; }
-	void setUserName(char* username) { _name = username; };
+	void setUserName(string& username) { _name = username; };
 	void setBirthday(Clock& birthday) { _birthday = birthday; }
 
 	void createStatus(Status* status);
 
 	void addFriend(Operation& system);
 	User* operator+=(User* other);
-	void compareNumOfFriends(Operation& system);
 	bool operator<(User& other);
 	bool operator>(User& other);
 	bool operator<(Page& fanPage);
 	bool operator>(Page& fanPage);
-
 
 	void cancelFriendship(Operation& system);
 	int searchFriendInFriendList(User& other);

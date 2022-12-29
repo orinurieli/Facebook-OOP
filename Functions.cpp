@@ -119,7 +119,6 @@ int displayMenu() throw (const char*)
 }
 
 // returns the user's index in allUsers array, and -1 if not found.
-//int doesUserExist(const char* name, Operation* system)
 int doesUserExist(string& name, Operation& system)
 {
 	int index, num_of_users = system.getNumOfUsers();
@@ -127,11 +126,14 @@ int doesUserExist(string& name, Operation& system)
 
 	for (index = 0; index < num_of_users; index++)
 	{
-		//const char* cUser_name = allUsers[index]->getName().c_str;
-		const char* cName_to_check = name.c_str();
-
-		if (strcmp(allUsers[index]->getName(), cName_to_check) == 0)
+		if (allUsers[index]->getUserName().compare(name) == 0)
 			return index;
+
+		//const char* cUser_name = allUsers[index]->getUserName().c_str;
+		/*const char* cName_to_check = name.c_str();
+
+		if (strcmp(allUsers[index]->getUserName(), cName_to_check) == 0)
+			return index;*/
 	}
 
 	return NOT_FOUND;
@@ -145,11 +147,14 @@ int doesPageExist(string& name, Operation& system)
 
 	for (index = 0; index < num_of_pages; index++)
 	{
-		const char* cPage_name = allPages[index]->getName().c_str();
+		if (allPages[index]->getName().compare(name) == 0)
+			return index;
+
+		/*const char* cPage_name = allPages[index]->getName().c_str();
 		const char* cName_to_check = name.c_str();
 
 		if (strcmp(cPage_name, cName_to_check) == 0)
-			return index;
+			return index;*/
 	}
 
 	return NOT_FOUND;
@@ -186,8 +191,8 @@ void getUserInput(Operation& system) throw (const char*)
 		return;
 	}
 	
-	const char* TEMPUSERNAME = username.c_str(); // TODO GON change to string
-	User* userToAdd = new User(TEMPUSERNAME, birthday, 1, 0, 1, 0);
+	//const char* TEMPUSERNAME = username.c_str(); // TODO GON change to string
+	User* userToAdd = new User(username, birthday, 1, 0, 1, 0);
 	system.addUserToOperation(userToAdd);
 }
 

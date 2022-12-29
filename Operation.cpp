@@ -40,7 +40,7 @@ void Operation::addUserToOperation(User* userToAdd)
 
 	_allUsers[_numOfUsers] = userToAdd;*/
 	_numOfUsers++;
-	cout << endl << "Hey, " << userToAdd->getName() << " Welcome to Facebook :) " << endl << endl;
+	cout << endl << "Hey, " << userToAdd->getUserName() << " Welcome to Facebook :) " << endl << endl;
 }
 
 void Operation::addPageToOperation(Page* pageToAdd)
@@ -71,7 +71,7 @@ void Operation::displayAllEntities()
 	cout << endl << "Users: " << endl;
 	for (int i = 0; i < _numOfUsers; i++)
 	{
-		cout << _allUsers[i]->getName() << endl << "Birthday: ";
+		cout << _allUsers[i]->getUserName() << endl << "Birthday: ";
 		Clock d = _allUsers[i]->getBirthday();
 		d.displayDate();
 		cout << endl << endl;

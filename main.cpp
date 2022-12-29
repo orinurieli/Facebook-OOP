@@ -18,6 +18,7 @@ using namespace std;
 // 4. in page ctor check if there is memory leak
 // 5. delete all the things we put in HEARA
 // 6. initUser and initPages -> move to Operaton c'tor?
+// 7. check what to do about the strcmp with strings
 
 int main()
 {

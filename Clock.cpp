@@ -18,7 +18,7 @@ Clock::Clock()
 	currentDateTime();
 }
 
-// to enter date manually
+// in order to enter date manually
 Clock::Clock(int day, int month, int year) throw (const char*)
 {
 	try
@@ -116,7 +116,7 @@ Clock Clock::getBirthdayInput() noexcept(false)
 }
 
 // takes a string of char numbers from a certain place, and returns the number
-int Clock::stringToNumber(char* str, int start, int end)
+int Clock::stringToNumber(string& str, int start, int end)
 {
 	int res = 0;
 	for (int i = start; i <= end; i++)
@@ -129,7 +129,6 @@ int Clock::stringToNumber(char* str, int start, int end)
 }
 
 // returns current date and hour
-//char* Clock::currentDateTime()
 void Clock::currentDateTime()
 {
 	time_t now = time(0);
@@ -138,12 +137,12 @@ void Clock::currentDateTime()
 	tstruct = *localtime(&now);
 	strftime(buf, sizeof(buf), "%d-%m-%Y : %X", &tstruct);
 
-	_day = stringToNumber(buf, 0, 1);
-	_month = stringToNumber(buf, 3, 4);
-	_year = stringToNumber(buf, 6, 9);
+	string buffer = buf;
+
+	_day = stringToNumber(buffer, startDay, endDay);
+	_month = stringToNumber(buffer, startMonth, endMonth);
+	_year = stringToNumber(buffer, startYear, endYear);
 	_hours = tstruct.tm_hour;
 	_minutes = tstruct.tm_min;
 	_seconds = tstruct.tm_sec;
-
-	//return buf; // TODO - check if we need to return something from this func at all?? gon
 }
