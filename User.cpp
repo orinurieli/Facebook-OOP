@@ -131,21 +131,17 @@ int User::searchFriendInFriendList(User& other) throw (const char*)
 {
 	int friend_to_delete_index = NOT_FOUND;
 
-	for (int i = 0; i < _numOfFriends && friend_to_delete_index == NOT_FOUND; i++)
+	if (_friendsList.size() > 0) // if user has friends 
 	{
-		if(_friendsList[i]->_name.compare(other._name) == 0)
-			friend_to_delete_index = i;
+		for (int i = 0; i < _numOfFriends && friend_to_delete_index == NOT_FOUND; i++)
+		{
+			if (_friendsList[i]->_name.compare(other._name) == 0)
+				friend_to_delete_index = i;
+		}
 
-		/*const char* cName = _friendsList[i]->_name.c_str();
-		const char* cFriend_name = other._name.c_str();
-
-		if (strcmp(cName, cFriend_name) == 0)
-			friend_to_delete_index = i;*/
+		if (friend_to_delete_index == NOT_FOUND)
+			throw "The friend was not found on your friend list!\n";
 	}
-
-	if (friend_to_delete_index == NOT_FOUND)
-		throw "The friend was not found on your friend list!\n\n";
-
 	return friend_to_delete_index;
 }
 
