@@ -16,7 +16,8 @@ using namespace std;
 // 2. in general change objects in funcs to ref or const
 // 4. in page ctor check if there is memory leak
 // 5. delete all the things we put in HEARA
-// 6. initUser and initPages -> move to Operaton c'tor?
+// 6. delete max num of friends etc - i began doing it
+
 
 int main()
 {

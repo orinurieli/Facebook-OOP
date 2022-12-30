@@ -1,12 +1,13 @@
 #ifndef __FUNCTIONS_H
 #define __FUNCTIONS_H
 
-#include <vector>
-#include <string>
-using namespace std;
+//#include <vector>
+//#include <string>
+//using namespace std;
 #include "Operation.h"
+#include "User.h"
 #include "Page.h"
-#include "Status.h"
+//#include "Status.h"
 class User;
 
 #define NOT_FOUND -1

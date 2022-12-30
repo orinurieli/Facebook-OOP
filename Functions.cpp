@@ -1,23 +1,38 @@
-#include <iostream>
 #include "Functions.h"
+#include <iostream>
 using namespace std;
-
-
 
 // fills allUsers array with members
 vector<User*> initiateUsers()
 {
+	//User::User(const string & name, Clock birthday, int maxNumFriends, int numFriends, int maxPages, int numPages)
+	//User* user1 = new User("Keren Kalif", Clock(15, 4, 1990), 2, 2, 2, 1);
+
 	vector<User*> initUsers;
-	User* user1 = new User("Keren Kalif", Clock(15, 4, 1990), 2, 2, 2, 1);
+
+	Clock birthday1(15, 4, 1990);
+	Clock birthday2(24, 1, 1995);
+	Clock birthday3(14, 5, 1984);
+	Clock birthday4(1, 7, 1997);
+	Clock birthday5(21, 10, 1996);
+
+	User* user1 = new User("Keren Kalif", birthday1, 2, 1);
+	User* user2 = new User("Steve Jobs", birthday2, 2, 1);
+	User* user3 = new User("Mark Zuckerberg", birthday3, 3, 2);
+	User* user4 = new User("Ori Nurieli", birthday4, 1, 3);
+	User* user5 = new User("Gon Etgar", birthday5, 2, 3);
+
 	initUsers.push_back(user1);
-	User* user2 = new User("Steve Jobs", Clock(24, 2, 1955), 2, 2, 2, 1);
 	initUsers.push_back(user2);
-	User* user3 = new User("Mark Zuckerberg", Clock(14, 5, 1984), 4, 3, 2, 2);
 	initUsers.push_back(user3);
-	User* user4 = new User("Ori Nurieli", Clock(1, 7, 1997), 2, 1, 4, 3);
 	initUsers.push_back(user4);
-	User* user5 = new User("Gon Etgar", Clock(21, 10, 1996), 2, 2, 4, 3);
 	initUsers.push_back(user5);
+
+	//User* user1 = new User("Keren Kalif", Clock(15, 4, 1990), 2, 1);
+	//User* user2 = new User("Steve Jobs", Clock(24, 2, 1955), 2, 1);
+	//User* user3 = new User("Mark Zuckerberg", Clock(14, 5, 1984), 3, 2);
+	//User* user4 = new User("Ori Nurieli", Clock(1, 7, 1997), 1, 3);
+	//User* user5 = new User("Gon Etgar", Clock(21, 10, 1996), 2, 3);
 
 	initiateFriendships(initUsers);
 	return initUsers;
@@ -26,20 +41,20 @@ vector<User*> initiateUsers()
 // fills list of friends for some members to initiate the program
 void initiateFriendships(vector<User*> allUsers)
 {
-	allUsers[0]->pushToFriendsList(allUsers[1]);
-	allUsers[1]->pushToFriendsList(allUsers[0]);
+	allUsers[0]->pushToFriendsList(*allUsers[1]);
+	allUsers[1]->pushToFriendsList(*allUsers[0]);
 
-	allUsers[0]->pushToFriendsList(allUsers[2]);
-	allUsers[2]->pushToFriendsList(allUsers[0]);
+	allUsers[0]->pushToFriendsList(*allUsers[2]);
+	allUsers[2]->pushToFriendsList(*allUsers[0]);
 
-	allUsers[1]->pushToFriendsList(allUsers[2]);
-	allUsers[2]->pushToFriendsList(allUsers[1]);
+	allUsers[1]->pushToFriendsList(*allUsers[2]);
+	allUsers[2]->pushToFriendsList(*allUsers[1]);
 
-	allUsers[4]->pushToFriendsList(allUsers[3]);
-	allUsers[3]->pushToFriendsList(allUsers[4]);
+	allUsers[4]->pushToFriendsList(*allUsers[3]);
+	allUsers[3]->pushToFriendsList(*allUsers[4]);
 
-	allUsers[4]->pushToFriendsList(allUsers[2]);
-	allUsers[2]->pushToFriendsList(allUsers[4]);
+	allUsers[4]->pushToFriendsList(*allUsers[2]);
+	allUsers[2]->pushToFriendsList(*allUsers[4]);
 }
 
 // fills the pages array with pages
@@ -197,9 +212,10 @@ void getUserInput(Operation& system) throw (const char*)
 		return;
 	}
 
-	//const char* TEMPUSERNAME = username.c_str(); // TODO GON change to string
-	User* userToAdd = new User(username, birthday, 1, 0, 1, 0);
-	system.addUserToOperation(userToAdd);
+
+	User* user_to_add = new User(username, birthday, 0, 0);
+	//User* userToAdd = new User(username, birthday, 1, 0, 1, 0);
+	system.addUserToOperation(*user_to_add);
 }
 
 
@@ -233,8 +249,8 @@ void addPageToSystem(Operation& system) noexcept(false)
 		}
 	}
 
-	Page* pageToAdd = new Page(pageName);
-	system.addPageToOperation(pageToAdd);
+	Page* pageToAdd = new Page(pageName); // deleted in ~Operation
+	system.addPageToOperation(*pageToAdd);
 }
 
 
@@ -438,7 +454,7 @@ Page* getPageDetails(Operation& system, int clearBuffer) // *returns a pointer b
 }
 
 // ask for name and search it on allUsers array, returns the user's pointer, or nullptr if not found
-// if flag is 0 we request the user's name, and 1 to ask another user name (friend).
+// if flag is 1 we request the user's name, and 2 to ask another user name (friend).
 User* askForUsername(Operation& system, int flag) throw (const char*) // *returns a pointer because NULL can be returned*
 {
 	//char* username = new char[MAX_CHARACTERS];
@@ -463,14 +479,12 @@ User* askForUsername(Operation& system, int flag) throw (const char*) // *return
 	return user;
 }
 
-
-
 void newTerminate()
 {
 	cout << "oops, looks like a problem occured." << endl << "Please call support and don't lower our grade :)" << endl << endl;
 }
 
-
+// free the memory allocated in main
 void deleteUsersAndPages(vector<User*> initUsers, vector<Page*> initPages)
 {
 	for (int i = 0; i < initUsers.size(); i++)

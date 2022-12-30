@@ -21,14 +21,14 @@ using namespace std;
 //	return _time;
 //}
 
-void Status::getStatusInfo(Status* newStatus)
+void Status::getStatusInfo(Status& newStatus)
 {
 	string text;
 
 	cout << "Please insert your status: ";
 	getline(cin, text);
 	
-	newStatus->_text = text;
+	newStatus._text = text;
 	/*char* tempStr = new char[MAX_CHARACTERS]; // todo- delete once the string works
 
 	cout << "Please insert your status: ";
@@ -43,13 +43,13 @@ void Status::getStatusInfo(Status* newStatus)
 }
 
 // checks if 2 statuses are identical in their text
-bool Status::operator==(Status& other)
+bool Status::operator==(const Status& other) const
 {
 	return(_text == other._text);
 }
 
 // checks if 2 statuses are not identical in their text
-bool Status::operator!=(Status& other)
+bool Status::operator!=(const Status& other) const
 {
 	return(_text != other._text);
 }

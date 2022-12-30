@@ -4,7 +4,6 @@
 #include <chrono>
 #include <ctime>  
 #include <string.h>
-
 enum StringLocation{startDay, endDay, startMonth=3, endMonth=4,	startYear=6, endYear=9};
 
 class Clock
@@ -18,23 +17,22 @@ class Clock
 
 public:
 	Clock();
-	Clock(int day, int month, int year); // to enter date manually (e.g. in birthday)
+	Clock(int day, int month, int year) throw (const char*); // to enter date manually (e.g. in birthday)
 
+	int getDay() const { return _day; }
+	int getMonth() const { return _month; }
+	int getYear() const { return _year; }
+	int getHours() const { return _hours; }
+	int getMinutes() const { return _minutes; }
+	int getSeconds() const { return _seconds; }
 	int stringToNumber(string& str, int start, int end);
-	void currentDateTime();
-	int getDay() { return _day; }
-	int getMonth() { return _month; }
-	int getYear() { return _year; }
-	int getHours() { return _hours; }
-	int getMinutes() { return _minutes; }
-	int getSeconds() { return _seconds; }
 
 	Clock& getDate() { return *this; }
 	Clock& getHour() { return *this; }
+	Clock& getBirthdayInput();
 
-	void displayDate();
-	void displayHour();
-	Clock getBirthdayInput();
+	void displayDate() const;
+	void displayHour() const;
 };
 
-#endif // __CLOCK_H
+#endif

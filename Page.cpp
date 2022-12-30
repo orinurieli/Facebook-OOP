@@ -2,8 +2,8 @@
 using namespace std;
 
 #include "Page.h"
-class User;
-class Status;
+//class User;
+//class Status;
 
 //Page::Page(const char* name)
 //{
@@ -30,7 +30,7 @@ void Page::createStatus()
 	}*/
 
 	Status* newStatus = new Status();
-	newStatus->getStatusInfo(newStatus);
+	newStatus->getStatusInfo(*newStatus);
 	_statuses.push_back(newStatus);
 	cout << "Status Uploaded!" << endl << endl;
 	_numOfStatuses++;
@@ -42,14 +42,20 @@ void Page::displayAllStatuses() throw (const char*)
 	if (_numOfStatuses == 0) throw "Oops, no statuses to display. \n";
 	for (int i = 0; i < _numOfStatuses; i++)
 	{
-		cout << "---------------------------------" << endl;
+		cout << "-----------------------------------" << endl;
 		cout << "Status #" << i + 1 << ":\n";
 		cout << "Text: " << _statuses[i]->getText() << endl;
 		cout << "Uploaded on: ";
-		_statuses[i]->getDateAndHour().displayDate();
+		//_statuses[i]->getDateAndHour().displayDate();
+		// _statuses[i]->getStatusTime().displayDate();
+		const Clock& tmp = _statuses[i]->getStatusTime();
+		tmp.displayDate();
 		cout << " | ";
-		_statuses[i]->getDateAndHour().displayHour();
-		cout << endl << "---------------------------------" << endl << endl;
+		//_statuses[i]->getDateAndHour().displayHour();
+		//_statuses[i]->getStatusTime().displayHour();
+		const Clock& tmp2 = _statuses[i]->getStatusTime();
+		tmp2.displayHour();
+		cout << endl << "-----------------------------------" << endl << endl;
 	}
 	cout << endl;
 }
@@ -128,8 +134,8 @@ void Page::removeFan(User* removeUser) throw (const char*)
 		else throw "wait.. the user is not a fan so we can not remove him. \n";
 	}
 }
-// *returns a pointer because NULL can be returned*
-Page* Page::askForPageName(Operation& system)
+
+Page* Page::askForPageName(Operation& system) // *returns a pointer because NULL can be returned*
 {
 	vector<Page*> allPages = system.getAllPages();
 	string page_name;

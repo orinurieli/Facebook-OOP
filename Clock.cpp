@@ -8,14 +8,20 @@ using namespace std;
 
 Clock::Clock()
 {
-	_hours = 0;
-	_minutes = 0;
-	_seconds = 0;
-	_day = 0;
-	_month = 0;
-	_year = 0;
+	time_t now = time(0);
+	struct tm tstruct;
+	char buf[80];
+	tstruct = *localtime(&now);
+	strftime(buf, sizeof(buf), "%d-%m-%Y : %X", &tstruct);
 
-	currentDateTime();
+	string buffer = buf;
+
+	_day = stringToNumber(buffer, startDay, endDay);
+	_month = stringToNumber(buffer, startMonth, endMonth);
+	_year = stringToNumber(buffer, startYear, endYear);
+	_hours = tstruct.tm_hour;
+	_minutes = tstruct.tm_min;
+	_seconds = tstruct.tm_sec;
 }
 
 // in order to enter date manually
@@ -40,13 +46,27 @@ Clock::Clock(int day, int month, int year) throw (const char*)
 	_seconds = 0;
 }
 
-void Clock::displayDate()
+// takes a string of char numbers from a certain place, and returns the number
+// TODO add iterators?
+int Clock::stringToNumber(string& str, int start, int end)
+{
+	int res = 0;
+	for (int i = start; i <= end; i++)
+	{
+		res *= 10;
+		res += (str[i] - '0');
+	}
+
+	return res;
+}
+
+void Clock::displayDate() const
 {
 	cout << setfill('0') << setw(2) << _day << ".";
 	cout << setfill('0') << setw(2) << _month << "." << _year;
 }
 
-void Clock::displayHour()
+void Clock::displayHour() const
 {
 	cout << setfill('0') << setw(2) << _hours << ":";
 	cout << setfill('0') << setw(2) << _minutes << ":";
@@ -54,7 +74,7 @@ void Clock::displayHour()
 }
 
 // to enter a date manually
-Clock Clock::getBirthdayInput() noexcept(false)
+Clock& Clock::getBirthdayInput() noexcept(false)
 {
 	int d, m, y;
 
@@ -111,39 +131,5 @@ Clock Clock::getBirthdayInput() noexcept(false)
 	}
 
 	Clock res(d, m, y);
-
 	return res;
-}
-
-// takes a string of char numbers from a certain place, and returns the number
-// TODO add iterators?
-int Clock::stringToNumber(string& str, int start, int end)
-{
-	int res = 0;
-	for (int i = start; i <= end; i++)
-	{
-		res *= 10;
-		res += (str[i] - '0');
-	}
-
-	return res;
-}
-
-// returns current date and hour
-void Clock::currentDateTime()
-{
-	time_t now = time(0);
-	struct tm tstruct;
-	char buf[80];
-	tstruct = *localtime(&now);
-	strftime(buf, sizeof(buf), "%d-%m-%Y : %X", &tstruct);
-
-	string buffer = buf;
-
-	_day = stringToNumber(buffer, startDay, endDay);
-	_month = stringToNumber(buffer, startMonth, endMonth);
-	_year = stringToNumber(buffer, startYear, endYear);
-	_hours = tstruct.tm_hour;
-	_minutes = tstruct.tm_min;
-	_seconds = tstruct.tm_sec;
 }

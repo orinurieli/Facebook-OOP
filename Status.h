@@ -18,17 +18,17 @@ class Status
 public:
 	Status() : _text("") {}
 	//Status(const char* text, Clock time); // todo delete once string works
-	Status(const string& text, Clock time) : _text(text), _time(time) {}
+	Status(const string& text, Clock& time) : _text(text), _time(time) {}
 
 	//char* getText() { return _text; } // todo delete once string works
-	const string& getText() { return _text; }
-	Clock& getDateAndHour() { return _time; } // todo - change to const ref!
-	Clock& getStatusTime() { return _time;  } // todo - change to const ref, check why is this func doubled?
+	const string& getText() const { return _text; }
+	//Clock& getDateAndHour() { return _time; } // todo - change to const ref! // delete this func
+	const Clock& getStatusTime() { return _time; } // todo - change to const ref
 
-	void getStatusInfo(Status* newStatus);
+	void getStatusInfo(Status& newStatus);
 
-	bool operator==(Status& other);
-	bool operator!=(Status& other);
+	bool operator==(const Status& other) const;
+	bool operator!=(const Status& other) const;
 
 	~Status();
 };

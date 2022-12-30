@@ -1,10 +1,9 @@
 ﻿#include <iostream>
 using namespace std;
-#include <string>
 #include "Operation.h"
-#include "Functions.h"
-class User;
-class Page;
+//#include "Functions.h"
+//class User;
+//class Page;
 
 Operation::Operation()
 {
@@ -19,9 +18,12 @@ void Operation::initiateData(vector<User*> initUsers, vector<Page*> initPages)
 	initiateStatuses(this);
 }
 
-void Operation::addUserToOperation(User* userToAdd)
+void Operation::addUserToOperation(User& userToAdd)
 {
-	_allUsers.push_back(userToAdd);
+	_allUsers.push_back(&userToAdd);
+
+
+	//_allUsers.push_back(&userToAdd);
 	/*int i = 0;
 
 	if (_maxUsers == _numOfUsers)
@@ -38,12 +40,14 @@ void Operation::addUserToOperation(User* userToAdd)
 
 	_allUsers[_numOfUsers] = userToAdd;*/
 	_numOfUsers++;
-	cout << endl << "Hey, " << userToAdd->getUserName() << " Welcome to Facebook :) " << endl << endl;
+	cout << endl << "Hey, " << userToAdd.getUserName() << " Welcome to Facebook :) " << endl << endl;
 }
 
-void Operation::addPageToOperation(Page* pageToAdd)
+
+
+void Operation::addPageToOperation(Page& pageToAdd)
 {
-	_allPages.push_back(pageToAdd);
+	_allPages.push_back(&pageToAdd);
 	/*int i = 0;
 
 	if (_maxPages == _numOfPages)
@@ -59,23 +63,24 @@ void Operation::addPageToOperation(Page* pageToAdd)
 	_allPages[_numOfPages] = pageToAdd;*/
 	_numOfPages++;
 
-	cout << "Congrats! Your page: " << pageToAdd->getName() << " is Live on Facebook." << endl << endl;
+	cout << "Congrats! Your page: " << pageToAdd.getName() << " is Live on Facebook." << endl << endl;
 }
 
-void Operation::displayAllEntities()
+void Operation::displayAllEntities() const
 {
 	cout << endl << "ALL ENTITIES: " << endl;
 
-	cout << endl << "Users: " << endl;
+	cout << endl << "Users: " << endl << "------" << endl ;
+
 	for (int i = 0; i < _numOfUsers; i++)
 	{
 		cout << _allUsers[i]->getUserName() << endl << "Birthday: ";
-		Clock d = _allUsers[i]->getBirthday();
-		d.displayDate();
+		Clock b = _allUsers[i]->getBirthday();
+		b.displayDate();
 		cout << endl << endl;
 	}
 
-	cout << endl << "Pages: " << endl;
+	cout << endl << "Pages: " << endl << "------" << endl;
 	for (int i = 0; i < _numOfPages; i++)
 		cout << _allPages[i]->getName() << endl;
 
@@ -109,7 +114,7 @@ void Operation::handleMenu(int userChoice) noexcept(false)
 			current_user = askForUsername(*this, USER);
 			cout << endl;
 			if (current_user)
-				current_user->displayRecentStatusesOfaFriend(this);
+				current_user->displayRecentStatusesOfaFriend(*this);
 			break;
 		case AddNewFriend:
 			cout << endl;
@@ -151,16 +156,12 @@ void Operation::handleMenu(int userChoice) noexcept(false)
 	}
 }
 
+// delete the pointers allocated inside the program.
 Operation::~Operation()
 {
-	/*for (int i = 0; i < _numOfUsers; i++)
-	{
-		delete[] _allUsers[i];
-	}
-	delete[] _allUsers;*/
+	for (int i = 0; i < _numOfUsers; i++)
+		delete _allUsers[i];
 
-	for (int i = 0; i < _numOfPages; i++) // TODO check it. we allocated each one manually 
-	{
+	for (int i = 0; i < _numOfPages; i++)
 		delete _allPages[i];
-	}
 }

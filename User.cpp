@@ -7,15 +7,16 @@ class Page;
 
 // ################## c'tor ############## //
 
-User::User(const string& name, Clock birthday, int maxNumFriends, int numFriends, int maxPages, int numPages)
+//User::User(const string& name, Clock birthday, int maxNumFriends, int numFriends, int maxPages, int numPages)
+User::User(const string& name, Clock& birthday, int numFriends, int numPages)
 {
 	_name = name;
 	_birthday = birthday;
-	_maxNumOfFriends = maxNumFriends;
 	_numOfFriends = numFriends;
-	_maxNumOfPages = maxPages;
 	_numOfPages = numPages;
 
+	//_maxNumOfFriends = maxNumFriends;
+	//_maxNumOfPages = maxPages;
 	//_name = new char[MAX_CHARACTERS];
 	//_name = _strdup(name);
 	//_statuses = new Status * [_maxNumOfStatuses];
@@ -28,11 +29,12 @@ User::User(const string& name, Clock birthday, int maxNumFriends, int numFriends
 // ################## create status ############## //
 void User::createStatus(Status* initStatus) // it's a pointer because it can also be null (from initiation)
 {
-	if (initStatus != nullptr) _statuses.push_back(initStatus);
+	if (initStatus != nullptr)
+		_statuses.push_back(initStatus);
 	else
 	{
 		Status* newStatus = new Status();
-		newStatus->getStatusInfo(newStatus);
+		newStatus->getStatusInfo(*newStatus);
 		cout << "Status Uploaded!" << endl << endl;
 		_statuses.push_back(newStatus);
 	}
@@ -51,53 +53,53 @@ void User::addFriend(Operation& system) throw (const char*)
 		throw "Didn't find user name.";
 		return;
 	}
-	else if (friendToAdd == this)
+	if (friendToAdd == this)
 	{
 		throw "You can't add yourself as a friend.";
 		return;
 	}
-	else if (searchFriendInFriendList(*friendToAdd) != NOT_FOUND)
+	if (searchFriendInFriendList(*friendToAdd) != NOT_FOUND)
 	{
 		throw "Friend is already on your friend list.";
 		return;
 	}
 
-	*this += friendToAdd;
+	*this += *friendToAdd;
 	cout << endl << _name << ", you have added " << friendToAdd->_name << " to your friend list." << endl << endl;
 }
 
 // adds 2 users to eachothers friend lists.
-User* User::operator+=(User* other)
+User& User::operator+=(User& other)
 {
-	_friendsList.push_back(other);
+	_friendsList.push_back(&other);
 	_numOfFriends++;
 
-	other->_friendsList.push_back(this);
-	other->_numOfFriends++;
+	other._friendsList.push_back(this);
+	other._numOfFriends++;
 
-	return this;
+	return *this;
 }
 
 // compare number of friends between 2 users
-bool User::operator<(User& other)
+bool User::operator<(const User& other) const
 {
 	return (_numOfFriends < other._numOfFriends);
 }
 
 // compare number of friends between 2 users
-bool User::operator>(User& other)
+bool User::operator>(const User& other) const
 {
 	return (_numOfFriends > other._numOfFriends);
 }
 
 // compare the user's number of friends to a page's number of fans
-bool User::operator<(Page& fanPage)
+bool User::operator<(const Page& fanPage) const
 {
 	return (_numOfFriends < fanPage.getNumOfFans());
 }
 
 // compare the user's number of friends to a page's number of fans
-bool User::operator>(Page& fanPage)
+bool User::operator>(const Page& fanPage) const
 {
 	return (_numOfFriends > fanPage.getNumOfFans());
 }
@@ -119,6 +121,7 @@ void User::cancelFriendship(Operation& system) throw (const char*)
 	}
 
 	int user_index = friend_to_delete->searchFriendInFriendList(*this);
+	// no need checking again beacause adding a friend is mutual. we only need the index.
 
 	this->removeFriendFromFriendList(friend_index);
 	friend_to_delete->removeFriendFromFriendList(user_index);
@@ -127,7 +130,7 @@ void User::cancelFriendship(Operation& system) throw (const char*)
 }
 
 // searches a friend in the user's friend list, returns the friend index in the vector, or -1 if not found
-int User::searchFriendInFriendList(User& other) throw (const char*)
+int User::searchFriendInFriendList(User& other)
 {
 	int friend_to_delete_index = NOT_FOUND;
 
@@ -138,9 +141,6 @@ int User::searchFriendInFriendList(User& other) throw (const char*)
 			if (_friendsList[i]->_name.compare(other._name) == 0)
 				friend_to_delete_index = i;
 		}
-
-		if (friend_to_delete_index == NOT_FOUND)
-			throw "The friend was not found on your friend list!\n";
 	}
 	return friend_to_delete_index;
 }
@@ -175,17 +175,17 @@ void User::likePage(Operation& system) throw (const char*)
 		return;
 	}
 
-	*this += fan_page; // add page to the user's likedPages list
+	*this += *fan_page; // add page to the user's likedPages list
 	fan_page->addFanToPage(system, *this); // add user to the page's fansList
 	cout << _name << " liked " << fan_page->getName() << endl << endl;
 }
 
 // add page to user's liked pages vector
-User* User::operator+=(Page* fanPage)
+User& User::operator+=(Page& fanPage)
 {
-	_likedPages.push_back(fanPage);
+	_likedPages.push_back(&fanPage);
 	_numOfPages++;
-	return this;
+	return *this;
 }
 
 // check if the user liked a certain page
@@ -243,7 +243,7 @@ void User::dislikePage(Operation& system) throw (const char*)
 // ################## display 10 recent statuses ############## //
 
 // 10 most recent statuses of all his friends 
-void User::displayRecentStatusesOfaFriend(Operation* system) throw (const char*)
+void User::displayRecentStatusesOfaFriend(Operation& system) const throw (const char*)
 {
 	const int NUM_STATUSES_TO_DISPLAY = 10;
 
@@ -252,7 +252,6 @@ void User::displayRecentStatusesOfaFriend(Operation* system) throw (const char*)
 
 	for (int i = 0; i < _numOfFriends; i++) // go over friends list
 	{
-		cout << "---------------------------------" << endl;
 		cout << "Friend's name: " << _friendsList[i]->getUserName() << endl;
 		cout << _friendsList[i]->getUserName() << "'s 10 Most Recent Statuses Are:" << endl;
 		vector<Status*> friend_status_list = _friendsList[i]->getAllStatuses();
@@ -265,6 +264,7 @@ void User::displayRecentStatusesOfaFriend(Operation* system) throw (const char*)
 			int stop_loop;
 			(num_statuses < NUM_STATUSES_TO_DISPLAY) ? (stop_loop = 0) : (stop_loop = num_statuses - NUM_STATUSES_TO_DISPLAY);
 
+			cout << "----------------------------------";
 			for (int j = num_statuses - 1; j >= stop_loop; j--)
 			{
 				cout << endl << "Status:" << endl;
@@ -275,21 +275,21 @@ void User::displayRecentStatusesOfaFriend(Operation* system) throw (const char*)
 				friend_status_list[j]->getStatusTime().displayHour();
 				cout << endl;
 			}
+			cout << "----------------------------------" << endl << endl;
 		}
-		cout << "---------------------------------" << endl;
 	}
 }
 
 
 // shows all statuses of a chosen user
-void User::displayAllStatuses()
+void User::displayAllStatuses() const
 {
 	cout << endl << _name << "'s Statuses:\n";
 	if (_numOfStatuses == 0) cout << "None." << endl << endl;
 	else {
 		for (int i = 0; i < _numOfStatuses; i++)
 		{
-			cout << "---------------------------------" << endl;
+			cout << "-----------------------------------" << endl;
 			cout << "Status #" << i + 1 << endl;
 			cout << "Text: " << _statuses[i]->getText() << endl;
 			cout << "Uploaded on: ";
@@ -297,7 +297,7 @@ void User::displayAllStatuses()
 			cout << " | ";
 			_statuses[i]->getStatusTime().displayHour();
 			cout << endl;
-			cout << "---------------------------------" << endl;
+			cout << "-----------------------------------" << endl;
 		}
 	}
 	cout << endl;
@@ -305,9 +305,9 @@ void User::displayAllStatuses()
 
 
 // shows all friends of a user
-void User::displayAllFriends() throw (const char*)
+void User::displayAllFriends() const throw (const char*)
 {
-	cout << "\n" << _name << "'s friends:" << endl;
+	cout << endl << _name << "'s friends:" << endl;
 	int numOfFriends = this->getNumOfFriends();
 
 	if (numOfFriends == 0)
@@ -317,7 +317,7 @@ void User::displayAllFriends() throw (const char*)
 		cout << endl;
 		for (int i = 0; i < numOfFriends; i++)
 		{
-			cout << "friend #" << i + 1 << ":\n";
+			cout << "friend #" << i + 1 << ":" << endl;
 			cout << "Name: " << _friendsList[i]->getUserName() << endl;
 			cout << "Birthday: ";
 			_friendsList[i]->_birthday.displayDate();
@@ -330,13 +330,10 @@ void User::displayAllFriends() throw (const char*)
 
 User::~User()
 {
-	//delete[] _name;
-
-	/*for (int i = 0; i < _numOfStatuses; i++)
+	for (int i = 0; i < _numOfStatuses; i++)
 	{
-		delete[] _statuses[i];
+		delete _statuses[i];
 	}
-	delete[] _statuses;*/
 
 	/*for (int i = 0; i < _numOfPages; i++)
 	{
@@ -350,15 +347,3 @@ User::~User()
 	}
 	delete[] _friendsList;*/
 }
-
-
-
-// TODO check if we need these funcs
-void User::addPageToLikedPagesList(Operation& system, Page* pageToLike)
-{
-	_likedPages.push_back(pageToLike);
-	_numOfPages++;
-
-	pageToLike->addFanToPage(system, *this);
-}
-
