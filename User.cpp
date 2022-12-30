@@ -3,8 +3,6 @@ using namespace std;
 #include "User.h"
 #include "Functions.h"
 
-#define NOT_FOUND -1
-
 class Page;
 
 // ################## c'tor ############## //
@@ -25,8 +23,10 @@ User::User(const string& name, Clock birthday, int maxNumFriends, int numFriends
 	//_friendsList.resize(1);
 }
 
+
+
 // ################## create status ############## //
-void User::createStatus(Status* initStatus)
+void User::createStatus(Status* initStatus) // it's a pointer because it can also be null (from initiation)
 {
 	if (initStatus != nullptr) _statuses.push_back(initStatus);
 	else
@@ -44,7 +44,7 @@ void User::createStatus(Status* initStatus)
 // this function connects 2 users to be friends
 void User::addFriend(Operation& system) throw (const char*)
 {
-	User* friendToAdd = askForUsername(system, 1);
+	User* friendToAdd = askForUsername(system, FRIEND);
 
 	if (friendToAdd == nullptr)
 	{
@@ -107,7 +107,7 @@ bool User::operator>(Page& fanPage)
 // this function cancel friendship between 2 users
 void User::cancelFriendship(Operation& system) throw (const char*)
 {
-	User* friend_to_delete = askForUsername(system, 1);
+	User* friend_to_delete = askForUsername(system, FRIEND);
 	if (friend_to_delete == nullptr)
 		return;
 
@@ -163,22 +163,21 @@ void User::removeFriendFromFriendList(int indexToRemove)
 // ################## like page ############## //
 void User::likePage(Operation& system) throw (const char*)
 {
-	Page* new_page = getPageDetails(system);
-	if (new_page == nullptr)
+	Page* fan_page = getPageDetails(system, 0);
+	if (fan_page == nullptr)
 	{
 		throw "Page doesn't exist.\n";
 		return;
 	}
-	if (PageExistInLikedPages(new_page->getName()))	// check if the user already liked this page
-	{ //TODO fix this func! doesnt work correctly
-		// gon - i checked and it works :)
+	if (PageExistInLikedPages(fan_page->getName()))	// check if the user already liked this page
+	{
 		throw "You already liked this page!.\n";
 		return;
 	}
 
-	*this += new_page; // add page to the user's likedPages list
-	new_page->addFanToPage(system, *this); // add user to the page's fansList
-	cout << _name << " liked " << new_page->getName() << endl << endl;
+	*this += fan_page; // add page to the user's likedPages list
+	fan_page->addFanToPage(system, *this); // add user to the page's fansList
+	cout << _name << " liked " << fan_page->getName() << endl << endl;
 }
 
 // add page to user's liked pages vector
@@ -204,7 +203,7 @@ bool User::PageExistInLikedPages(const string& pageName)
 
 void User::dislikePage(Operation& system) throw (const char*)
 {
-	Page* page_to_dislike = getPageDetails(system);
+	Page* page_to_dislike = getPageDetails(system, -1);
 	bool found = false;
 
 	if (page_to_dislike == nullptr)

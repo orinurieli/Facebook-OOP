@@ -8,6 +8,10 @@ using namespace std;
 #include "Status.h"
 #include "Clock.h"
 
+#define NOT_FOUND -1
+#define USER 1
+#define FRIEND 2
+
 class Page;
 class Operation;
 

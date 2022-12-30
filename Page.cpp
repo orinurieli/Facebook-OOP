@@ -128,6 +128,25 @@ void Page::removeFan(User* removeUser) throw (const char*)
 		else throw "wait.. the user is not a fan so we can not remove him. \n";
 	}
 }
+// *returns a pointer because NULL can be returned*
+Page* Page::askForPageName(Operation& system)
+{
+	vector<Page*> allPages = system.getAllPages();
+	string page_name;
+
+	cout << "Enter page name: ";
+	cin.ignore();
+	getline(cin, page_name);
+
+	int index = 0;
+
+	index = doesPageExist(page_name, system);
+
+	if (index >= 0)
+		return allPages[index];
+	else
+		return nullptr;
+}
 
 Page::~Page()
 {

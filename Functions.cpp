@@ -2,9 +2,7 @@
 #include "Functions.h"
 using namespace std;
 
-#define NOT_FOUND -1
-#define USER 0 // for the askForUsername func. todo- can be done with enum (not necessary)
-#define FRIEND 1
+
 
 // fills allUsers array with members
 vector<User*> initiateUsers()
@@ -239,61 +237,55 @@ void addPageToSystem(Operation& system) noexcept(false)
 	system.addPageToOperation(pageToAdd);
 }
 
-// todo - devide to functions
-void getUserOrPageInput(int userChoice, Operation& system) noexcept(false)
+
+// in order to navigate the menu to the right entity, we ask if it's a user or a page
+int askUserOrPage() noexcept(false)
 {
-	// userChoice is according to handleMenu()
-	//char* username = new char[MAX_CHARACTERS];
-	//char* CHARpageName = new char[MAX_CHARACTERS];
+	int userOrPage = -1;
+	cout << "Choose: " << endl << "0 - Page" << endl << "1 - User" << endl;
 
-	string user_name;
-	string page_name;
-
-	vector<User*> allUsers = system.getAllUsers();
-	vector<Page*> allPages = system.getAllPages();
-
-	int isUserToDisplay = -1;
-
-	cout << "Choose: " << endl;
-	cout << "0 - Page" << endl << "1 - User" << endl;
-
-	while (isUserToDisplay != 0 && isUserToDisplay != 1)
+	while (userOrPage != 0 && userOrPage != 1)
 	{
 		try
 		{
-			cin >> isUserToDisplay;
-			if (isUserToDisplay != 0 && isUserToDisplay != 1)
+			cin >> userOrPage;
+			if (userOrPage != 0 && userOrPage != 1)
 				throw invalid_argument("You can choose only 0 or 1.");
 			else break;
 		}
 		catch (invalid_argument& err)
 		{
 			cout << err.what() << endl;
-			cout << endl << "Choose: " << endl;
-			cout << "0 - Page" << endl << "1 - User" << endl;
+			cout << "Choose: " << endl << "0 - Page" << endl << "1 - User" << endl;
 		}
 	}
 
-	if (isUserToDisplay) // the choice was User
+	return userOrPage;
+}
+
+// if the user choose an option from the menu that can be either for a page or a user, the function navigates to the right function.
+// ORI i devided it to functions. i wanted to keep a copy of the original function so this is why it's doubled
+void getUserOrPageInput2(int userChoice, Operation& system) noexcept(false)
+{
+	int userOrPage = askUserOrPage();
+	cin.clear();
+
+	if (userOrPage == USER)
 	{
-		cout << "Please enter username: ";
-		cin.ignore();
-		getline(cin, user_name);
-		//cin.getline(username, MAX_CHARACTERS);
+		User* current_user = askForUsername(system, USER);
 
-		int friendIndex = doesUserExist(user_name, system);
-
-		if (friendIndex >= 0) {
+		if (current_user != nullptr)
+		{
 			switch (userChoice)
 			{
-			case 3:
-				allUsers[friendIndex]->createStatus(nullptr);
+			case CreateNewStatus:
+				current_user->createStatus(nullptr);
 				break;
-			case 4:
-				allUsers[friendIndex]->displayAllStatuses();
+			case DisplayAllStatuses:
+				current_user->displayAllStatuses();
 				break;
-			case 11:
-				allUsers[friendIndex]->displayAllFriends();
+			case DisplayAllFriends:
+				current_user->displayAllFriends();
 				break;
 			default:
 				break;
@@ -301,26 +293,22 @@ void getUserOrPageInput(int userChoice, Operation& system) noexcept(false)
 		}
 		else throw invalid_argument("user was not found.");
 	}
-	else  // choice was Page
+	else // userOrPage == PAGE
 	{
-		cout << "Please enter page name: ";
-		cin.ignore();
-		getline(cin, page_name);
-		//cin.getline(CHARpageName, MAX_CHARACTERS);
+		Page* fan_page = getPageDetails(system, -1);
 
-		int pageIndex = doesPageExist(page_name, system);
-
-		if (pageIndex >= 0) {
+		if (fan_page)
+		{
 			switch (userChoice)
 			{
-			case 3:
-				allPages[pageIndex]->createStatus();
+			case CreateNewStatus:
+				fan_page->createStatus();
 				break;
-			case 4:
-				allPages[pageIndex]->displayAllStatuses();
+			case DisplayAllStatuses:
+				fan_page->displayAllStatuses();
 				break;
-			case 11:
-				allPages[pageIndex]->displayAllFans();
+			case DisplayAllFriends:
+				fan_page->displayAllFans();
 				break;
 			default:
 				break;
@@ -328,14 +316,106 @@ void getUserOrPageInput(int userChoice, Operation& system) noexcept(false)
 		}
 		else throw invalid_argument("page was not found.");
 	}
-
-	//delete[]username;
-	//delete[]pageName;
 }
+
+
+// todo - devide to functions
+//void getUserOrPageInput(int userChoice, Operation& system) noexcept(false)
+//{
+//	// userChoice is according to handleMenu()
+//	//char* username = new char[MAX_CHARACTERS];
+//	//char* CHARpageName = new char[MAX_CHARACTERS];
+//
+//	string user_name;
+//	string page_name;
+//
+//	vector<User*> allUsers = system.getAllUsers();
+//	vector<Page*> allPages = system.getAllPages();
+//
+//	int isUserToDisplay = -1;
+//
+//	cout << "Choose: " << endl;
+//	cout << "0 - Page" << endl << "1 - User" << endl;
+//
+//	while (isUserToDisplay != 0 && isUserToDisplay != 1)
+//	{
+//		try
+//		{
+//			cin >> isUserToDisplay;
+//			if (isUserToDisplay != 0 && isUserToDisplay != 1)
+//				throw invalid_argument("You can choose only 0 or 1.");
+//			else break;
+//		}
+//		catch (invalid_argument& err)
+//		{
+//			cout << err.what() << endl;
+//			cout << endl << "Choose: " << endl;
+//			cout << "0 - Page" << endl << "1 - User" << endl;
+//		}
+//	}
+//
+//	if (isUserToDisplay) // the choice was User
+//	{
+//		cout << "Please enter username: ";
+//		cin.ignore();
+//		getline(cin, user_name);
+//		//cin.getline(username, MAX_CHARACTERS);
+//
+//		int friendIndex = doesUserExist(user_name, system);
+//
+//		if (friendIndex >= 0) {
+//			switch (userChoice)
+//			{
+//			case 3:
+//				allUsers[friendIndex]->createStatus(nullptr);
+//				break;
+//			case 4:
+//				allUsers[friendIndex]->displayAllStatuses();
+//				break;
+//			case 11:
+//				allUsers[friendIndex]->displayAllFriends();
+//				break;
+//			default:
+//				break;
+//			}
+//		}
+//		else throw invalid_argument("user was not found.");
+//	}
+//	else  // choice was Page
+//	{
+//		cout << "Please enter page name: ";
+//		cin.ignore();
+//		getline(cin, page_name);
+//		//cin.getline(CHARpageName, MAX_CHARACTERS);
+//
+//		int pageIndex = doesPageExist(page_name, system);
+//
+//		if (pageIndex >= 0) {
+//			switch (userChoice)
+//			{
+//			case 3:
+//				allPages[pageIndex]->createStatus();
+//				break;
+//			case 4:
+//				allPages[pageIndex]->displayAllStatuses();
+//				break;
+//			case 11:
+//				allPages[pageIndex]->displayAllFans();
+//				break;
+//			default:
+//				break;
+//			}
+//		}
+//		else throw invalid_argument("page was not found.");
+//	}
+//
+//	//delete[]username;
+//	//delete[]pageName;
+//}
 
 // asks for a page name and search it in the system.
 // returns pointer to the page, and null if not found
-Page* getPageDetails(Operation& system) // *returns a pointer because NULL can be returned*
+Page* getPageDetails(Operation& system, int clearBuffer) // *returns a pointer because NULL can be returned*
 {
 	vector<Page*> allPages = system.getAllPages();
 	string page_name;
@@ -343,6 +423,8 @@ Page* getPageDetails(Operation& system) // *returns a pointer because NULL can b
 	int index = 0;
 
 	cout << "Enter page name: ";
+	if(clearBuffer)
+		cin.ignore();
 	getline(cin, page_name);
 	//cin.ignore();
 	//cin.getline(pageName, MAX_CHARACTERS);

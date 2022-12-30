@@ -1,8 +1,6 @@
 ﻿#include <iostream>
 using namespace std;
-
 #include <string>
-
 #include "Operation.h"
 #include "Functions.h"
 class User;
@@ -89,6 +87,7 @@ void Operation::handleMenu(int userChoice) noexcept(false)
 {
 	User* current_user = nullptr;
 	// todo - think about the "askForUsername" -> code duplicate
+
 	if (userChoice > 0 && userChoice < 13)
 	{
 		switch (userChoice)
@@ -100,36 +99,36 @@ void Operation::handleMenu(int userChoice) noexcept(false)
 			addPageToSystem(*this);
 			break;
 		case CreateNewStatus:
-			getUserOrPageInput(CreateNewStatus, *this);
+			getUserOrPageInput2(CreateNewStatus, *this);
 			break;
 		case DisplayAllStatuses:
-			getUserOrPageInput(DisplayAllStatuses, *this);
+			getUserOrPageInput2(DisplayAllStatuses, *this);
 			break;
 		case Display10RecentStatuses: // Display all 10 recent statuses of all your friends
 			cout << endl;
-			current_user = askForUsername(*this, 0);
+			current_user = askForUsername(*this, USER);
 			cout << endl;
 			if (current_user)
 				current_user->displayRecentStatusesOfaFriend(this);
 			break;
 		case AddNewFriend:
 			cout << endl;
-			current_user = askForUsername(*this, 0);
+			current_user = askForUsername(*this, USER);
 			if (current_user)
 				current_user->addFriend(*this);
 			break;
 		case Unfriend:
-			current_user = askForUsername(*this, 0);
+			current_user = askForUsername(*this, USER);
 			if (current_user)
 				current_user->cancelFriendship(*this);
 			break;
 		case LikeAPage:
-			current_user = askForUsername(*this, 0);
+			current_user = askForUsername(*this, USER);
 			if (current_user)
 				current_user->likePage(*this);
 			break;
 		case UnlikeAPage:
-			current_user = askForUsername(*this, 0);
+			current_user = askForUsername(*this, USER);
 			if (current_user)
 				current_user->dislikePage(*this);
 			break;
@@ -137,7 +136,7 @@ void Operation::handleMenu(int userChoice) noexcept(false)
 			displayAllEntities();
 			break;
 		case DisplayAllFriends: // Display all friends of a friend or page
-			getUserOrPageInput(11, *this);
+			getUserOrPageInput2(11, *this);
 			break;
 		case Exit:
 			cout << "GoodBye";

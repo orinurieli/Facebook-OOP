@@ -9,6 +9,8 @@ using namespace std;
 
 #include "Status.h"
 #include "User.h"
+#include "Operation.h"
+#include "Functions.h"
 
 class Page
 {
@@ -49,6 +51,7 @@ public:
 	void createStatus();
 	void displayAllStatuses();
 	void displayAllFans();
+	Page* askForPageName(Operation& system);
 
 	~Page();
 };
