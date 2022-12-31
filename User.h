@@ -25,8 +25,9 @@ class User
 	int _numOfFriends = 0;
 	int _numOfStatuses = 0;
 	int _numOfPages = 0;
+
 public:
-	User() = delete; // we don't want to create a new user without a name
+	User() = delete;
 	User(const string& name, Clock& birthday, int numFriends, int numPages);
 	User(const User&) = delete; // we delete the copy c'tor because we dont want to duplicate a user
 

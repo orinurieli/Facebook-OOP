@@ -9,9 +9,6 @@ Operation::Operation()
 	_numOfUsers = 5;
 	_numOfPages = 5;
 
-	//_allUsers = initiateUsers();
-	//_allPages = initiatePages(*this, _allUsers);
-	//initiateStatuses(*this);
 	initiateData(_allUsers, _allPages);
 }
 
@@ -44,7 +41,7 @@ void Operation::displayAllEntities() const
 {
 	cout << endl << "ALL ENTITIES: " << endl;
 
-	cout << endl << "Users: " << endl << "------" << endl ;
+	cout << endl << "Users: " << endl << "------" << endl;
 
 	for (int i = 0; i < _numOfUsers; i++)
 	{
@@ -65,7 +62,6 @@ void Operation::displayAllEntities() const
 void Operation::handleMenu(int userChoice) noexcept(false)
 {
 	User* current_user = nullptr;
-	// todo - think about the "askForUsername" -> code duplicate
 
 	if (userChoice > 0 && userChoice < Exit)
 	{
@@ -78,10 +74,10 @@ void Operation::handleMenu(int userChoice) noexcept(false)
 			addPageToSystem(*this);
 			break;
 		case CreateNewStatus:
-			getUserOrPageInput2(CreateNewStatus, *this);
+			getUserOrPageInput(CreateNewStatus, *this);
 			break;
 		case DisplayAllStatuses:
-			getUserOrPageInput2(DisplayAllStatuses, *this);
+			getUserOrPageInput(DisplayAllStatuses, *this);
 			break;
 		case Display10RecentStatusesOfAllFriends:
 			cout << endl;
@@ -115,7 +111,7 @@ void Operation::handleMenu(int userChoice) noexcept(false)
 			displayAllEntities();
 			break;
 		case DisplayAllFriendsOfUserOrFansOfPage:
-			getUserOrPageInput2(11, *this);
+			getUserOrPageInput(11, *this);
 			break;
 		default:
 			break;
@@ -129,9 +125,9 @@ void Operation::handleMenu(int userChoice) noexcept(false)
 
 Operation::~Operation()
 {
-	/*for (int i = 0; i < _numOfUsers; i++)
+	for (int i = 0; i < _numOfUsers; i++)
 		delete _allUsers[i];
 
 	for (int i = 0; i < _numOfPages; i++)
-		delete _allPages[i];*/
+		delete _allPages[i];
 }

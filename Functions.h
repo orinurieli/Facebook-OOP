@@ -29,13 +29,11 @@ void getUserInput(Operation& system);
 void addPageToSystem(Operation& system);
 
 int askUserOrPage();
-//void getUserOrPageInput(int userChoice, Operation& system);
-void getUserOrPageInput2(int userChoice, Operation& system);
+void getUserOrPageInput(int userChoice, Operation& system);
 Page* getPageDetails(Operation& system, int clearBuffer);
 User* askForUsername(Operation& system, int flag);
 
 void newTerminate();
-void deleteUsersAndPages(vector<User*> initUsers, vector<Page*>initPages);
 
 
 #endif

@@ -1,5 +1,6 @@
 // Gon Etgar 316354653
 // Ori Nurieli 208952341
+
 #include <iostream>
 #include <vector>
 #include <string>
@@ -14,14 +15,8 @@ using namespace std;
 int main()
 {
 	Operation system;
-	//vector<User*> initUsers;
-	//vector<Page*> initPages;
 	int userChoice = 0;
 
-	// ################################ Initiate data ################################
-	//initUsers = initiateUsers();
-	//initPages = initiatePages(system, initUsers);
-	//system.initiateData(initUsers, initPages);
 	set_terminate(newTerminate);
 
 	// ################################ Menu ################################ 
@@ -52,6 +47,5 @@ int main()
 		}
 	} while (userChoice > 0 || userChoice < 12);
 
-	//deleteUsersAndPages(initUsers, initPages);
 	return 0;
 }

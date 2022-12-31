@@ -56,9 +56,9 @@ Page* Page::askForPageName(Operation& system) // *returns a pointer because NULL
 }
 
 // creates a status for a page
-void Page::createStatus(Status* initStatus) // *pointer because it can also be null*
+void Page::createStatus(Status* initStatus)
 {
-	if (initStatus) // recevied status from the inititation
+	if (initStatus)
 		_statuses.push_back(initStatus);
 	else // a user creates a new status on his own
 	{
@@ -100,7 +100,7 @@ void Page::removeFan(User& removeUser) throw (const char*)
 		}
 	}
 
-	if(!found)
+	if (!found)
 		throw "wait.. the user is not a fan so we can not remove him. \n";
 }
 

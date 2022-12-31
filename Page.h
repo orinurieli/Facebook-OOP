@@ -20,7 +20,7 @@ private:
 	int _numOfFans = 0;
 	int _numOfStatuses = 0;
 public:
-	Page() = delete; // we don't want to create a new page without a page name
+	Page() = delete;
 	Page(const string& name) : _name(name) {}
 	Page(const Page* page) = delete; // prevent duplicate
 

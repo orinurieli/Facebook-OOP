@@ -82,7 +82,7 @@ void initiatePageLikes(Operation& system, vector<User*> allUsers, vector<Page*> 
 	*allUsers[1] += *pages[3];
 
 	*pages[2] += *allUsers[0];
-	*allUsers[0] +=*pages[2];
+	*allUsers[0] += *pages[2];
 
 	*pages[4] += *allUsers[3];
 	*allUsers[3] += *pages[4];
@@ -271,8 +271,7 @@ int askUserOrPage() noexcept(false)
 }
 
 // if the user choose an option from the menu that can be either for a page or a user, the function navigates to the right function.
-// ORI i devided it to functions. i wanted to keep a copy of the original function so this is why it's doubled
-void getUserOrPageInput2(int userChoice, Operation& system) noexcept(false)
+void getUserOrPageInput(int userChoice, Operation& system) noexcept(false)
 {
 	int userOrPage = askUserOrPage();
 	cin.clear();
@@ -327,14 +326,14 @@ void getUserOrPageInput2(int userChoice, Operation& system) noexcept(false)
 
 // asks for a page name and search it in the system.
 // returns pointer to the page, and null if not found
-Page* getPageDetails(Operation& system, int clearBuffer) // *returns a pointer because NULL can be returned*
+Page* getPageDetails(Operation& system, int clearBuffer)
 {
 	vector<Page*> allPages = system.getAllPages();
 	string page_name;
 	int index = 0;
 
 	cout << "Enter page name: ";
-	if(clearBuffer)
+	if (clearBuffer)
 		cin.ignore();
 	getline(cin, page_name);
 
@@ -374,12 +373,3 @@ void newTerminate()
 	cout << "oops, looks like a problem occured." << endl << "Please call support and don't lower our grade :)" << endl << endl;
 }
 
-// free the memory allocated in main
-void deleteUsersAndPages(vector<User*> initUsers, vector<Page*> initPages)
-{
-	for (int i = 0; i < initUsers.size(); i++)
-		delete initUsers[i];
-
-	for (int i = 0; i < initPages.size(); i++)
-		delete initPages[i];
-}

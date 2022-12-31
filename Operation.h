@@ -8,8 +8,10 @@
 #include "Page.h"
 #include "Clock.h"
 
-enum eUserChoice{AddNewUser=1, AddNewPage, CreateNewStatus, DisplayAllStatuses, Display10RecentStatusesOfAllFriends, AddNewFriend, Unfriend,
-LikeAPage, UnlikeAPage, DisplayAllEntitiesOfFacebook, DisplayAllFriendsOfUserOrFansOfPage, Exit};
+enum eUserChoice {
+	AddNewUser = 1, AddNewPage, CreateNewStatus, DisplayAllStatuses, Display10RecentStatusesOfAllFriends, AddNewFriend, Unfriend,
+	LikeAPage, UnlikeAPage, DisplayAllEntitiesOfFacebook, DisplayAllFriendsOfUserOrFansOfPage, Exit
+};
 
 class Operation
 {

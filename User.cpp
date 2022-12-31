@@ -16,7 +16,7 @@ User::User(const string& name, Clock& birthday, int numFriends, int numPages)
 
 // if init status is null, asks the user to insert text and adds the status the statuses vector.
 // it it's not null - adds the status the vector
-void User::createStatus(Status* initStatus) // it's a pointer because it can also be null (from initiation)
+void User::createStatus(Status* initStatus)
 {
 	if (initStatus != nullptr)
 		_statuses.push_back(initStatus);
@@ -136,7 +136,7 @@ void User::dislikePage(Operation& system) throw (const char*)
 		if (page_to_dislike == _likedPages[i]) // page is in likedPages
 		{
 			if (i != num_of_pages - 1) // if it's not the lase one on the vector, put it last
-			{ 
+			{
 				// switch between them
 				Page* tmp = _likedPages[i];
 				_likedPages[i] = _likedPages[num_of_pages - 1];
