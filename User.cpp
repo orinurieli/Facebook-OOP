@@ -5,28 +5,17 @@ using namespace std;
 
 class Page;
 
-// ################## c'tor ############## //
-
-//User::User(const string& name, Clock birthday, int maxNumFriends, int numFriends, int maxPages, int numPages)
+// c'tor
 User::User(const string& name, Clock& birthday, int numFriends, int numPages)
 {
 	_name = name;
 	_birthday = birthday;
 	_numOfFriends = numFriends;
 	_numOfPages = numPages;
-
-	//_maxNumOfFriends = maxNumFriends;
-	//_maxNumOfPages = maxPages;
-	//_name = new char[MAX_CHARACTERS];
-	//_name = _strdup(name);
-	//_statuses = new Status * [_maxNumOfStatuses];
-	//_likedPages = new Page * [_maxNumOfPages];
-	//_friendsList.resize(1);
 }
 
-
-
-// ################## create status ############## //
+// if init status is null, asks the user to insert text and adds the status the statuses vector.
+// it it's not null - adds the status the vector
 void User::createStatus(Status* initStatus) // it's a pointer because it can also be null (from initiation)
 {
 	if (initStatus != nullptr)
@@ -40,8 +29,6 @@ void User::createStatus(Status* initStatus) // it's a pointer because it can als
 	}
 	_numOfStatuses++;
 }
-
-// ################## add friend ############## //
 
 // this function connects 2 users to be friends
 void User::addFriend(Operation& system) throw (const char*)
@@ -68,44 +55,6 @@ void User::addFriend(Operation& system) throw (const char*)
 	cout << endl << _name << ", you have added " << friendToAdd->_name << " to your friend list." << endl << endl;
 }
 
-// adds 2 users to eachothers friend lists.
-User& User::operator+=(User& other)
-{
-	_friendsList.push_back(&other);
-	_numOfFriends++;
-
-	other._friendsList.push_back(this);
-	other._numOfFriends++;
-
-	return *this;
-}
-
-// compare number of friends between 2 users
-bool User::operator<(const User& other) const
-{
-	return (_numOfFriends < other._numOfFriends);
-}
-
-// compare number of friends between 2 users
-bool User::operator>(const User& other) const
-{
-	return (_numOfFriends > other._numOfFriends);
-}
-
-// compare the user's number of friends to a page's number of fans
-bool User::operator<(const Page& fanPage) const
-{
-	return (_numOfFriends < fanPage.getNumOfFans());
-}
-
-// compare the user's number of friends to a page's number of fans
-bool User::operator>(const Page& fanPage) const
-{
-	return (_numOfFriends > fanPage.getNumOfFans());
-}
-
-// ################## unfriend ############## //
-
 // this function cancel friendship between 2 users
 void User::cancelFriendship(Operation& system) throw (const char*)
 {
@@ -129,22 +78,6 @@ void User::cancelFriendship(Operation& system) throw (const char*)
 	cout << endl << _name << ", you have removed " << friend_to_delete->_name << " from your friend list." << endl << endl;
 }
 
-// searches a friend in the user's friend list, returns the friend index in the vector, or -1 if not found
-int User::searchFriendInFriendList(User& other)
-{
-	int friend_to_delete_index = NOT_FOUND;
-
-	if (_friendsList.size() > 0) // if user has friends 
-	{
-		for (int i = 0; i < _numOfFriends && friend_to_delete_index == NOT_FOUND; i++)
-		{
-			if (_friendsList[i]->_name.compare(other._name) == 0)
-				friend_to_delete_index = i;
-		}
-	}
-	return friend_to_delete_index;
-}
-
 // removes "friendToRemove" from friend list, if he's not in the end of the array, switch between the last friend to him. 
 void User::removeFriendFromFriendList(int indexToRemove)
 {
@@ -160,7 +93,7 @@ void User::removeFriendFromFriendList(int indexToRemove)
 	_numOfFriends--;
 }
 
-// ################## like page ############## //
+// adds the page to the user's liked pages
 void User::likePage(Operation& system) throw (const char*)
 {
 	Page* fan_page = getPageDetails(system, 0);
@@ -180,27 +113,7 @@ void User::likePage(Operation& system) throw (const char*)
 	cout << _name << " liked " << fan_page->getName() << endl << endl;
 }
 
-// add page to user's liked pages vector
-User& User::operator+=(Page& fanPage)
-{
-	_likedPages.push_back(&fanPage);
-	_numOfPages++;
-	return *this;
-}
-
-// check if the user liked a certain page
-bool User::PageExistInLikedPages(const string& pageName)
-{
-	for (const Page* page : _likedPages)
-	{
-		if (page->getName() == pageName)
-			return true;
-	}
-	return false;
-}
-
-// ################## dislike page ############## //
-
+// removes the page from the user's liked pages
 void User::dislikePage(Operation& system) throw (const char*)
 {
 	Page* page_to_dislike = getPageDetails(system, -1);
@@ -240,8 +153,6 @@ void User::dislikePage(Operation& system) throw (const char*)
 		cout << endl << this->getUserName() << " disliked " << page_to_dislike->getName() << endl << endl;
 }
 
-// ################## display 10 recent statuses ############## //
-
 // 10 most recent statuses of all his friends 
 void User::displayRecentStatusesOfaFriend(Operation& system) const throw (const char*)
 {
@@ -280,7 +191,6 @@ void User::displayRecentStatusesOfaFriend(Operation& system) const throw (const 
 	}
 }
 
-
 // shows all statuses of a chosen user
 void User::displayAllStatuses() const
 {
@@ -302,7 +212,6 @@ void User::displayAllStatuses() const
 	}
 	cout << endl;
 }
-
 
 // shows all friends of a user
 void User::displayAllFriends() const throw (const char*)
@@ -326,24 +235,80 @@ void User::displayAllFriends() const throw (const char*)
 	}
 }
 
-// ################## d'tor ############## //
+// adds 2 users to eachothers friend lists.
+User& User::operator+=(User& other)
+{
+	_friendsList.push_back(&other);
+	_numOfFriends++;
 
+	other._friendsList.push_back(this);
+	other._numOfFriends++;
+
+	return *this;
+}
+
+// add page to user's liked pages vector
+User& User::operator+=(Page& fanPage)
+{
+	_likedPages.push_back(&fanPage);
+	_numOfPages++;
+	return *this;
+}
+
+// compare number of friends between 2 users
+bool User::operator<(const User& other) const
+{
+	return (_numOfFriends < other._numOfFriends);
+}
+
+// compare number of friends between 2 users
+bool User::operator>(const User& other) const
+{
+	return (_numOfFriends > other._numOfFriends);
+}
+
+// compare the user's number of friends to a page's number of fans
+bool User::operator<(const Page& fanPage) const
+{
+	return (_numOfFriends < fanPage.getNumOfFans());
+}
+
+// compare the user's number of friends to a page's number of fans
+bool User::operator>(const Page& fanPage) const
+{
+	return (_numOfFriends > fanPage.getNumOfFans());
+}
+
+// check if the user liked a certain page
+bool User::PageExistInLikedPages(const string& pageName)
+{
+	for (const Page* page : _likedPages)
+	{
+		if (page->getName() == pageName)
+			return true;
+	}
+	return false;
+}
+
+// searches a friend in the user's friend list, returns the friend index in the vector, or -1 if not found
+int User::searchFriendInFriendList(User& other)
+{
+	int friend_to_delete_index = NOT_FOUND;
+
+	if (_friendsList.size() > 0) // if user has friends 
+	{
+		for (int i = 0; i < _numOfFriends && friend_to_delete_index == NOT_FOUND; i++)
+		{
+			if (_friendsList[i]->_name.compare(other._name) == 0)
+				friend_to_delete_index = i;
+		}
+	}
+	return friend_to_delete_index;
+}
+
+// d'tor
 User::~User()
 {
 	for (int i = 0; i < _numOfStatuses; i++)
-	{
 		delete _statuses[i];
-	}
-
-	/*for (int i = 0; i < _numOfPages; i++)
-	{
-		delete[] _likedPages[i];
-	}
-	delete[] _likedPages;*/
-
-	/*for (int i = 0; i < _numOfFriends; i++)
-	{
-		delete[] _friendsList[i];
-	}
-	delete[] _friendsList;*/
 }

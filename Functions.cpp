@@ -5,9 +5,6 @@ using namespace std;
 // fills allUsers array with members
 vector<User*> initiateUsers()
 {
-	//User::User(const string & name, Clock birthday, int maxNumFriends, int numFriends, int maxPages, int numPages)
-	//User* user1 = new User("Keren Kalif", Clock(15, 4, 1990), 2, 2, 2, 1);
-
 	vector<User*> initUsers;
 
 	Clock birthday1(15, 4, 1990);
@@ -27,12 +24,6 @@ vector<User*> initiateUsers()
 	initUsers.push_back(user3);
 	initUsers.push_back(user4);
 	initUsers.push_back(user5);
-
-	//User* user1 = new User("Keren Kalif", Clock(15, 4, 1990), 2, 1);
-	//User* user2 = new User("Steve Jobs", Clock(24, 2, 1955), 2, 1);
-	//User* user3 = new User("Mark Zuckerberg", Clock(14, 5, 1984), 3, 2);
-	//User* user4 = new User("Ori Nurieli", Clock(1, 7, 1997), 1, 3);
-	//User* user5 = new User("Gon Etgar", Clock(21, 10, 1996), 2, 3);
 
 	initiateFriendships(initUsers);
 	return initUsers;
@@ -90,15 +81,25 @@ void initiatePageLikes(Operation& system, vector<User*> allUsers, vector<Page*> 
 }
 
 // initiate status for each user
-void initiateStatuses(Operation* system)
+void initiateStatuses(Operation& system)
 {
-	vector<User*> allUsers = system->getAllUsers();
+	vector<User*> all_users = system.getAllUsers();
+	vector<Page*> all_pages = system.getAllPages();
+	int num_of_users = system.getNumOfUsers();
+	int num_of_pages = system.getNumOfPages();
 
-	for (int i = 0; i < system->getNumOfUsers(); i++)
+	for (int i = 0; i < num_of_users; i++)
 	{
 		Clock date;
 		Status* newStatus = new Status("Hello world", date.getDate());
-		allUsers[i]->createStatus(newStatus);
+		all_users[i]->createStatus(newStatus);
+	}
+
+	for (int i = 0; i < num_of_pages; i++)
+	{
+		Clock date;
+		Status* newStatus = new Status("Hello world", date.getDate());
+		all_pages[i]->createStatus(newStatus);
 	}
 }
 
@@ -120,10 +121,9 @@ int displayMenu() throw (const char*)
 	cout << "11. Display all friends of a friend or page\n";
 	cout << "12. Exit\n";
 
-	//cin >> choice;
 	if (cin >> choice) {
 
-		if (choice > 0 && choice << 13)
+		if (choice > 0 && choice < 13)
 			return choice;
 		else
 		{
@@ -300,7 +300,7 @@ void getUserOrPageInput2(int userChoice, Operation& system) noexcept(false)
 			case DisplayAllStatuses:
 				current_user->displayAllStatuses();
 				break;
-			case DisplayAllFriends:
+			case DisplayAllFriendsOfUserOrFansOfPage:
 				current_user->displayAllFriends();
 				break;
 			default:
@@ -318,12 +318,12 @@ void getUserOrPageInput2(int userChoice, Operation& system) noexcept(false)
 			switch (userChoice)
 			{
 			case CreateNewStatus:
-				fan_page->createStatus();
+				fan_page->createStatus(nullptr);
 				break;
 			case DisplayAllStatuses:
 				fan_page->displayAllStatuses();
 				break;
-			case DisplayAllFriends:
+			case DisplayAllFriendsOfUserOrFansOfPage:
 				fan_page->displayAllFans();
 				break;
 			default:
@@ -485,11 +485,11 @@ void newTerminate()
 }
 
 // free the memory allocated in main
-void deleteUsersAndPages(vector<User*> initUsers, vector<Page*> initPages)
-{
-	for (int i = 0; i < initUsers.size(); i++)
-		delete initUsers[i];
-
-	for (int i = 0; i < initPages.size(); i++)
-		delete initPages[i];
-}
+//void deleteUsersAndPages(vector<User*> initUsers, vector<Page*> initPages)
+//{
+//	for (int i = 0; i < initUsers.size(); i++)
+//		delete initUsers[i];
+//
+//	for (int i = 0; i < initPages.size(); i++)
+//		delete initPages[i];
+//}

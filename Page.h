@@ -7,7 +7,6 @@ using namespace std;
 #include "Status.h"
 #include "User.h"
 #include "Functions.h"
-//#include "Operation.h"
 
 class User;
 class Status;
@@ -20,9 +19,6 @@ private:
 	vector<Status*>_statuses;
 	int _numOfFans = 0;
 	int _numOfStatuses = 0;
-	//int _maxFans = 2; // needs to be deleted?
-	//int _maxStatuses = 1;
-
 public:
 	Page() = delete; // we don't want to create a new page without a page name
 	Page(const string& name) { this->_name = name; } //  : _name(name)
@@ -43,7 +39,7 @@ public:
 
 	void addFanToPage(Operation& system, User& currentUser);
 	void removeFan(User* removeUser);
-	void createStatus();
+	void createStatus(Status* initStatus); // *pointer because it can also be null*
 	void displayAllStatuses();
 	void displayAllFans();
 	Page* askForPageName(Operation& system);

@@ -1,14 +1,14 @@
 #ifndef __FUNCTIONS_H
 #define __FUNCTIONS_H
 
-//#include <vector>
-//#include <string>
-//using namespace std;
 #include "Operation.h"
 #include "User.h"
 #include "Page.h"
-//#include "Status.h"
+
+#include <vector>
+#include <string>
 class User;
+class Page;
 
 #define NOT_FOUND -1
 #define PAGE 0
@@ -23,7 +23,7 @@ vector<User*> initiateUsers();
 void initiateFriendships(vector<User*> allUsers);
 vector<Page*> initiatePages(Operation& system, vector<User*> allUsers);
 void initiatePageLikes(Operation& system, vector<User*> allUsers, vector<Page*> pages);
-void initiateStatuses(Operation* system);
+void initiateStatuses(Operation& system);
 
 void getUserInput(Operation& system);
 void addPageToSystem(Operation& system);
@@ -35,7 +35,7 @@ Page* getPageDetails(Operation& system, int clearBuffer);
 User* askForUsername(Operation& system, int flag);
 
 void newTerminate();
-void deleteUsersAndPages(vector<User*> initUsers, vector<Page*>initPages);
+//void deleteUsersAndPages(vector<User*> initUsers, vector<Page*>initPages);
 
 
-#endif // __FUNCTIONS_H
+#endif

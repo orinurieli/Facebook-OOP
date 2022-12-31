@@ -11,26 +11,17 @@ using namespace std;
 #include "Page.h"
 #include "Functions.h"
 
-// general TODO //
-// 1. change all the getters to const ref
-// 2. in general change objects in funcs to ref or const
-// 4. in page ctor check if there is memory leak
-// 5. delete all the things we put in HEARA
-// 6. delete max num of friends etc - i began doing it
-
-
 int main()
 {
 	Operation system;
-	vector<User*> initUsers;
-	vector<Page*> initPages;
+	//vector<User*> initUsers;
+	//vector<Page*> initPages;
 	int userChoice = 0;
 
 	// ################################ Initiate data ################################
-	initUsers = initiateUsers();
-	initPages = initiatePages(system, initUsers);
-	system.initiateData(initUsers, initPages);
-
+	//initUsers = initiateUsers();
+	//initPages = initiatePages(system, initUsers);
+	//system.initiateData(initUsers, initPages);
 	set_terminate(newTerminate);
 
 	// ################################ Menu ################################ 
@@ -39,6 +30,13 @@ int main()
 		try
 		{
 			userChoice = displayMenu();
+
+			if (userChoice == 12)
+			{
+				cout << "Goodbye.";
+				break;
+			}
+
 			system.handleMenu(userChoice);
 		}
 		catch (const char* err)
@@ -53,8 +51,8 @@ int main()
 		{
 			cout << endl << "General Error: " << err.what() << endl << endl;
 		}
-	} while (userChoice > 0 || userChoice < 13);
+	} while (userChoice > 0 || userChoice < 12);
 
-	deleteUsersAndPages(initUsers, initPages);
+	//deleteUsersAndPages(initUsers, initPages);
 	return 0;
 }

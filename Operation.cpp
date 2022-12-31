@@ -1,71 +1,41 @@
 ﻿#include <iostream>
 using namespace std;
-#include "Operation.h"
-//#include "Functions.h"
-//class User;
-//class Page;
 
+#include "Operation.h"
+
+// c'tor
 Operation::Operation()
 {
-	//_allUsers.resize(1);
-	//_allPages = nullptr;
+	_numOfUsers = 5;
+	_numOfPages = 5;
+	initiateData(_allUsers, _allPages);
 }
 
+// initiate the program with users and pages
 void Operation::initiateData(vector<User*> initUsers, vector<Page*> initPages)
 {
-	_allUsers = initUsers;
-	_allPages = initPages;
-	initiateStatuses(this);
+	_allUsers = initiateUsers();
+	_allPages = initiatePages(*this, _allUsers);
+	initiateStatuses(*this);
 }
 
+// insert a new user to the allUsers vector
 void Operation::addUserToOperation(User& userToAdd)
 {
 	_allUsers.push_back(&userToAdd);
-
-
-	//_allUsers.push_back(&userToAdd);
-	/*int i = 0;
-
-	if (_maxUsers == _numOfUsers)
-	{
-		_maxUsers *= 2;
-		vector<User*> newUsers = new User * [_maxUsers];
-		for (i = 0; i < _numOfUsers; i++)
-			newUsers[i] = _allUsers[i];
-
-		_allUsers = newUsers;
-		newUsers = nullptr;
-		delete[] newUsers;
-	}
-
-	_allUsers[_numOfUsers] = userToAdd;*/
 	_numOfUsers++;
 	cout << endl << "Hey, " << userToAdd.getUserName() << " Welcome to Facebook :) " << endl << endl;
 }
 
-
-
+// insert a new page to the allPages vector
 void Operation::addPageToOperation(Page& pageToAdd)
 {
 	_allPages.push_back(&pageToAdd);
-	/*int i = 0;
-
-	if (_maxPages == _numOfPages)
-	{
-		_maxPages *= 2;
-		vector<Page*> newPages = new Page * [_maxPages];
-		for (i = 0; i < _numOfPages; i++)
-			newPages[i] = _allPages[i];
-
-		_allPages = newPages;
-	}
-
-	_allPages[_numOfPages] = pageToAdd;*/
 	_numOfPages++;
-
 	cout << "Congrats! Your page: " << pageToAdd.getName() << " is Live on Facebook." << endl << endl;
 }
 
+// prints out all the entities on facebook, the users and pages
 void Operation::displayAllEntities() const
 {
 	cout << endl << "ALL ENTITIES: " << endl;
@@ -93,7 +63,7 @@ void Operation::handleMenu(int userChoice) noexcept(false)
 	User* current_user = nullptr;
 	// todo - think about the "askForUsername" -> code duplicate
 
-	if (userChoice > 0 && userChoice < 13)
+	if (userChoice > 0 && userChoice < Exit)
 	{
 		switch (userChoice)
 		{
@@ -109,7 +79,7 @@ void Operation::handleMenu(int userChoice) noexcept(false)
 		case DisplayAllStatuses:
 			getUserOrPageInput2(DisplayAllStatuses, *this);
 			break;
-		case Display10RecentStatuses: // Display all 10 recent statuses of all your friends
+		case Display10RecentStatusesOfAllFriends:
 			cout << endl;
 			current_user = askForUsername(*this, USER);
 			cout << endl;
@@ -137,15 +107,12 @@ void Operation::handleMenu(int userChoice) noexcept(false)
 			if (current_user)
 				current_user->dislikePage(*this);
 			break;
-		case DisplayAllENtitiesOfFacebook: // Display all entities of Facebook
+		case DisplayAllEntitiesOfFacebook:
 			displayAllEntities();
 			break;
-		case DisplayAllFriends: // Display all friends of a friend or page
+		case DisplayAllFriendsOfUserOrFansOfPage:
 			getUserOrPageInput2(11, *this);
 			break;
-		case Exit:
-			cout << "GoodBye";
-			exit(1);
 		default:
 			break;
 		}

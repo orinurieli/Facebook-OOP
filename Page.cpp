@@ -2,8 +2,6 @@
 using namespace std;
 
 #include "Page.h"
-//class User;
-//class Status;
 
 //Page::Page(const char* name)
 //{
@@ -15,24 +13,19 @@ using namespace std;
 //}
 
 // creates a status for a page
-void Page::createStatus()
+void Page::createStatus(Status* initStatus) // *pointer because it can also be null*
 {
-	/*if (_maxStatuses == _numOfStatuses)
+	if (initStatus) // recevied status from the inititation
 	{
-		_maxStatuses *= 2;
-		Status
-			newStatuses = new Status * [_maxStatuses];
-		for (int i = 0; i < _numOfStatuses; i++)
-			newStatuses[i] = _statuses[i];
-
-		delete[] _statuses;
-		_statuses = newStatuses;
-	}*/
-
-	Status* newStatus = new Status();
-	newStatus->getStatusInfo(*newStatus);
-	_statuses.push_back(newStatus);
-	cout << "Status Uploaded!" << endl << endl;
+		_statuses.push_back(initStatus);
+	}
+	else // a user creates a new status on his own
+	{
+		Status* newStatus = new Status();
+		newStatus->getStatusInfo(*newStatus);
+		_statuses.push_back(newStatus);
+		cout << "Status Uploaded!" << endl << endl;
+	}
 	_numOfStatuses++;
 }
 
@@ -46,13 +39,9 @@ void Page::displayAllStatuses() throw (const char*)
 		cout << "Status #" << i + 1 << ":\n";
 		cout << "Text: " << _statuses[i]->getText() << endl;
 		cout << "Uploaded on: ";
-		//_statuses[i]->getDateAndHour().displayDate();
-		// _statuses[i]->getStatusTime().displayDate();
 		const Clock& tmp = _statuses[i]->getStatusTime();
 		tmp.displayDate();
 		cout << " | ";
-		//_statuses[i]->getDateAndHour().displayHour();
-		//_statuses[i]->getStatusTime().displayHour();
 		const Clock& tmp2 = _statuses[i]->getStatusTime();
 		tmp2.displayHour();
 		cout << endl << "-----------------------------------" << endl << endl;
@@ -62,15 +51,14 @@ void Page::displayAllStatuses() throw (const char*)
 
 void Page::displayAllFans() throw (const char*)
 {
-	cout << endl << _name << " Fans:\n";
-
+	cout << endl << _name << " Fans:" << endl;
 	if (_numOfFans == 0)
 		throw "oops, no fans to display. \n";
-	else {
+	else
+	{
 		for (int i = 0; i < _numOfFans; i++)
 			cout << _fansList[i]->getUserName() << endl;
 	}
-
 	cout << endl;
 }
 

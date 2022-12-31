@@ -3,7 +3,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <chrono>
 #include <ctime>  
-#include <string.h>
+#include <string>
 enum StringLocation{startDay, endDay, startMonth=3, endMonth=4,	startYear=6, endYear=9};
 
 class Clock
