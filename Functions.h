@@ -35,7 +35,7 @@ Page* getPageDetails(Operation& system, int clearBuffer);
 User* askForUsername(Operation& system, int flag);
 
 void newTerminate();
-//void deleteUsersAndPages(vector<User*> initUsers, vector<Page*>initPages);
+void deleteUsersAndPages(vector<User*> initUsers, vector<Page*>initPages);
 
 
 #endif

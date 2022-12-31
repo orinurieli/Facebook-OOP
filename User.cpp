@@ -116,7 +116,7 @@ void User::likePage(Operation& system) throw (const char*)
 // removes the page from the user's liked pages
 void User::dislikePage(Operation& system) throw (const char*)
 {
-	Page* page_to_dislike = getPageDetails(system, -1);
+	Page* page_to_dislike = getPageDetails(system, 0);
 	bool found = false;
 
 	if (page_to_dislike == nullptr)
@@ -125,24 +125,36 @@ void User::dislikePage(Operation& system) throw (const char*)
 		return;
 	}
 
-	if (_numOfPages != _likedPages.size()) throw "miscalculating the size of _likedPages array.";
+	//if (_numOfPages != _likedPages.size()) throw "miscalculating the size of _likedPages array.";
 
-	for (int i = 0; i < _numOfPages && !found; i++)
+	int num_of_pages = this->_likedPages.size();
+
+	for (int i = 0; i < num_of_pages && !found; i++)
 	{
 		// we didnt do for both sides!
 		if (page_to_dislike == _likedPages[i]) // page is in likedPages
 		{
-			// there is only one page in the array, or the page to dislike is the last one
-			if (i == _numOfPages - 1)
-				_likedPages[i] = nullptr;
-
-			else // in the "middle"
-			{
-				_likedPages[i] = _likedPages[_numOfPages - 1];
-				_likedPages[_numOfPages - 1] = nullptr;
+			if (i != num_of_pages - 1) // if it's not the lase one on the vector, put it last
+			{ 
+				// switch between them
+				Page* tmp = _likedPages[i];
+				_likedPages[i] = _likedPages[num_of_pages - 1];
+				_likedPages[num_of_pages - 1] = tmp;
 			}
+
+			_likedPages.pop_back(); // delete the last one
+
+			// there is only one page in the array, or the page to dislike is the last one
+			//if (i == num_of_pages - 1)
+			//	_likedPages[i] = nullptr;
+
+			//else // in the "middle"
+			//{
+			//	_likedPages[i] = _likedPages[num_of_pages - 1];
+			//	_likedPages[num_of_pages - 1] = nullptr;
+			//}
 			_numOfPages--;
-			page_to_dislike->removeFan(this);
+			page_to_dislike->removeFan(*this);
 			found = true;
 		}
 	}

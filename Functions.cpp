@@ -72,12 +72,30 @@ vector<Page*> initiatePages(Operation& system, vector<User*> allUsers)
 // initiate likes on pages from users
 void initiatePageLikes(Operation& system, vector<User*> allUsers, vector<Page*> pages)
 {
-	pages[0]->addFanToPage(system, *allUsers[3]);
-	pages[1]->addFanToPage(system, *allUsers[4]);
-	pages[3]->addFanToPage(system, *allUsers[1]);
-	pages[2]->addFanToPage(system, *allUsers[0]);
-	pages[4]->addFanToPage(system, *allUsers[3]);
-	pages[4]->addFanToPage(system, *allUsers[4]);
+	//pages[0]->addFanToPage(system, *allUsers[3]);
+	//pages[1]->addFanToPage(system, *allUsers[4]);
+	//pages[3]->addFanToPage(system, *allUsers[1]);
+	//pages[2]->addFanToPage(system, *allUsers[0]);
+	//pages[4]->addFanToPage(system, *allUsers[3]);
+	//pages[4]->addFanToPage(system, *allUsers[4]);
+
+	*pages[0] += *allUsers[3];
+	*allUsers[3] += *pages[0];
+
+	*pages[1] += *allUsers[4];
+	*allUsers[4] += *pages[1];
+
+	*pages[3] += *allUsers[1];
+	*allUsers[1] += *pages[3];
+
+	*pages[2] += *allUsers[0];
+	*allUsers[0] +=*pages[2];
+
+	*pages[4] += *allUsers[3];
+	*allUsers[3] += *pages[4];
+
+	*pages[4] += *allUsers[4];
+	*allUsers[4] += *pages[4];
 }
 
 // initiate status for each user
@@ -122,6 +140,7 @@ int displayMenu() throw (const char*)
 	cout << "12. Exit\n";
 
 	if (cin >> choice) {
+
 
 		if (choice > 0 && choice < 13)
 			return choice;
@@ -170,12 +189,6 @@ int doesPageExist(string& name, Operation& system)
 	{
 		if (allPages[index]->getName().compare(name) == 0)
 			return index;
-
-		/*const char* cPage_name = allPages[index]->getName().c_str();
-		const char* cName_to_check = name.c_str();
-
-		if (strcmp(cPage_name, cName_to_check) == 0)
-			return index;*/
 	}
 
 	return NOT_FOUND;
@@ -184,20 +197,16 @@ int doesPageExist(string& name, Operation& system)
 // in order to enter a new user to the system
 void getUserInput(Operation& system) throw (const char*)
 {
-	//char* username = new char[MAX_CHARACTERS];
 	string username;
 
 	cout << "Please enter your username: ";
 	cin.ignore();
 	getline(cin, username);
-	//cin.getline(username, MAX_CHARACTERS);
 
 	// validate username
 	if (doesUserExist(username, system) >= 0)
 	{
-		//cout << "username is already taken" << endl << endl;
 		throw "username is already taken";
-		//delete[] username;
 		return;
 	}
 
@@ -214,20 +223,17 @@ void getUserInput(Operation& system) throw (const char*)
 
 
 	User* user_to_add = new User(username, birthday, 0, 0);
-	//User* userToAdd = new User(username, birthday, 1, 0, 1, 0);
 	system.addUserToOperation(*user_to_add);
 }
 
 
 void addPageToSystem(Operation& system) noexcept(false)
 {
-	//char* pageName = new char[MAX_CHARACTERS];
 	string pageName;
 
 	cout << "Please enter page name: ";
 	cin.ignore();
 	getline(cin, pageName);
-	//cin.getline(pageName, MAX_CHARACTERS);
 
 	// validate username
 	while (true)
@@ -243,9 +249,7 @@ void addPageToSystem(Operation& system) noexcept(false)
 		{
 			cout << endl << err << endl;
 			cout << "Please choose a different name: ";
-			//cin.ignore();
 			getline(cin, pageName);
-			//cin.getline(pageName, MAX_CHARACTERS);
 		}
 	}
 
@@ -334,101 +338,6 @@ void getUserOrPageInput2(int userChoice, Operation& system) noexcept(false)
 	}
 }
 
-
-// todo - devide to functions
-//void getUserOrPageInput(int userChoice, Operation& system) noexcept(false)
-//{
-//	// userChoice is according to handleMenu()
-//	//char* username = new char[MAX_CHARACTERS];
-//	//char* CHARpageName = new char[MAX_CHARACTERS];
-//
-//	string user_name;
-//	string page_name;
-//
-//	vector<User*> allUsers = system.getAllUsers();
-//	vector<Page*> allPages = system.getAllPages();
-//
-//	int isUserToDisplay = -1;
-//
-//	cout << "Choose: " << endl;
-//	cout << "0 - Page" << endl << "1 - User" << endl;
-//
-//	while (isUserToDisplay != 0 && isUserToDisplay != 1)
-//	{
-//		try
-//		{
-//			cin >> isUserToDisplay;
-//			if (isUserToDisplay != 0 && isUserToDisplay != 1)
-//				throw invalid_argument("You can choose only 0 or 1.");
-//			else break;
-//		}
-//		catch (invalid_argument& err)
-//		{
-//			cout << err.what() << endl;
-//			cout << endl << "Choose: " << endl;
-//			cout << "0 - Page" << endl << "1 - User" << endl;
-//		}
-//	}
-//
-//	if (isUserToDisplay) // the choice was User
-//	{
-//		cout << "Please enter username: ";
-//		cin.ignore();
-//		getline(cin, user_name);
-//		//cin.getline(username, MAX_CHARACTERS);
-//
-//		int friendIndex = doesUserExist(user_name, system);
-//
-//		if (friendIndex >= 0) {
-//			switch (userChoice)
-//			{
-//			case 3:
-//				allUsers[friendIndex]->createStatus(nullptr);
-//				break;
-//			case 4:
-//				allUsers[friendIndex]->displayAllStatuses();
-//				break;
-//			case 11:
-//				allUsers[friendIndex]->displayAllFriends();
-//				break;
-//			default:
-//				break;
-//			}
-//		}
-//		else throw invalid_argument("user was not found.");
-//	}
-//	else  // choice was Page
-//	{
-//		cout << "Please enter page name: ";
-//		cin.ignore();
-//		getline(cin, page_name);
-//		//cin.getline(CHARpageName, MAX_CHARACTERS);
-//
-//		int pageIndex = doesPageExist(page_name, system);
-//
-//		if (pageIndex >= 0) {
-//			switch (userChoice)
-//			{
-//			case 3:
-//				allPages[pageIndex]->createStatus();
-//				break;
-//			case 4:
-//				allPages[pageIndex]->displayAllStatuses();
-//				break;
-//			case 11:
-//				allPages[pageIndex]->displayAllFans();
-//				break;
-//			default:
-//				break;
-//			}
-//		}
-//		else throw invalid_argument("page was not found.");
-//	}
-//
-//	//delete[]username;
-//	//delete[]pageName;
-//}
-
 // asks for a page name and search it in the system.
 // returns pointer to the page, and null if not found
 Page* getPageDetails(Operation& system, int clearBuffer) // *returns a pointer because NULL can be returned*
@@ -485,11 +394,11 @@ void newTerminate()
 }
 
 // free the memory allocated in main
-//void deleteUsersAndPages(vector<User*> initUsers, vector<Page*> initPages)
-//{
-//	for (int i = 0; i < initUsers.size(); i++)
-//		delete initUsers[i];
-//
-//	for (int i = 0; i < initPages.size(); i++)
-//		delete initPages[i];
-//}
+void deleteUsersAndPages(vector<User*> initUsers, vector<Page*> initPages)
+{
+	for (int i = 0; i < initUsers.size(); i++)
+		delete initUsers[i];
+
+	for (int i = 0; i < initPages.size(); i++)
+		delete initPages[i];
+}

@@ -21,13 +21,13 @@ private:
 	int _numOfStatuses = 0;
 public:
 	Page() = delete; // we don't want to create a new page without a page name
-	Page(const string& name) { this->_name = name; } //  : _name(name)
+	Page(const string& name) : _name(name) {}
 	Page(const Page* page) = delete; // prevent duplicate
 
 	const string& getName() const { return _name; };
 	const int getNumOfFans() const { return _numOfFans; };
-	const int getMaxNumOfFans() const { return _numOfFans; };
-	vector<User*> getFanList() const { return _fansList; } // todo change to ref
+	const int getMaxNumOfFans() const { return _numOfFans; }
+	vector<User*> getFanList() const { return _fansList; }
 	bool setPageName(const string& name) { _name = name; };
 	bool setNumOfFans(int newNumOfFans) { _numOfFans = newNumOfFans; };
 
@@ -37,14 +37,14 @@ public:
 	bool operator<(User& currentUser);
 	bool operator>(User& currentUser);
 
-	void addFanToPage(Operation& system, User& currentUser);
-	void removeFan(User* removeUser);
+	Page* askForPageName(Operation& system); // *returns a pointer because NULL can be returned*
 	void createStatus(Status* initStatus); // *pointer because it can also be null*
-	void displayAllStatuses();
-	void displayAllFans();
-	Page* askForPageName(Operation& system);
+	void addFanToPage(Operation& system, User& currentUser);
+	void removeFan(User& removeUser);
+	void displayAllStatuses() const;
+	void displayAllFans() const;
 
-	~Page();
+	~Page() {};
 };
 
 #endif

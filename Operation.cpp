@@ -8,7 +8,11 @@ Operation::Operation()
 {
 	_numOfUsers = 5;
 	_numOfPages = 5;
-	initiateData(_allUsers, _allPages);
+
+	//_allUsers = initiateUsers();
+	//_allPages = initiatePages(*this, _allUsers);
+	//initiateStatuses(*this);
+	//initiateData(_allUsers, _allPages);
 }
 
 // initiate the program with users and pages
@@ -123,12 +127,11 @@ void Operation::handleMenu(int userChoice) noexcept(false)
 	}
 }
 
-// delete the pointers allocated inside the program.
 Operation::~Operation()
 {
-	for (int i = 0; i < _numOfUsers; i++)
+	/*for (int i = 0; i < _numOfUsers; i++)
 		delete _allUsers[i];
 
 	for (int i = 0; i < _numOfPages; i++)
-		delete _allPages[i];
+		delete _allPages[i];*/
 }
