@@ -125,6 +125,7 @@ void User::dislikePage(Operation& system) throw (const char*)
 		return;
 	}
 
+
 	//if (_numOfPages != _likedPages.size()) throw "miscalculating the size of _likedPages array.";
 
 	int num_of_pages = this->_likedPages.size();
@@ -143,16 +144,6 @@ void User::dislikePage(Operation& system) throw (const char*)
 			}
 
 			_likedPages.pop_back(); // delete the last one
-
-			// there is only one page in the array, or the page to dislike is the last one
-			//if (i == num_of_pages - 1)
-			//	_likedPages[i] = nullptr;
-
-			//else // in the "middle"
-			//{
-			//	_likedPages[i] = _likedPages[num_of_pages - 1];
-			//	_likedPages[num_of_pages - 1] = nullptr;
-			//}
 			_numOfPages--;
 			page_to_dislike->removeFan(*this);
 			found = true;

@@ -12,7 +12,7 @@ Operation::Operation()
 	//_allUsers = initiateUsers();
 	//_allPages = initiatePages(*this, _allUsers);
 	//initiateStatuses(*this);
-	//initiateData(_allUsers, _allPages);
+	initiateData(_allUsers, _allPages);
 }
 
 // initiate the program with users and pages

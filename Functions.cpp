@@ -72,13 +72,6 @@ vector<Page*> initiatePages(Operation& system, vector<User*> allUsers)
 // initiate likes on pages from users
 void initiatePageLikes(Operation& system, vector<User*> allUsers, vector<Page*> pages)
 {
-	//pages[0]->addFanToPage(system, *allUsers[3]);
-	//pages[1]->addFanToPage(system, *allUsers[4]);
-	//pages[3]->addFanToPage(system, *allUsers[1]);
-	//pages[2]->addFanToPage(system, *allUsers[0]);
-	//pages[4]->addFanToPage(system, *allUsers[3]);
-	//pages[4]->addFanToPage(system, *allUsers[4]);
-
 	*pages[0] += *allUsers[3];
 	*allUsers[3] += *pages[0];
 
@@ -168,12 +161,6 @@ int doesUserExist(string& name, Operation& system)
 	{
 		if (allUsers[index]->getUserName().compare(name) == 0)
 			return index;
-
-		//const char* cUser_name = allUsers[index]->getUserName().c_str;
-		/*const char* cName_to_check = name.c_str();
-
-		if (strcmp(allUsers[index]->getUserName(), cName_to_check) == 0)
-			return index;*/
 	}
 
 	return NOT_FOUND;
@@ -344,15 +331,12 @@ Page* getPageDetails(Operation& system, int clearBuffer) // *returns a pointer b
 {
 	vector<Page*> allPages = system.getAllPages();
 	string page_name;
-	//char pageName[MAX_CHARACTERS];
 	int index = 0;
 
 	cout << "Enter page name: ";
 	if(clearBuffer)
 		cin.ignore();
 	getline(cin, page_name);
-	//cin.ignore();
-	//cin.getline(pageName, MAX_CHARACTERS);
 
 	index = doesPageExist(page_name, system);
 
@@ -366,7 +350,6 @@ Page* getPageDetails(Operation& system, int clearBuffer) // *returns a pointer b
 // if flag is 1 we request the user's name, and 2 to ask another user name (friend).
 User* askForUsername(Operation& system, int flag) throw (const char*) // *returns a pointer because NULL can be returned*
 {
-	//char* username = new char[MAX_CHARACTERS];
 	User* user = nullptr;
 	string user_name;
 	int userIndex;
@@ -377,14 +360,12 @@ User* askForUsername(Operation& system, int flag) throw (const char*) // *return
 		cin.ignore();
 
 	getline(cin, user_name);
-	//cin.getline(username, MAX_CHARACTERS);
 	userIndex = doesUserExist(user_name, system);
 	if (userIndex == NOT_FOUND)
 		flag == USER ? throw "User not found!" : cout << "Friend not found!\n\n";
 	else
 		user = system.getAllUsers()[userIndex];
 
-	//delete[] username;
 	return user;
 }
 

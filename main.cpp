@@ -14,14 +14,14 @@ using namespace std;
 int main()
 {
 	Operation system;
-	vector<User*> initUsers;
-	vector<Page*> initPages;
+	//vector<User*> initUsers;
+	//vector<Page*> initPages;
 	int userChoice = 0;
 
 	// ################################ Initiate data ################################
-	initUsers = initiateUsers();
-	initPages = initiatePages(system, initUsers);
-	system.initiateData(initUsers, initPages);
+	//initUsers = initiateUsers();
+	//initPages = initiatePages(system, initUsers);
+	//system.initiateData(initUsers, initPages);
 	set_terminate(newTerminate);
 
 	// ################################ Menu ################################ 
@@ -52,6 +52,6 @@ int main()
 		}
 	} while (userChoice > 0 || userChoice < 12);
 
-	deleteUsersAndPages(initUsers, initPages);
+	//deleteUsersAndPages(initUsers, initPages);
 	return 0;
 }
