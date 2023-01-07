@@ -14,17 +14,19 @@ using namespace std;
 
 class Page;
 class Operation;
+#include "Entity.h"
 
-class User
+class User : public Entity
 {
-	string _name;
+private:
 	Clock _birthday;
+	vector<Page*> _likedPages;
+	int _numOfPages = 0;
+	/*string _name;
 	vector <User*> _friendsList;
 	vector<Status*> _statuses;
-	vector<Page*> _likedPages;
 	int _numOfFriends = 0;
-	int _numOfStatuses = 0;
-	int _numOfPages = 0;
+	int _numOfStatuses = 0;*/
 
 public:
 	User() = delete;
@@ -36,14 +38,17 @@ public:
 	const int getNumOfPages() const { return _numOfPages; }
 	const string& getUserName() const { return _name; }
 	const Clock getBirthday() const { return _birthday; }
-	vector<User*> getFriendsList() const { return _friendsList; }
+	//vector<User*> getFriendsList() const { return _friendsList; }
+	vector<User*> getFriendsList() const { return _friends; }
 	vector<Page*> getLikedPagesList() { return _likedPages; }
 	vector<Status*> getAllStatuses() const { return _statuses; }
 
 	void setUserName(string& username) { _name = username; };
 	void setBirthday(Clock& birthday) { _birthday = birthday; }
-	void pushToFriendsList(User& newFriend) { _friendsList.push_back(&newFriend); }
-	void createStatus(Status* status);  // it's a pointer because it can also be null (from initiation)
+
+	//void pushToFriendsList(User& newFriend) { _friendsList.push_back(&newFriend); }
+	void pushToFriendsList(User& newFriend) { _friends.push_back(&newFriend); }
+	void createStatusForUser(Status* status);  // it's a pointer because it can also be null (from initiation)
 	void addFriend(Operation& system);
 	void cancelFriendship(Operation& system);
 	void removeFriendFromFriendList(int indexToRemove);

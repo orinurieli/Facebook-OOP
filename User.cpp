@@ -6,17 +6,17 @@ using namespace std;
 class Page;
 
 // c'tor
-User::User(const string& name, Clock& birthday, int numFriends, int numPages)
+User::User(const string& name, Clock& birthday, int numFriends, int numPages) : Entity(name, 0, 0)
 {
-	_name = name;
+	//_name = name;
 	_birthday = birthday;
-	_numOfFriends = numFriends;
+	//_numOfFriends = numFriends;
 	_numOfPages = numPages;
 }
 
 // if init status is null, asks the user to insert text and adds the status the statuses vector.
 // it it's not null - adds the status the vector
-void User::createStatus(Status* initStatus)
+void User::createStatusForUser(Status* initStatus)
 {
 	if (initStatus != nullptr)
 		_statuses.push_back(initStatus);
@@ -81,13 +81,16 @@ void User::cancelFriendship(Operation& system) throw (const char*)
 // removes "friendToRemove" from friend list, if he's not in the end of the array, switch between the last friend to him. 
 void User::removeFriendFromFriendList(int indexToRemove)
 {
-	_friendsList[indexToRemove] = nullptr;
+	//_friendsList[indexToRemove] = nullptr;
+	_friends[indexToRemove] = nullptr;
 
 	if (_numOfFriends > 1 && indexToRemove != _numOfFriends - 1)
 	{
 		// if friend is not last, and there is more than 1 friend on the array - swap them
-		_friendsList[indexToRemove] = _friendsList[_numOfFriends - 1];
-		_friendsList[_numOfFriends - 1] = nullptr;
+		//_friendsList[indexToRemove] = _friendsList[_numOfFriends - 1];
+		//_friendsList[_numOfFriends - 1] = nullptr;
+		_friends[indexToRemove] = _friends[_numOfFriends - 1];
+		_friends[_numOfFriends - 1] = nullptr;
 	}
 
 	_numOfFriends--;
@@ -166,10 +169,16 @@ void User::displayRecentStatusesOfaFriend(Operation& system) const throw (const 
 
 	for (int i = 0; i < _numOfFriends; i++) // go over friends list
 	{
-		cout << "Friend's name: " << _friendsList[i]->getUserName() << endl;
-		cout << _friendsList[i]->getUserName() << "'s 10 Most Recent Statuses Are:" << endl;
-		vector<Status*> friend_status_list = _friendsList[i]->getAllStatuses();
-		int num_statuses = _friendsList[i]->getNumOfStatuses();
+		//cout << "Friend's name: " << _friendsList[i]->getUserName() << endl;
+		//cout << _friendsList[i]->getUserName() << "'s 10 Most Recent Statuses Are:" << endl;
+		//vector<Status*> friend_status_list = _friendsList[i]->getAllStatuses();
+		//int num_statuses = _friendsList[i]->getNumOfStatuses();
+
+		
+		cout << "Friend's name: " << _friends[i]->getUserName() << endl;
+		cout << _friends[i]->getUserName() << "'s 10 Most Recent Statuses Are:" << endl;
+		vector<Status*> friend_status_list = _friends[i]->getAllStatuses();
+		int num_statuses = _friends[i]->getNumOfStatuses();
 
 		if (num_statuses == 0)
 			throw "No statuses to display.";
@@ -230,9 +239,11 @@ void User::displayAllFriends() const throw (const char*)
 		for (int i = 0; i < numOfFriends; i++)
 		{
 			cout << "friend #" << i + 1 << ":" << endl;
-			cout << "Name: " << _friendsList[i]->getUserName() << endl;
+			//cout << "Name: " << _friendsList[i]->getUserName() << endl;
+			cout << "Name: " << _friends[i]->getUserName() << endl;
 			cout << "Birthday: ";
-			_friendsList[i]->_birthday.displayDate();
+			//_friendsList[i]->_birthday.displayDate();
+			_friends[i]->_birthday.displayDate();
 			cout << endl << endl;
 		}
 	}
@@ -241,10 +252,18 @@ void User::displayAllFriends() const throw (const char*)
 // adds 2 users to eachothers friend lists.
 User& User::operator+=(User& other)
 {
-	_friendsList.push_back(&other);
+	/*_friendsList.push_back(&other);
 	_numOfFriends++;
 
 	other._friendsList.push_back(this);
+	other._numOfFriends++;
+
+	return *this;*/
+
+	_friends.push_back(&other);
+	_numOfFriends++;
+
+	other._friends.push_back(this);
 	other._numOfFriends++;
 
 	return *this;
@@ -273,13 +292,15 @@ bool User::operator>(const User& other) const
 // compare the user's number of friends to a page's number of fans
 bool User::operator<(const Page& fanPage) const
 {
-	return (_numOfFriends < fanPage.getNumOfFans());
+	//return (_numOfFriends < fanPage.getNumOfFans());
+	return (_numOfFriends < fanPage.getNumOfFriends());
 }
 
 // compare the user's number of friends to a page's number of fans
 bool User::operator>(const Page& fanPage) const
 {
-	return (_numOfFriends > fanPage.getNumOfFans());
+	//return (_numOfFriends > fanPage.getNumOfFans());
+	return (_numOfFriends > fanPage.getNumOfFriends());
 }
 
 // check if the user liked a certain page
@@ -298,11 +319,13 @@ int User::searchFriendInFriendList(User& other)
 {
 	int friend_to_delete_index = NOT_FOUND;
 
-	if (_friendsList.size() > 0) // if user has friends 
+	//if (_friendsList.size() > 0) // if user has friends 
+	if (_friends.size() > 0) // if user has friends 
 	{
 		for (int i = 0; i < _numOfFriends && friend_to_delete_index == NOT_FOUND; i++)
 		{
-			if (_friendsList[i]->_name.compare(other._name) == 0)
+			//if (_friendsList[i]->_name.compare(other._name) == 0)
+			if (_friends[i]->_name.compare(other._name) == 0)
 				friend_to_delete_index = i;
 		}
 	}

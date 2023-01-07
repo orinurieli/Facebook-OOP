@@ -6,33 +6,38 @@ using namespace std;
 // adds user to fan list
 Page& Page::operator+=(User& currentUser)
 {
-	_fansList.push_back(&currentUser);
-	_numOfFans++;
+	_friends.push_back(&currentUser);
+	//_fansList.push_back(&currentUser);
+	_numOfFriends++;
 	return *this;
 }
 
 // compare number of fans between two pages
 bool Page::operator<(Page& other)
 {
-	return (_numOfFans < other._numOfFans);
+	//return (_numOfFans < other._numOfFans);
+	return (_numOfFriends < other._numOfFriends);
 }
 
 // compare number of fans between two pages
 bool Page::operator>(Page& other)
 {
-	return (_numOfFans > other._numOfFans);
+	//return (_numOfFans > other._numOfFans);
+	return (_numOfFriends > other._numOfFriends);
 }
 
 // compare the page's number of fans to a user's number of friends
 bool Page::operator<(User& currentUser)
 {
-	return (_numOfFans < currentUser.getNumOfFriends());
+	//return (_numOfFans < currentUser.getNumOfFriends());
+	return (_numOfFriends < currentUser.getNumOfFriends());
 }
 
 // compare the page's number of fans to a user's number of friends
 bool Page::operator>(User& currentUser)
 {
-	return (_numOfFans > currentUser.getNumOfFriends());
+	//return (_numOfFans > currentUser.getNumOfFriends());
+	return (_numOfFriends > currentUser.getNumOfFriends());
 }
 
 // ask from user name of a page and checks if the page exists in the system
@@ -56,7 +61,7 @@ Page* Page::askForPageName(Operation& system) // *returns a pointer because NULL
 }
 
 // creates a status for a page
-void Page::createStatus(Status* initStatus)
+void Page::createStatusForPage(Status* initStatus)
 {
 	if (initStatus)
 		_statuses.push_back(initStatus);
@@ -79,23 +84,33 @@ void Page::addFanToPage(Operation& system, User& currentUser)
 // this function receives pointer to a user and removes it from array of fans.
 void Page::removeFan(User& removeUser) throw (const char*)
 {
-	int num_of_fans = _fansList.size();
+	//int num_of_fans = _fansList.size();
+	int num_of_fans = _friends.size();
 	bool found = false;
 
 	for (int i = 0; i < num_of_fans && !found; i++)
 	{
-		if (&removeUser == _fansList[i]) // user is a fan
+		//if (&removeUser == _fansList[i]) // user is a fan
+		if (&removeUser == _friends[i]) // user is a fan
 		{
 			if (i != num_of_fans - 1) // if it's not the last - put it last
 			{
+				//User* tmp = _fansList[i];
+				//_fansList[i] = _fansList[num_of_fans - 1];
+				//_fansList[num_of_fans - 1] = tmp;
+
 				// switch between them
-				User* tmp = _fansList[i];
-				_fansList[i] = _fansList[num_of_fans - 1];
-				_fansList[num_of_fans - 1] = tmp;
+				User* tmp = _friends[i];
+				_friends[i] = _friends[num_of_fans - 1];
+				_friends[num_of_fans - 1] = tmp;
 			}
 
-			_fansList.pop_back(); // delete the last one
-			_numOfFans--;
+			//_fansList.pop_back(); // delete the last one
+			//_numOfFans--;
+			//found = true;
+
+			_friends.pop_back(); // delete the last one
+			_numOfFriends--;
 			found = true;
 		}
 	}
@@ -127,12 +142,12 @@ void Page::displayAllStatuses() const throw (const char*)
 void Page::displayAllFans() const throw (const char*)
 {
 	cout << endl << _name << " Fans:" << endl;
-	if (_numOfFans == 0)
+	if (_numOfFriends == 0)
 		throw "oops, no fans to display. \n";
 	else
 	{
-		for (int i = 0; i < _numOfFans; i++)
-			cout << _fansList[i]->getUserName() << endl;
+		for (int i = 0; i < _numOfFriends; i++)
+			cout << _friends[i]->getUserName() << endl;
 	}
 	cout << endl;
 }

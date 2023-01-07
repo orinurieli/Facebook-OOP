@@ -5,7 +5,7 @@
 using namespace std;
 #include "Status.h"
 
-// when a user wants to insert a status
+// when an entity wants to insert a status
 void Status::getStatusInfo(Status& newStatus)
 {
 	string text;

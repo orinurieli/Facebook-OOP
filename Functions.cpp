@@ -53,11 +53,25 @@ vector<Page*> initiatePages(Operation& system, vector<User*> allUsers)
 {
 	vector<Page*> initPages;
 
-	Page* page1 = new Page((string)"Maccabi Haifa");
-	Page* page2 = new Page((string)"Harry Potter");
-	Page* page3 = new Page((string)"Pink Floyd");
-	Page* page4 = new Page((string)"Led Zeppelin");
-	Page* page5 = new Page((string)"Cakes");
+	string maccabi = "maccabi haifa";
+	string harry = "harry potter";
+	string pink = "pink floyd";
+	string led = "led zeppelin";
+	string cakes = "cakes";
+
+
+	Page* page1 = new Page(maccabi);
+	Page* page2 = new Page(harry);
+	Page* page3 = new Page(pink);
+	Page* page4 = new Page(led);
+	Page* page5 = new Page(cakes);
+
+
+	//Page* page1 = new Page((string)"Maccabi Haifa");
+	//Page* page2 = new Page((string)"Harry Potter");
+	//Page* page3 = new Page((string)"Pink Floyd");
+	//Page* page4 = new Page((string)"Led Zeppelin");
+	//Page* page5 = new Page((string)"Cakes");
 
 	initPages.push_back(page1);
 	initPages.push_back(page2);
@@ -103,14 +117,14 @@ void initiateStatuses(Operation& system)
 	{
 		Clock date;
 		Status* newStatus = new Status("Hello world", date.getDate());
-		all_users[i]->createStatus(newStatus);
+		all_users[i]->createStatusForUser(newStatus);
 	}
 
 	for (int i = 0; i < num_of_pages; i++)
 	{
 		Clock date;
 		Status* newStatus = new Status("Hello world", date.getDate());
-		all_pages[i]->createStatus(newStatus);
+		all_pages[i]->createStatusForPage(newStatus);
 	}
 }
 
@@ -240,6 +254,7 @@ void addPageToSystem(Operation& system) noexcept(false)
 		}
 	}
 
+	//Page* pageToAdd = new Page(pageName); // deleted in ~Operation
 	Page* pageToAdd = new Page(pageName); // deleted in ~Operation
 	system.addPageToOperation(*pageToAdd);
 }
@@ -285,7 +300,7 @@ void getUserOrPageInput(int userChoice, Operation& system) noexcept(false)
 			switch (userChoice)
 			{
 			case CreateNewStatus:
-				current_user->createStatus(nullptr);
+				current_user->createStatusForUser(nullptr);
 				break;
 			case DisplayAllStatuses:
 				current_user->displayAllStatuses();
@@ -308,7 +323,8 @@ void getUserOrPageInput(int userChoice, Operation& system) noexcept(false)
 			switch (userChoice)
 			{
 			case CreateNewStatus:
-				fan_page->createStatus(nullptr);
+				//fan_page->createStatusForPage(nullptr);
+				fan_page->createStatus();
 				break;
 			case DisplayAllStatuses:
 				fan_page->displayAllStatuses();

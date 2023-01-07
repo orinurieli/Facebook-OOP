@@ -1,7 +1,5 @@
 // Gon Etgar 316354653 
 // Ori Nurieli 208952341
-// 
-
 #include <iostream>
 #include <vector>
 #include <string>

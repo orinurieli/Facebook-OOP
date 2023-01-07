@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Clock.cpp" />
+    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Functions.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Operation.cpp" />
@@ -149,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Clock.h" />
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="Functions.h" />
     <ClInclude Include="Operation.h" />
     <ClInclude Include="Page.h" />
