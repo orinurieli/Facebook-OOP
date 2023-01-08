@@ -9,7 +9,6 @@ using namespace std;
 #include "Operation.h"
 #include "Entity.h"
 
-
 class Page : public Entity
 {
 private:
@@ -30,7 +29,7 @@ public:
 
 	Page() = delete; // don't want to create a page without data
 	Page(const Page* page) = delete; // prevent duplicate
-	Page(const string& name) : Entity(name, 0, 0) {}
+	Page(const string& name) : Entity(name) {}
 
 	Page& operator+=(User& currentUser);
 	bool operator<(Page& other);
@@ -42,7 +41,7 @@ public:
 	void createStatusForPage(Status* initStatus); // *pointer because it can also be null*
 	void addFanToPage(Operation& system, User& currentUser);
 	void removeFan(User& removeUser);
-	void displayAllStatuses() const;
+	//void displayAllStatusesForPage() const; // todo - can delete later when heritence works
 	void displayAllFans() const;
 
 	~Page() {};

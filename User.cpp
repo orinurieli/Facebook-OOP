@@ -6,13 +6,13 @@ using namespace std;
 class Page;
 
 // c'tor
-User::User(const string& name, Clock& birthday, int numFriends, int numPages) : Entity(name, 0, 0)
-{
-	//_name = name;
-	_birthday = birthday;
-	//_numOfFriends = numFriends;
-	_numOfPages = numPages;
-}
+//User::User(const string& name, Clock& birthday, int numFriends, int numPages) : Entity(name, 0, 0)
+//{
+//	//_name = name;
+//	_birthday = birthday;
+//	//_numOfFriends = numFriends;
+//	_numOfPages = numPages;
+//}
 
 // if init status is null, asks the user to insert text and adds the status the statuses vector.
 // it it's not null - adds the status the vector
@@ -27,7 +27,7 @@ void User::createStatusForUser(Status* initStatus)
 		cout << "Status Uploaded!" << endl << endl;
 		_statuses.push_back(newStatus);
 	}
-	_numOfStatuses++;
+	//_numOfStatuses++;
 }
 
 // this function connects 2 users to be friends
@@ -204,32 +204,33 @@ void User::displayRecentStatusesOfaFriend(Operation& system) const throw (const 
 }
 
 // shows all statuses of a chosen user
-void User::displayAllStatuses() const
-{
-	cout << endl << _name << "'s Statuses:\n";
-	if (_numOfStatuses == 0) cout << "None." << endl << endl;
-	else {
-		for (int i = 0; i < _numOfStatuses; i++)
-		{
-			cout << "-----------------------------------" << endl;
-			cout << "Status #" << i + 1 << endl;
-			cout << "Text: " << _statuses[i]->getText() << endl;
-			cout << "Uploaded on: ";
-			_statuses[i]->getStatusTime().displayDate();
-			cout << " | ";
-			_statuses[i]->getStatusTime().displayHour();
-			cout << endl;
-			cout << "-----------------------------------" << endl;
-		}
-	}
-	cout << endl;
-}
+//void User::displayAllStatuses() const
+//{
+//	cout << endl << _name << "'s Statuses:\n";
+//	if (_numOfStatuses == 0) cout << "None." << endl << endl;
+//	else {
+//		for (int i = 0; i < _numOfStatuses; i++)
+//		{
+//			cout << "-----------------------------------" << endl;
+//			cout << "Status #" << i + 1 << endl;
+//			cout << "Text: " << _statuses[i]->getText() << endl;
+//			cout << "Uploaded on: ";
+//			_statuses[i]->getStatusTime().displayDate();
+//			cout << " | ";
+//			_statuses[i]->getStatusTime().displayHour();
+//			cout << endl;
+//			cout << "-----------------------------------" << endl;
+//		}
+//	}
+//	cout << endl;
+//}
 
 // shows all friends of a user
 void User::displayAllFriends() const throw (const char*)
 {
 	cout << endl << _name << "'s friends:" << endl;
-	int numOfFriends = this->getNumOfFriends();
+	//int numOfFriends = this->getNumOfFriends();
+	int numOfFriends = this->getFriendsList().size();
 
 	if (numOfFriends == 0)
 		throw "No friends to display :(";

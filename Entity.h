@@ -18,23 +18,21 @@ protected:
 	int _numOfStatuses;
 public:
 	Entity() = delete; // don't want to create entity without information
-	Entity(const string& name, int numFriends, int numStatuses) : _name(name), _numOfFriends(numFriends), _numOfStatuses(numStatuses) {}
+	Entity(const string& name) : _name(name), _numOfFriends(0), _numOfStatuses(0) {}
 	Entity(const Entity& other) = delete; // don't want to clone an entity
 
-	const int getNumOfStatuses() const { return _numOfStatuses; }
-	const int getNumOfFriends() const { return _numOfFriends; }
+	const int getNumOfFriends() const { return _friends.size(); } // todo - do we even need this counter? we have vector
+	const int getNumOfStatuses() const { return _statuses.size(); } // todo - same
 	const string& getName() const { return _name; }
 	vector<User*> getFriendsList() const { return _friends; }
 	vector<Status*> getStatusesList() const { return _statuses; }
 
+	void pushToFriendsList(User& newFriend) { _friends.push_back(&newFriend); }
+	void pushToStatusesList(Status& newStatus) { _statuses.push_back(&newStatus); }
+
 	void createStatus();
-	
-
-
-
-
-	//displayStatuses
-	//displayFriends/Fans
+	void displayAllStatuses() const;
+	//void displayAllFriends() const;
 
 
 	//~Entity();

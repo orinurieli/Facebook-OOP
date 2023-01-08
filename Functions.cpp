@@ -2,6 +2,8 @@
 #include <iostream>
 using namespace std;
 
+// ################ inititation ################
+
 // fills allUsers array with members
 vector<User*> initiateUsers()
 {
@@ -13,11 +15,17 @@ vector<User*> initiateUsers()
 	Clock birthday4(1, 7, 1997);
 	Clock birthday5(21, 10, 1996);
 
-	User* user1 = new User("Keren Kalif", birthday1, 2, 1);
+	/*User* user1 = new User("Keren Kalif", birthday1, 2, 1);
 	User* user2 = new User("Steve Jobs", birthday2, 2, 1);
 	User* user3 = new User("Mark Zuckerberg", birthday3, 3, 2);
 	User* user4 = new User("Ori Nurieli", birthday4, 1, 3);
-	User* user5 = new User("Gon Etgar", birthday5, 2, 3);
+	User* user5 = new User("Gon Etgar", birthday5, 2, 3);*/
+
+	User* user1 = new User("Keren Kalif", birthday1);
+	User* user2 = new User("Steve Jobs", birthday2);
+	User* user3 = new User("Mark Zuckerberg", birthday3);
+	User* user4 = new User("Ori Nurieli", birthday4);
+	User* user5 = new User("Gon Etgar", birthday5);
 
 	initUsers.push_back(user1);
 	initUsers.push_back(user2);
@@ -53,19 +61,17 @@ vector<Page*> initiatePages(Operation& system, vector<User*> allUsers)
 {
 	vector<Page*> initPages;
 
-	string maccabi = "maccabi haifa";
-	string harry = "harry potter";
-	string pink = "pink floyd";
-	string led = "led zeppelin";
-	string cakes = "cakes";
-
+	string maccabi = "Maccabi Haifa";
+	string harry = "Harry Potter";
+	string pink = "Pink Floyd";
+	string led = "Led Zeppelin";
+	string cakes = "Cakes";
 
 	Page* page1 = new Page(maccabi);
 	Page* page2 = new Page(harry);
 	Page* page3 = new Page(pink);
 	Page* page4 = new Page(led);
 	Page* page5 = new Page(cakes);
-
 
 	//Page* page1 = new Page((string)"Maccabi Haifa");
 	//Page* page2 = new Page((string)"Harry Potter");
@@ -117,16 +123,23 @@ void initiateStatuses(Operation& system)
 	{
 		Clock date;
 		Status* newStatus = new Status("Hello world", date.getDate());
-		all_users[i]->createStatusForUser(newStatus);
+		all_users[i]->pushToStatusesList(*newStatus);
+		//all_users[i]->getStatusesList().push_back(newStatus);
+		//all_users[i]->getAllStatuses().push_back(newStatus);
+		//_statuses.push_back(initStatus);
+		//all_users[i]->createStatusForUser(newStatus);
 	}
 
 	for (int i = 0; i < num_of_pages; i++)
 	{
 		Clock date;
 		Status* newStatus = new Status("Hello world", date.getDate());
-		all_pages[i]->createStatusForPage(newStatus);
+		all_pages[i]->pushToStatusesList(*newStatus);
+		//all_pages[i]->createStatusForPage(newStatus);
 	}
 }
+
+// ################ menu ################
 
 int displayMenu() throw (const char*)
 {
@@ -165,6 +178,8 @@ int displayMenu() throw (const char*)
 	}
 }
 
+// ################ handle menu functions ################
+
 // returns the user's index in allUsers array, and -1 if not found.
 int doesUserExist(string& name, Operation& system)
 {
@@ -195,6 +210,33 @@ int doesPageExist(string& name, Operation& system)
 	return NOT_FOUND;
 }
 
+// in order to navigate the menu to the right entity, we ask if it's a user or a page
+int askUserOrPage() noexcept(false)
+{
+	int userOrPage = -1;
+	cout << "Choose: " << endl << "0 - Page" << endl << "1 - User" << endl;
+
+	while (userOrPage != 0 && userOrPage != 1)
+	{
+		try
+		{
+			cin >> userOrPage;
+			if (userOrPage != 0 && userOrPage != 1)
+				throw invalid_argument("You can choose only 0 or 1.");
+			else break;
+		}
+		catch (invalid_argument& err)
+		{
+			cout << err.what() << endl;
+			cout << "Choose: " << endl << "0 - Page" << endl << "1 - User" << endl;
+		}
+	}
+
+	return userOrPage;
+}
+
+// ################ add new user ################
+
 // in order to enter a new user to the system
 void getUserInput(Operation& system) throw (const char*)
 {
@@ -222,8 +264,8 @@ void getUserInput(Operation& system) throw (const char*)
 		return;
 	}
 
-
-	User* user_to_add = new User(username, birthday, 0, 0);
+	//User* user_to_add = new User(username, birthday, 0, 0);
+	User* user_to_add = new User(username, birthday);
 	system.addUserToOperation(*user_to_add);
 }
 
@@ -236,7 +278,7 @@ void addPageToSystem(Operation& system) noexcept(false)
 	cin.ignore();
 	getline(cin, pageName);
 
-	// validate username
+	// validate page name
 	while (true)
 	{
 		try
@@ -260,30 +302,21 @@ void addPageToSystem(Operation& system) noexcept(false)
 }
 
 
-// in order to navigate the menu to the right entity, we ask if it's a user or a page
-int askUserOrPage() noexcept(false)
-{
-	int userOrPage = -1;
-	cout << "Choose: " << endl << "0 - Page" << endl << "1 - User" << endl;
+// after we asked if page or user, return by pointer the right entity
+//void askForEntityUserOrPage(User* current_user, Page* current_page, Operation& system) // return pointer because null can be returned
+//{
+//	int entity = askUserOrPage();
+//
+//	if (entity == USER)
+//	{
+//		current_user = askForUsername(system, USER);
+//	}
+//	else // entity == PAGE
+//	{
+//		current_page = getPageDetails(system, -1); // -1 for clean buffer
+//	}
+//}
 
-	while (userOrPage != 0 && userOrPage != 1)
-	{
-		try
-		{
-			cin >> userOrPage;
-			if (userOrPage != 0 && userOrPage != 1)
-				throw invalid_argument("You can choose only 0 or 1.");
-			else break;
-		}
-		catch (invalid_argument& err)
-		{
-			cout << err.what() << endl;
-			cout << "Choose: " << endl << "0 - Page" << endl << "1 - User" << endl;
-		}
-	}
-
-	return userOrPage;
-}
 
 // if the user choose an option from the menu that can be either for a page or a user, the function navigates to the right function.
 void getUserOrPageInput(int userChoice, Operation& system) noexcept(false)
@@ -300,9 +333,11 @@ void getUserOrPageInput(int userChoice, Operation& system) noexcept(false)
 			switch (userChoice)
 			{
 			case CreateNewStatus:
-				current_user->createStatusForUser(nullptr);
+				//current_user->createStatusForUser(nullptr);
+				current_user->createStatus();
 				break;
 			case DisplayAllStatuses:
+				//urrent_user->displayAllStatusesForUser();
 				current_user->displayAllStatuses();
 				break;
 			case DisplayAllFriendsOfUserOrFansOfPage:
@@ -327,6 +362,7 @@ void getUserOrPageInput(int userChoice, Operation& system) noexcept(false)
 				fan_page->createStatus();
 				break;
 			case DisplayAllStatuses:
+				//fan_page->displayAllStatusesForPage();
 				fan_page->displayAllStatuses();
 				break;
 			case DisplayAllFriendsOfUserOrFansOfPage:
@@ -363,6 +399,7 @@ Page* getPageDetails(Operation& system, int clearBuffer)
 
 // ask for name and search it on allUsers array, returns the user's pointer, or nullptr if not found
 // if flag is 1 we request the user's name, and 2 to ask another user name (friend).
+// returns a pointer to a user if found, and null if wasn't found
 User* askForUsername(Operation& system, int flag) throw (const char*) // *returns a pointer because NULL can be returned*
 {
 	User* user = nullptr;

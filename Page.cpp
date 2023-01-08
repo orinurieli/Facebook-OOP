@@ -119,25 +119,25 @@ void Page::removeFan(User& removeUser) throw (const char*)
 		throw "wait.. the user is not a fan so we can not remove him. \n";
 }
 
-void Page::displayAllStatuses() const throw (const char*)
-{
-	cout << endl << _name << " Statuses: " << endl;
-	if (_numOfStatuses == 0) throw "Oops, no statuses to display. \n";
-	for (int i = 0; i < _numOfStatuses; i++)
-	{
-		cout << "-----------------------------------" << endl;
-		cout << "Status #" << i + 1 << ":\n";
-		cout << "Text: " << _statuses[i]->getText() << endl;
-		cout << "Uploaded on: ";
-		const Clock& tmp = _statuses[i]->getStatusTime();
-		tmp.displayDate();
-		cout << " | ";
-		const Clock& tmp2 = _statuses[i]->getStatusTime();
-		tmp2.displayHour();
-		cout << endl << "-----------------------------------" << endl;
-	}
-	cout << endl;
-}
+//void Page::displayAllStatusesForPage() const throw (const char*)
+//{
+//	cout << endl << _name << " Statuses: " << endl;
+//	if (_numOfStatuses == 0) throw "Oops, no statuses to display. \n";
+//	for (int i = 0; i < _numOfStatuses; i++)
+//	{
+//		cout << "-----------------------------------" << endl;
+//		cout << "Status #" << i + 1 << ":\n";
+//		cout << "Text: " << _statuses[i]->getText() << endl;
+//		cout << "Uploaded on: ";
+//		const Clock& tmp = _statuses[i]->getStatusTime();
+//		tmp.displayDate();
+//		cout << " | ";
+//		const Clock& tmp2 = _statuses[i]->getStatusTime();
+//		tmp2.displayHour();
+//		cout << endl << "-----------------------------------" << endl;
+//	}
+//	cout << endl;
+//}
 
 void Page::displayAllFans() const throw (const char*)
 {

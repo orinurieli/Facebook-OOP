@@ -1,5 +1,6 @@
 // Gon Etgar 316354653 
 // Ori Nurieli 208952341
+// Ex3
 #include <iostream>
 #include <vector>
 #include <string>
@@ -24,7 +25,7 @@ int main()
 		try
 		{
 			userChoice = displayMenu();
-			if (userChoice == 12)
+			if (userChoice == Exit)
 			{
 				cout << "Goodbye.";
 				break;

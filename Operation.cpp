@@ -20,6 +20,8 @@ void Operation::initiateData(vector<User*> initUsers, vector<Page*> initPages)
 	initiateStatuses(*this);
 }
 
+//
+
 // insert a new user to the allUsers vector
 void Operation::addUserToOperation(User& userToAdd)
 {
@@ -61,7 +63,11 @@ void Operation::displayAllEntities() const
 // this function navigates the user's choice from the menu to the relevent functions
 void Operation::handleMenu(int userChoice) noexcept(false)
 {
+	// first ask if it's a page or a user
 	User* current_user = nullptr;
+	//Page* current_page = nullptr;
+	//askForEntityUserOrPage(current_user, current_page, *this);
+
 
 	if (userChoice > 0 && userChoice < Exit)
 	{
