@@ -7,37 +7,31 @@ using namespace std;
 Page& Page::operator+=(User& currentUser)
 {
 	_friends.push_back(&currentUser);
-	//_fansList.push_back(&currentUser);
-	_numOfFriends++;
 	return *this;
 }
 
 // compare number of fans between two pages
 bool Page::operator<(Page& other)
 {
-	//return (_numOfFans < other._numOfFans);
-	return (_numOfFriends < other._numOfFriends);
+	return (_friends.size() < other._friends.size());
 }
 
 // compare number of fans between two pages
 bool Page::operator>(Page& other)
 {
-	//return (_numOfFans > other._numOfFans);
-	return (_numOfFriends > other._numOfFriends);
+	return (_friends.size() > other._friends.size());
 }
 
 // compare the page's number of fans to a user's number of friends
 bool Page::operator<(User& currentUser)
 {
-	//return (_numOfFans < currentUser.getNumOfFriends());
-	return (_numOfFriends < currentUser.getNumOfFriends());
+	return (_friends.size() < currentUser.getFriendsList().size());
 }
 
 // compare the page's number of fans to a user's number of friends
 bool Page::operator>(User& currentUser)
 {
-	//return (_numOfFans > currentUser.getNumOfFriends());
-	return (_numOfFriends > currentUser.getNumOfFriends());
+	return (_friends.size() > currentUser.getFriendsList().size());
 }
 
 // ask from user name of a page and checks if the page exists in the system
@@ -72,7 +66,6 @@ void Page::createStatusForPage(Status* initStatus)
 		_statuses.push_back(newStatus);
 		cout << "Status Uploaded!" << endl << endl;
 	}
-	_numOfStatuses++;
 }
 
 // receives fan and adds him to the page's fan list
@@ -104,56 +97,11 @@ void Page::removeFan(User& removeUser) throw (const char*)
 				_friends[i] = _friends[num_of_fans - 1];
 				_friends[num_of_fans - 1] = tmp;
 			}
-
-			//_fansList.pop_back(); // delete the last one
-			//_numOfFans--;
-			//found = true;
-
 			_friends.pop_back(); // delete the last one
-			_numOfFriends--;
 			found = true;
 		}
 	}
 
 	if (!found)
 		throw "wait.. the user is not a fan so we can not remove him. \n";
-}
-
-//void Page::displayAllStatusesForPage() const throw (const char*)
-//{
-//	cout << endl << _name << " Statuses: " << endl;
-//	if (_numOfStatuses == 0) throw "Oops, no statuses to display. \n";
-//	for (int i = 0; i < _numOfStatuses; i++)
-//	{
-//		cout << "-----------------------------------" << endl;
-//		cout << "Status #" << i + 1 << ":\n";
-//		cout << "Text: " << _statuses[i]->getText() << endl;
-//		cout << "Uploaded on: ";
-//		const Clock& tmp = _statuses[i]->getStatusTime();
-//		tmp.displayDate();
-//		cout << " | ";
-//		const Clock& tmp2 = _statuses[i]->getStatusTime();
-//		tmp2.displayHour();
-//		cout << endl << "-----------------------------------" << endl;
-//	}
-//	cout << endl;
-//}
-
-void Page::displayAllFansForPage() const throw (const char*)
-{
-	cout << endl << _name << " Fans:" << endl;
-	if (_numOfFriends == 0)
-		throw "Oops, no fans to display.\n";
-	else
-	{
-		for (int i = 0; i < _numOfFriends; i++)
-		{
-			cout << "Fan #" << i + 1 << ":" << endl;
-			cout << "Name: " << _friends[i]->getUserName() << endl;
-			cout << "Birthday: ";
-			_friends[i]->getBirthday().displayDate();
-			cout << endl << endl;
-		}
-	}
-	cout << endl;
 }

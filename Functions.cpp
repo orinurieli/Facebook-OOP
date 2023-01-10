@@ -333,15 +333,12 @@ void getUserOrPageInput(int userChoice, Operation& system) noexcept(false)
 			switch (userChoice)
 			{
 			case CreateNewStatus:
-				//current_user->createStatusForUser(nullptr);
 				current_user->createStatus();
 				break;
 			case DisplayAllStatuses:
-				//urrent_user->displayAllStatusesForUser();
 				current_user->displayAllStatuses();
 				break;
 			case DisplayAllFriendsOfUserOrFansOfPage:
-				//current_user->displayAllFriendsForUser();
 				current_user->displayAllFriendsOrFans(USER);
 				break;
 			default:
@@ -359,15 +356,12 @@ void getUserOrPageInput(int userChoice, Operation& system) noexcept(false)
 			switch (userChoice)
 			{
 			case CreateNewStatus:
-				//fan_page->createStatusForPage(nullptr);
 				fan_page->createStatus();
 				break;
 			case DisplayAllStatuses:
-				//fan_page->displayAllStatusesForPage();
 				fan_page->displayAllStatuses();
 				break;
 			case DisplayAllFriendsOfUserOrFansOfPage:
-				//fan_page->displayAllFansForPage();
 				fan_page->displayAllFriendsOrFans(PAGE);
 				break;
 			default:

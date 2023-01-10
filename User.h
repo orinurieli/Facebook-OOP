@@ -43,7 +43,7 @@ public:
 
 	void setUserName(string& username) { _name = username; };
 	void setBirthday(Clock& birthday) { _birthday = birthday; }
-	void pushToFriendsListInUser(User& newFriend) { _friends.push_back(&newFriend); }
+	void pushToFriendsListInUser(User& newFriend) { _friends.push_back(&newFriend); } // todo delete this?
 	void pushToStatusesList(Status& newStatus) { _statuses.push_back(&newStatus); }
 	
 	void createStatusForUser(Status* status);  // it's a pointer because it can also be null (from initiation)
@@ -53,8 +53,6 @@ public:
 	void likePage(Operation& system);
 	void dislikePage(Operation& system);
 	void displayRecentStatusesOfaFriend(Operation& system) const; // 10 most recent statuses of all his friends
-	//void displayAllStatusesForUser() const; // todo - can delete later when heritence works
-	void displayAllFriendsForUser() const throw (const char*); // todo - can delete later when heritence works
 
 	User& operator+=(User& other);
 	User& operator+=(Page& fanPage);

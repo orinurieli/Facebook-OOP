@@ -41,8 +41,6 @@ public:
 	void createStatusForPage(Status* initStatus); // *pointer because it can also be null*
 	void addFanToPage(Operation& system, User& currentUser);
 	void removeFan(User& removeUser);
-	//void displayAllStatusesForPage() const; // todo - can delete later when heritence works
-	void displayAllFansForPage() const;
 
 	~Page() {};
 };
