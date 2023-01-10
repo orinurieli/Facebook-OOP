@@ -152,10 +152,12 @@
     <ClInclude Include="Clock.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Functions.h" />
+    <ClInclude Include="ImageStatus.h" />
     <ClInclude Include="Operation.h" />
     <ClInclude Include="Page.h" />
     <ClInclude Include="Status.h" />
     <ClInclude Include="User.h" />
+    <ClInclude Include="VideoStatus.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
