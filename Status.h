@@ -4,6 +4,7 @@
 
 #include <ctime>
 #include <string>
+#include <vector>
 #include "Clock.h"
 
 class Status
@@ -21,7 +22,7 @@ public:
 	const Clock& getStatusTime() { return _time; }
 
 	virtual void getStatusInfo(Status& newStatus);
-	//virtual void display(); // todo
+	virtual void display();
 
 	bool operator==(const Status& other) const;
 	bool operator!=(const Status& other) const;
