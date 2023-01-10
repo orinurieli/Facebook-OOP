@@ -6,6 +6,19 @@ using namespace std;
 
 void Entity::createStatus()
 {
+	// todo: let the user choose between:
+	// 1 - text status
+	// 2 - image status
+	// 3 - video status
+
+	/*
+	* Example
+	* user chose: 3
+	* Status* newStatus = new VideoStatus();
+	* newStatus->getStatusInfo(*newStatus); // using Polymorphizem
+	* _statuses.push_back(newStatus);
+	*/
+
 	Status* newStatus = new Status();
 	newStatus->getStatusInfo(*newStatus);
 	cout << "Status Uploaded!" << endl << endl;
