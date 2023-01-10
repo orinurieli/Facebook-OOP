@@ -341,8 +341,8 @@ void getUserOrPageInput(int userChoice, Operation& system) noexcept(false)
 				current_user->displayAllStatuses();
 				break;
 			case DisplayAllFriendsOfUserOrFansOfPage:
-				current_user->displayAllFriendsForUser();
-				//current_user->displayAllFriends();
+				//current_user->displayAllFriendsForUser();
+				current_user->displayAllFriendsOrFans(USER);
 				break;
 			default:
 				break;
@@ -367,7 +367,8 @@ void getUserOrPageInput(int userChoice, Operation& system) noexcept(false)
 				fan_page->displayAllStatuses();
 				break;
 			case DisplayAllFriendsOfUserOrFansOfPage:
-				fan_page->displayAllFansForPage();
+				//fan_page->displayAllFansForPage();
+				fan_page->displayAllFriendsOrFans(PAGE);
 				break;
 			default:
 				break;
