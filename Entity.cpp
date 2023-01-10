@@ -21,8 +21,8 @@ void Entity::createStatus()
 
 	Status* newStatus = new Status();
 	newStatus->getStatusInfo(*newStatus);
-	cout << "Status Uploaded!" << endl << endl;
 	_statuses.push_back(newStatus);
+	cout << "Status Uploaded!" << endl << endl;
 	_numOfStatuses++;
 }
 

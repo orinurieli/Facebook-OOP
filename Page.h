@@ -36,6 +36,7 @@ public:
 	bool operator>(Page& other);
 	bool operator<(User& currentUser);
 	bool operator>(User& currentUser);
+	ostream& operator<<(ostream& out);
 
 	Page* askForPageName(Operation& system); // *returns a pointer because NULL can be returned*
 	void createStatusForPage(Status* initStatus); // *pointer because it can also be null*

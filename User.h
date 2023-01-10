@@ -49,7 +49,7 @@ public:
 	void setBirthday(Clock& birthday) { _birthday = birthday; }
 	void pushToFriendsListInUser(User& newFriend) { _friends.push_back(&newFriend); _numOfFriends++; }
 	//void pushToStatusesList(Status& newStatus) { _statuses.push_back(&newStatus); }
-	
+
 	void createStatusForUser(Status* status);  // it's a pointer because it can also be null (from initiation)
 	void addFriend(Operation& system);
 	void cancelFriendship(Operation& system);
@@ -62,6 +62,8 @@ public:
 
 	User& operator+=(User& other);
 	User& operator+=(Page& fanPage);
+	ostream& operator<<(ostream& out);
+
 
 	bool operator<(const User& other) const;
 	bool operator>(const User& other) const;

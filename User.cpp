@@ -174,7 +174,7 @@ void User::displayRecentStatusesOfaFriend(Operation& system) const throw (const 
 		//vector<Status*> friend_status_list = _friendsList[i]->getAllStatuses();
 		//int num_statuses = _friendsList[i]->getNumOfStatuses();
 
-		
+
 		cout << "Friend's name: " << _friends[i]->getUserName() << endl;
 		cout << _friends[i]->getUserName() << "'s 10 Most Recent Statuses Are:" << endl;
 		vector<Status*> friend_status_list = _friends[i]->getAllStatuses();
@@ -298,6 +298,15 @@ bool User::operator>(const Page& fanPage) const
 {
 	//return (_numOfFriends > fanPage.getNumOfFans());
 	return (_numOfFriends > fanPage.getNumOfFriends());
+}
+
+ostream& User::operator<<(ostream& out) {
+	out << getName() << ' ' << getBirthday().getYear();
+	/*for (int i = 0; i < _frineds.size(); i++) {
+		out << " ";
+		out << _friends[i].getName();
+	}*/
+	return out;
 }
 
 // check if the user liked a certain page
