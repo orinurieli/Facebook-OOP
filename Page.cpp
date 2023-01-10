@@ -139,15 +139,21 @@ void Page::removeFan(User& removeUser) throw (const char*)
 //	cout << endl;
 //}
 
-void Page::displayAllFans() const throw (const char*)
+void Page::displayAllFansForPage() const throw (const char*)
 {
 	cout << endl << _name << " Fans:" << endl;
 	if (_numOfFriends == 0)
-		throw "oops, no fans to display. \n";
+		throw "Oops, no fans to display.\n";
 	else
 	{
 		for (int i = 0; i < _numOfFriends; i++)
-			cout << _friends[i]->getUserName() << endl;
+		{
+			cout << "Fan #" << i + 1 << ":" << endl;
+			cout << "Name: " << _friends[i]->getUserName() << endl;
+			cout << "Birthday: ";
+			_friends[i]->getBirthday().displayDate();
+			cout << endl << endl;
+		}
 	}
 	cout << endl;
 }

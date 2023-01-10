@@ -2,13 +2,16 @@
 #include <iostream>
 using namespace std;
 
+#include "User.h"
+#include "Status.h"
+
 void Entity::createStatus()
 {
 	Status* newStatus = new Status();
 	newStatus->getStatusInfo(*newStatus);
 	cout << "Status Uploaded!" << endl << endl;
 	_statuses.push_back(newStatus);
-	//_numOfStatuses++;
+	_numOfStatuses++;
 }
 
 void Entity::displayAllStatuses() const
@@ -36,24 +39,22 @@ void Entity::displayAllStatuses() const
 	cout << endl;
 }
 
-//void Entity::displayAllFriends() const throw (const char*)
-//{
-//	cout << endl << _name << "'s friends:" << endl;
-//	//int numOfFriends = this->getNumOfFriends();
-//	int numOfFriends = getNumOfFriends();
-//
-//	if (numOfFriends == 0)
-//		throw "No friends to display :(";
-//	else
-//	{
-//		cout << endl;
-//		for (int i = 0; i < numOfFriends; i++)
-//		{
-//			cout << "Friend #" << i + 1 << ":" << endl;
-//			cout << "Name: " << _friends[i]->getUserName() << endl;
-//			cout << "Birthday: ";
-//			_friends[i]->getBirthday().displayDate();
-//			cout << endl << endl;
-//		}
-//	}
-//}
+void Entity::displayAllFriends() const throw (const char*)
+{
+	cout << endl << _name << "'s friends:" << endl;
+
+	if (_numOfFriends == 0)
+		throw "No friends to display :(";
+	else
+	{
+		cout << endl;
+		for (int i = 0; i < _numOfFriends; i++)
+		{
+			cout << "Friend #" << i + 1 << ":" << endl;
+			cout << "Name: " << _friends[i]->getUserName() << endl;
+			cout << "Birthday: ";
+			_friends[i]->getBirthday().displayDate();
+			cout << endl << endl;
+		}
+	}
+}

@@ -14,6 +14,7 @@ using namespace std;
 
 class Page;
 class Operation;
+//class Entity;
 #include "Entity.h"
 
 class User : public Entity
@@ -35,7 +36,7 @@ public:
 	User(const User&) = delete; // we delete the copy c'tor because we dont want to duplicate a user
 
 	const int getNumOfStatuses() const { return _statuses.size(); }
-	const int getNumOfFriends() const { return _friends.size(); } // todo - do we even need this counter? we have vector
+	//const int getNumOfFriends() const { return _friends.size(); } // it's in entity
 	const int getNumOfPages() const { return _likedPages.size(); } // todo - same
 	const string& getUserName() const { return _name; }
 	const Clock getBirthday() const { return _birthday; }
@@ -46,7 +47,7 @@ public:
 
 	void setUserName(string& username) { _name = username; };
 	void setBirthday(Clock& birthday) { _birthday = birthday; }
-	//void pushToFriendsList(User& newFriend) { _friends.push_back(&newFriend); }
+	void pushToFriendsListInUser(User& newFriend) { _friends.push_back(&newFriend); _numOfFriends++; }
 	//void pushToStatusesList(Status& newStatus) { _statuses.push_back(&newStatus); }
 	
 	void createStatusForUser(Status* status);  // it's a pointer because it can also be null (from initiation)
@@ -57,7 +58,7 @@ public:
 	void dislikePage(Operation& system);
 	void displayRecentStatusesOfaFriend(Operation& system) const; // 10 most recent statuses of all his friends
 	//void displayAllStatusesForUser() const; // todo - can delete later when heritence works
-	void displayAllFriends() const;
+	void displayAllFriendsForUser() const throw (const char*); // todo - can delete later when heritence works
 
 	User& operator+=(User& other);
 	User& operator+=(Page& fanPage);

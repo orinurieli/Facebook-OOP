@@ -42,7 +42,7 @@ public:
 	void addFanToPage(Operation& system, User& currentUser);
 	void removeFan(User& removeUser);
 	//void displayAllStatusesForPage() const; // todo - can delete later when heritence works
-	void displayAllFans() const;
+	void displayAllFansForPage() const;
 
 	~Page() {};
 };

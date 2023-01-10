@@ -226,24 +226,20 @@ void User::displayRecentStatusesOfaFriend(Operation& system) const throw (const 
 //}
 
 // shows all friends of a user
-void User::displayAllFriends() const throw (const char*)
+void User::displayAllFriendsForUser() const throw (const char*)
 {
 	cout << endl << _name << "'s friends:" << endl;
-	//int numOfFriends = this->getNumOfFriends();
-	int numOfFriends = this->getFriendsList().size();
 
-	if (numOfFriends == 0)
+	if (_numOfFriends == 0)
 		throw "No friends to display :(";
 	else
 	{
 		cout << endl;
-		for (int i = 0; i < numOfFriends; i++)
+		for (int i = 0; i < _numOfFriends; i++)
 		{
 			cout << "friend #" << i + 1 << ":" << endl;
-			//cout << "Name: " << _friendsList[i]->getUserName() << endl;
 			cout << "Name: " << _friends[i]->getUserName() << endl;
 			cout << "Birthday: ";
-			//_friendsList[i]->_birthday.displayDate();
 			_friends[i]->_birthday.displayDate();
 			cout << endl << endl;
 		}

@@ -4,9 +4,8 @@
 #include <string>
 #include <iostream>
 using namespace std;
-#include "Status.h"
 class User;
-//class Status;
+class Status;
 
 class Entity
 {
@@ -21,18 +20,26 @@ public:
 	Entity(const string& name) : _name(name), _numOfFriends(0), _numOfStatuses(0) {}
 	Entity(const Entity& other) = delete; // don't want to clone an entity
 
-	const int getNumOfFriends() const { return _friends.size(); } // todo - do we even need this counter? we have vector
-	const int getNumOfStatuses() const { return _statuses.size(); } // todo - same
+	const int getNumOfFriends() const { return _numOfFriends; }
+	const int getNumOfStatuses() const { return _numOfStatuses; }
 	const string& getName() const { return _name; }
 	vector<User*> getFriendsList() const { return _friends; }
 	vector<Status*> getStatusesList() const { return _statuses; }
 
-	void pushToFriendsList(User& newFriend) { _friends.push_back(&newFriend); }
-	void pushToStatusesList(Status& newStatus) { _statuses.push_back(&newStatus); }
+	void pushToFriendsList(User& newFriend)
+	{
+		_friends.push_back(&newFriend);
+		_numOfFriends++;
+	}
+	void pushToStatusesList(Status& newStatus)
+	{
+		_statuses.push_back(&newStatus); 
+		_numOfStatuses++;
+	}
 
 	void createStatus();
 	void displayAllStatuses() const;
-	//void displayAllFriends() const;
+	void displayAllFriends() const;
 
 
 	//~Entity();
