@@ -43,10 +43,8 @@ public:
 
 	void setUserName(string& username) { _name = username; };
 	void setBirthday(Clock& birthday) { _birthday = birthday; }
-	void pushToFriendsListInUser(User& newFriend) { _friends.push_back(&newFriend); } // todo delete this?
 	void pushToStatusesList(Status& newStatus) { _statuses.push_back(&newStatus); }
 	
-	void createStatusForUser(Status* status);  // it's a pointer because it can also be null (from initiation)
 	void addFriend(Operation& system);
 	void cancelFriendship(Operation& system);
 	void removeFriendFromFriendList(int indexToRemove);

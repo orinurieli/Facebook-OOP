@@ -8,7 +8,8 @@ using namespace std;
 #include "Status.h"
 
 
-class VideoStatus : public Status {
+class VideoStatus : public Status
+{
 private:
 	string _videoUrl;
 
@@ -18,13 +19,13 @@ public:
 
 	const string& getVideoUrl() const { return _videoUrl; }
 
-	virtual void getStatusInfo(Status& newStatus)
+	virtual void insertStatusVideo(Status& newStatus)
 	{
 		string text;
 		string path;
 
-		cout << "Please insert your status: ";
-		getline(cin, text);
+		//cout << "Please insert your status: ";
+		//getline(cin, text);
 		//newStatus._text = text;
 
 		cout << "Please insert Video path." << endl;
@@ -32,7 +33,7 @@ public:
 		getline(cin, path);
 	}
 
-	void displayVideo() throw(const char*)
+	virtual void display() throw(const char*)
 	{
 		string command = "start " + _videoUrl;
 		int result = system(command.c_str());
