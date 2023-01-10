@@ -164,10 +164,10 @@ void User::displayRecentStatusesOfaFriend(Operation& system) const throw (const 
 {
 	const int NUM_STATUSES_TO_DISPLAY = 10;
 
-	if (_numOfFriends == 0)
+	if (_friends.size() == 0)
 		throw "No friends to display.";
 
-	for (int i = 0; i < _numOfFriends; i++) // go over friends list
+	for (int i = 0; i < _friends.size(); i++) // go over friends list
 	{
 		//cout << "Friend's name: " << _friendsList[i]->getUserName() << endl;
 		//cout << _friendsList[i]->getUserName() << "'s 10 Most Recent Statuses Are:" << endl;

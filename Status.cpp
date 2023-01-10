@@ -25,3 +25,16 @@ bool Status::operator!=(const Status& other) const
 {
 	return(_text != other._text);
 }
+
+// this function prints a status
+void Status::display()
+{
+	cout << "-----------------------------------" << endl;
+	cout << "Text: " << _text << endl;
+	cout << "Uploaded on: ";
+	_time.displayDate();
+	cout << " | ";
+	_time.displayHour();
+	cout << endl;
+	cout << "-----------------------------------" << endl;
+}

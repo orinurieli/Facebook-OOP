@@ -37,15 +37,8 @@ void Entity::displayAllStatuses() const
 	{
 		for (int i = 0; i < num_of_statuses; i++)
 		{
-			cout << "-----------------------------------" << endl;
 			cout << "Status #" << i + 1 << endl;
-			cout << "Text: " << _statuses[i]->getText() << endl;
-			cout << "Uploaded on: ";
-			_statuses[i]->getStatusTime().displayDate();
-			cout << " | ";
-			_statuses[i]->getStatusTime().displayHour();
-			cout << endl;
-			cout << "-----------------------------------" << endl;
+			_statuses[i]->display();
 		}
 	}
 	cout << endl;
