@@ -4,14 +4,18 @@
 #include <vector>
 #include <string>
 using namespace std;
+
 #include "Status.h"
+//#include "TextStatus.h"
+//#include "ImageStatus.h"
+//#include "VideoStatus.h"
 #include "Clock.h"
 
 #define NOT_FOUND -1
 #define USER 1
 #define FRIEND 2
 
-class Page;
+#include "Page.h"
 class Operation;
 //class Entity;
 #include "Entity.h"
@@ -45,7 +49,7 @@ public:
 	void setBirthday(Clock& birthday) { _birthday = birthday; }
 	void pushToFriendsListInUser(User& newFriend) { _friends.push_back(&newFriend); } // todo delete this?
 	void pushToStatusesList(Status& newStatus) { _statuses.push_back(&newStatus); }
-	
+
 	void createStatusForUser(Status* status);  // it's a pointer because it can also be null (from initiation)
 	void addFriend(Operation& system);
 	void cancelFriendship(Operation& system);
@@ -57,7 +61,6 @@ public:
 	User& operator+=(User& other);
 	User& operator+=(Page& fanPage);
 	ostream& operator<<(ostream& out);
-
 
 	bool operator<(const User& other) const;
 	bool operator>(const User& other) const;

@@ -4,7 +4,7 @@
 #include <chrono>
 #include <ctime>  
 #include <string>
-enum StringLocation{startDay, endDay, startMonth=3, endMonth=4,	startYear=6, endYear=9};
+enum StringLocation { startDay, endDay, startMonth = 3, endMonth = 4, startYear = 6, endYear = 9 };
 
 class Clock
 {
@@ -28,8 +28,10 @@ public:
 	int stringToNumber(string& str, int start, int end);
 
 	Clock& getDate() { return *this; }
-	Clock& getHour() { return *this; }
+	//Clock& getHour() { return *this; }
 	Clock& getBirthdayInput();
+
+	ostream& operator<<(ostream& out);
 
 	void displayDate() const;
 	void displayHour() const;

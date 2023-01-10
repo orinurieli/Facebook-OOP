@@ -19,7 +19,7 @@ public:
 	Status(const string& text, Clock& time) : _text(text), _time(time) {}
 
 	const string& getText() const { return _text; }
-	const Clock& getStatusTime() { return _time; }
+	Clock& getStatusTime() { return _time; }
 
 	virtual void getStatusInfo(Status& newStatus);
 	virtual void display();

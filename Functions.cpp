@@ -425,23 +425,23 @@ void newTerminate()
 
 void storeObjects(const string& filename, vector<User*> users, vector<Page*> pages)
 {
-	// Open a file in binary output mode
-	ofstream out(filename, ios::binary);
+	// Open file 
+	ofstream out(filename, ios::trunc);
 
-	// Write the number of User objects to the file
+	// Write number of Users 
 	int numUsers = users.size();
 	out << numUsers;
 
-	// Write the User objects to the file
+	// Write Users
 	for (const User* user : users) {
 		out << user;
 	}
 
-	// Write the number of Page objects to the file
+	// Write number of Pages
 	int numPages = pages.size();
 	out << numPages;
 
-	// Write the Page objects to the file
+	// Write Pages
 	for (const Page* page : pages) {
 		out << page;
 	}
@@ -452,14 +452,14 @@ void storeObjects(const string& filename, vector<User*> users, vector<Page*> pag
 // users and pages that are stored in Operation
 void readObjects(const string& filename, vector<User*> users, vector<Page*> pages)
 {
-	// Open the file in binary input mode
-	ifstream in(filename, ios::binary);
+	// Open file 
+	ifstream in(filename, ios::trunc);
 
-	// Read the number of User objects from the file
+	// Read number of Users
 	int numUsers;
 	in >> numUsers;
 
-	// Read the User objects from the file
+	// Read Users
 	for (int i = 0; i < numUsers; i++) {
 		Clock birthday(1, 7, 1997);
 		User* user = new User("Ori Nurieli", birthday);;
@@ -469,11 +469,11 @@ void readObjects(const string& filename, vector<User*> users, vector<Page*> page
 		users.push_back(user);
 	}
 
-	// Read the number of Page objects from the file
+	// Read number of Pages
 	int numPages;
 	in >> numPages;
 
-	// Read the Page objects from the file
+	// Read Pages
 	for (int i = 0; i < numPages; i++) {
 		Page* page = new Page("temp");
 		//in >> page;

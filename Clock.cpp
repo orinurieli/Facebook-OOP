@@ -132,3 +132,22 @@ Clock& Clock::getBirthdayInput() noexcept(false)
 	Clock res(d, m, y);
 	return res;
 }
+
+ostream& Clock::operator<<(ostream& out)
+{
+	out << " ";
+	out << this->getDay();
+	out << " ";
+	out << this->getMonth();
+	out << " ";
+	out << this->getYear();
+	out << " ";
+	out << this->getHours();
+	out << " ";
+	out << this->getMinutes();
+	out << " ";
+	out << this->getSeconds();
+	out << " ";
+
+	return out;
+}

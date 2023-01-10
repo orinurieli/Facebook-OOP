@@ -2,6 +2,7 @@
 using namespace std;
 #include "User.h"
 #include "Functions.h"
+#include "Clock.h"
 
 class Page;
 
@@ -241,11 +242,45 @@ bool User::operator>(const Page& fanPage) const
 }
 
 ostream& User::operator<<(ostream& out) {
-	out << getName() << ' ' << getBirthday().getYear();
-	/*for (int i = 0; i < _frineds.size(); i++) {
+	// User Properties
+	out << _name << " ";
+	// todo: operator << Clock doesnt work
+	out << _birthday.getDay() << " ";
+	out << _birthday.getMonth() << " ";
+	out << _birthday.getYear() << " ";
+	out << _birthday.getHours() << " ";
+	out << _birthday.getMinutes() << " ";
+	out << _birthday.getSeconds() << " ";
+
+	// User Pages
+	out << _likedPages.size();
+	for (int i = 0; i < _likedPages.size(); i++) {
 		out << " ";
-		out << _friends[i].getName();
-	}*/
+		out << _likedPages[i]->getName();
+	}
+
+	// User Statuses
+	out << _statuses.size();
+	for (int i = 0; i < _statuses.size(); i++) {
+		string classType = typeid(*_statuses[i]).name() + 6;
+		out << " ";
+		out << classType;
+		out << _statuses[i]->getText();
+		out << " ";
+		out << _statuses[i]->getStatusTime().getDay() << " ";
+		out << _statuses[i]->getStatusTime().getMonth() << " ";
+		out << _statuses[i]->getStatusTime().getYear() << " ";
+		out << _statuses[i]->getStatusTime().getHours() << " ";
+		out << _statuses[i]->getStatusTime().getMinutes() << " ";
+		out << _statuses[i]->getStatusTime().getSeconds() << " ";
+
+		/*if (classType.compare("VideoStatus"))
+			cout << dynamic_cast<VideoStatus*>(_statuses[i])->getVideoUrl();
+		else if (classType.compare("ImageStatus"))
+			cout << dynamic_cast<ImageStatus*>(_statuses[i])->getImageUrl();*/
+
+	}
+
 	return out;
 }
 
