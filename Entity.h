@@ -39,7 +39,7 @@ public:
 
 	void createStatus();
 	void displayAllStatuses() const;
-	void displayAllFriends() const;
+	void displayAllFriends(int userOrPage) const;
 
 
 	//~Entity();
