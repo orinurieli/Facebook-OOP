@@ -81,19 +81,17 @@ void User::cancelFriendship(Operation& system) throw (const char*)
 // removes "friendToRemove" from friend list, if he's not in the end of the array, switch between the last friend to him. 
 void User::removeFriendFromFriendList(int indexToRemove)
 {
-	//_friendsList[indexToRemove] = nullptr;
+	int num_of_friends = _friends.size();
 	_friends[indexToRemove] = nullptr;
 
-	if (_numOfFriends > 1 && indexToRemove != _numOfFriends - 1)
+	if (num_of_friends > 1 && indexToRemove != num_of_friends - 1)
 	{
 		// if friend is not last, and there is more than 1 friend on the array - swap them
 		//_friendsList[indexToRemove] = _friendsList[_numOfFriends - 1];
 		//_friendsList[_numOfFriends - 1] = nullptr;
-		_friends[indexToRemove] = _friends[_numOfFriends - 1];
-		_friends[_numOfFriends - 1] = nullptr;
+		_friends[indexToRemove] = _friends[num_of_friends - 1];
+		_friends[num_of_friends - 1] = nullptr;
 	}
-
-	_numOfFriends--;
 }
 
 // adds the page to the user's liked pages
@@ -147,7 +145,6 @@ void User::dislikePage(Operation& system) throw (const char*)
 			}
 
 			_likedPages.pop_back(); // delete the last one
-			_numOfPages--;
 			page_to_dislike->removeFan(*this);
 			found = true;
 		}
@@ -178,7 +175,7 @@ void User::displayRecentStatusesOfaFriend(Operation& system) const throw (const 
 		cout << "Friend's name: " << _friends[i]->getUserName() << endl;
 		cout << _friends[i]->getUserName() << "'s 10 Most Recent Statuses Are:" << endl;
 		vector<Status*> friend_status_list = _friends[i]->getAllStatuses();
-		int num_statuses = _friends[i]->getNumOfStatuses();
+		int num_statuses = _friends[i]->_statuses[i].size();
 
 		if (num_statuses == 0)
 			throw "No statuses to display.";

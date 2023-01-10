@@ -10,16 +10,15 @@ void Entity::createStatus()
 	newStatus->getStatusInfo(*newStatus);
 	cout << "Status Uploaded!" << endl << endl;
 	_statuses.push_back(newStatus);
-	_numOfStatuses++;
 }
 
-void Entity::displayAllStatuses() const
+void Entity::displayAllStatuses() const throw (const char*)
 {
-	int num_of_statuses = getNumOfStatuses();
+	int num_of_statuses = _statuses.size();
 
 	cout << endl << _name << "'s Statuses:\n";
 	if (num_of_statuses == 0)
-		cout << "None." << endl << endl;
+		throw "No statuses to display :(";
 	else
 	{
 		for (int i = 0; i < num_of_statuses; i++)
@@ -34,6 +33,7 @@ void Entity::displayAllStatuses() const
 void Entity::displayAllFriendsOrFans(int userOrPage) const throw (const char*)
 {
 	cout << endl << _name << "'s friends:" << endl;
+	int _numOfFriends = _friends.size();
 
 	if (_numOfFriends == 0)
 		throw "No friends to display :(";

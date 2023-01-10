@@ -35,7 +35,7 @@ int main()
 		}
 		catch (const char* err)
 		{
-			cout << endl << "error thrown: " << err << endl << endl;
+			cout << endl << "Error thrown: " << err << endl << endl;
 		}
 		catch (std::invalid_argument& err)
 		{

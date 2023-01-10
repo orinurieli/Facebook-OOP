@@ -4,7 +4,6 @@
 #include <vector>
 #include <string>
 using namespace std;
-//#include <string.h>
 #include "Status.h"
 #include "Clock.h"
 
@@ -22,7 +21,7 @@ class User : public Entity
 private:
 	Clock _birthday;
 	vector<Page*> _likedPages;
-	int _numOfPages;
+	//int _numOfPages;
 	/*string _name;
 	vector <User*> _friendsList;
 	vector<Status*> _statuses;
@@ -32,12 +31,9 @@ private:
 public:
 	User() = delete;
 	//User(const string& name, Clock& birthday, int numFriends, int numPages);
-	User(const string& name, Clock& birthday) : Entity(name), _birthday(birthday), _numOfPages(0) {}
+	User(const string& name, Clock& birthday) : Entity(name), _birthday(birthday) {}
 	User(const User&) = delete; // we delete the copy c'tor because we dont want to duplicate a user
 
-	const int getNumOfStatuses() const { return _statuses.size(); }
-	//const int getNumOfFriends() const { return _friends.size(); } // it's in entity
-	const int getNumOfPages() const { return _likedPages.size(); } // todo - same
 	const string& getUserName() const { return _name; }
 	const Clock getBirthday() const { return _birthday; }
 	//vector<User*> getFriendsList() const { return _friendsList; }
@@ -47,8 +43,8 @@ public:
 
 	void setUserName(string& username) { _name = username; };
 	void setBirthday(Clock& birthday) { _birthday = birthday; }
-	void pushToFriendsListInUser(User& newFriend) { _friends.push_back(&newFriend); _numOfFriends++; }
-	//void pushToStatusesList(Status& newStatus) { _statuses.push_back(&newStatus); }
+	void pushToFriendsListInUser(User& newFriend) { _friends.push_back(&newFriend); }
+	void pushToStatusesList(Status& newStatus) { _statuses.push_back(&newStatus); }
 	
 	void createStatusForUser(Status* status);  // it's a pointer because it can also be null (from initiation)
 	void addFriend(Operation& system);
