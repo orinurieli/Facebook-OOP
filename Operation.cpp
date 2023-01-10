@@ -65,8 +65,8 @@ void Operation::handleMenu(int userChoice) noexcept(false)
 {
 	// first ask if it's a page or a user
 	User* current_user = nullptr;
-	//Page* current_page = nullptr;
-	//askForEntityUserOrPage(current_user, current_page, *this);
+	// Page* current_page = nullptr;
+	// askForEntityUserOrPage(current_user, current_page, *this);
 
 
 	if (userChoice > 0 && userChoice < Exit)

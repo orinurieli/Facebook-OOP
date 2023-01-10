@@ -29,7 +29,7 @@ void getUserInput(Operation& system);
 void addPageToSystem(Operation& system);
 
 int askUserOrPage();
-//void askForEntityUserOrPage(User* current_user, Page* current_page, Operation& system); // return pointer because null can be returned
+// void askForEntityUserOrPage(User* current_user, Page* current_page, Operation& system); // return pointer because null can be returned
 
 void getUserOrPageInput(int userChoice, Operation& system);
 Page* getPageDetails(Operation& system, int clearBuffer);

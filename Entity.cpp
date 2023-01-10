@@ -39,7 +39,7 @@ void Entity::displayAllStatuses() const
 	cout << endl;
 }
 
-void Entity::displayAllFriends() const throw (const char*)
+void Entity::displayAllFriends(int userOrPage) const throw (const char*)
 {
 	cout << endl << _name << "'s friends:" << endl;
 
