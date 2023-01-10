@@ -68,5 +68,8 @@
     <ClInclude Include="ImageStatus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TextStatus.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
