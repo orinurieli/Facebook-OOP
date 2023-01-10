@@ -26,16 +26,8 @@ public:
 	vector<User*> getFriendsList() const { return _friends; }
 	vector<Status*> getStatusesList() const { return _statuses; }
 
-	void pushToFriendsList(User& newFriend)
-	{
-		_friends.push_back(&newFriend);
-		_numOfFriends++;
-	}
-	void pushToStatusesList(Status& newStatus)
-	{
-		_statuses.push_back(&newStatus); 
-		_numOfStatuses++;
-	}
+	void pushToFriendsList(User& newFriend)	{_friends.push_back(&newFriend);	}
+	void pushToStatusesList(Status& newStatus){	_statuses.push_back(&newStatus); }
 
 	void createStatus();
 	void displayAllStatuses() const;
