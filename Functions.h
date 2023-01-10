@@ -5,6 +5,7 @@
 #include "User.h"
 #include "Page.h"
 
+#include <fstream>
 #include <vector>
 #include <string>
 class User;
@@ -34,6 +35,11 @@ int askUserOrPage();
 void getUserOrPageInput(int userChoice, Operation& system);
 Page* getPageDetails(Operation& system, int clearBuffer);
 User* askForUsername(Operation& system, int flag);
+
+// Files Functions
+void storeObjects(const string& filename, vector<User*> users, vector<Page*> pages);
+void readObjects(const string& filename, vector<User*> users, vector<Page*> pages);
+
 
 void newTerminate();
 

@@ -56,6 +56,8 @@ public:
 
 	User& operator+=(User& other);
 	User& operator+=(Page& fanPage);
+	ostream& operator<<(ostream& out);
+
 
 	bool operator<(const User& other) const;
 	bool operator>(const User& other) const;

@@ -34,6 +34,16 @@ bool Page::operator>(User& currentUser)
 	return (_friends.size() > currentUser.getFriendsList().size());
 }
 
+ostream& Page::operator<<(ostream& out) {
+	out << getName();
+	/*for (int i = 0; i < _frineds.size(); i++) {
+		out << " ";
+		out << _friends[i].getName();
+	}*/
+
+	return out;
+}
+
 // ask from user name of a page and checks if the page exists in the system
 Page* Page::askForPageName(Operation& system) // *returns a pointer because NULL can be returned*
 {

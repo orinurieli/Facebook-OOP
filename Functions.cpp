@@ -422,3 +422,63 @@ void newTerminate()
 	cout << "oops, looks like a problem occured." << endl << "Please call support and don't lower our grade :)" << endl << endl;
 }
 
+
+void storeObjects(const string& filename, vector<User*> users, vector<Page*> pages)
+{
+	// Open a file in binary output mode
+	ofstream out(filename, ios::binary);
+
+	// Write the number of User objects to the file
+	int numUsers = users.size();
+	out << numUsers;
+
+	// Write the User objects to the file
+	for (const User* user : users) {
+		out << user;
+	}
+
+	// Write the number of Page objects to the file
+	int numPages = pages.size();
+	out << numPages;
+
+	// Write the Page objects to the file
+	for (const Page* page : pages) {
+		out << page;
+	}
+
+	out.close();
+}
+
+// users and pages that are stored in Operation
+void readObjects(const string& filename, vector<User*> users, vector<Page*> pages)
+{
+	// Open the file in binary input mode
+	ifstream in(filename, ios::binary);
+
+	// Read the number of User objects from the file
+	int numUsers;
+	in >> numUsers;
+
+	// Read the User objects from the file
+	for (int i = 0; i < numUsers; i++) {
+		Clock birthday(1, 7, 1997);
+		User* user = new User("Ori Nurieli", birthday);;
+
+		// todo: operator >> for user and page!!
+		//in >> user;
+		users.push_back(user);
+	}
+
+	// Read the number of Page objects from the file
+	int numPages;
+	in >> numPages;
+
+	// Read the Page objects from the file
+	for (int i = 0; i < numPages; i++) {
+		Page* page = new Page("temp");
+		//in >> page;
+		pages.push_back(page);
+	}
+
+	in.close();
+}
