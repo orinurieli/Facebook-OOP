@@ -23,7 +23,7 @@ public:
 		cin.ignore();
 		getline(cin, _text);
 		//newStatus.setText(text);
-		cout << "Status uploaded!" << endl;
+		cout << "Text Status Uploaded!" << endl;
 	}
 
 };

@@ -147,6 +147,7 @@
     <ClCompile Include="Page.cpp" />
     <ClCompile Include="Status.cpp" />
     <ClCompile Include="User.cpp" />
+    <ClCompile Include="VideoStatus.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Clock.h" />

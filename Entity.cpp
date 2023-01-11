@@ -3,8 +3,11 @@
 using namespace std;
 #include "User.h"
 #include "Status.h"
+
+
 #include "TextStatus.h"
 #include "ImageStatus.h"
+#include "VideoStatus.h"
 
 
 void Entity::createStatus() throw (const char*)
@@ -22,9 +25,8 @@ void Entity::createStatus() throw (const char*)
 	case textStatus:
 	{
 		Status* newStatus = new TextStatus();
-		newStatus->insertStatus(*newStatus);
+		dynamic_cast<TextStatus*>(newStatus)->insertStatus();
 		_statuses.push_back(newStatus);
-		cout << "Status Uploaded!" << endl << endl;
 		break;
 	}
 	case imageStatus:
@@ -32,16 +34,14 @@ void Entity::createStatus() throw (const char*)
 		Status* newStatus = new ImageStatus();
 		dynamic_cast<ImageStatus*>(newStatus)->insertStatus();
 		_statuses.push_back(newStatus);
-		cout << "Status Uploaded!" << endl << endl;
 		break;
 	}
 	case videoStatus:
 	{
-		/*Status* newStatus = new VideoStatus();
-		newStatus->insertStatus(*newStatus);
+		Status* newStatus = new VideoStatus();
+		dynamic_cast<VideoStatus*>(newStatus)->insertStatus();
 		_statuses.push_back(newStatus);
-		cout << "Status Uploaded!" << endl << endl;
-		break;*/
+		break;
 	}
 	default:
 		break;

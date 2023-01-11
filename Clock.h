@@ -1,9 +1,13 @@
 #ifndef __CLOCK_H
 #define __CLOCK_H
 #define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
 #include <chrono>
-#include <ctime>  
+#include <ctime>
+#include <iomanip>
 #include <string>
+
 enum StringLocation{startDay, endDay, startMonth=3, endMonth=4,	startYear=6, endYear=9};
 
 class Clock

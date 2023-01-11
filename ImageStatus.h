@@ -28,8 +28,9 @@ public:
 
 		cout << "\nPlease enter image's url: ";
 		cin >> _imageUrl;
+		// todo - add throw catch
 
-		cout << "Status uploaded!" << endl;
+		cout << "Image Status uploaded!" << endl;
 	}
 };
 
