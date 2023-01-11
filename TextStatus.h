@@ -18,12 +18,10 @@ public:
 	// when an entity wants to insert a status
 	virtual void insertStatus()
 	{
-		//string text;
-		cout << "Please insert your status: ";
+		cout << "Please insert text: ";
 		cin.ignore();
 		getline(cin, _text);
-		//newStatus.setText(text);
-		cout << "Text Status Uploaded!" << endl;
+		cout << "Text Status Uploaded!" << endl << endl;
 	}
 
 };

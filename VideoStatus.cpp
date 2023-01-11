@@ -9,7 +9,7 @@ void VideoStatus::insertStatus()
 {
 	int videoChoice;
 
-	cout << "Please insert your status: ";
+	cout << "Please insert text: ";
 	cin.ignore();
 	getline(cin, _text);
 
@@ -38,7 +38,7 @@ void VideoStatus::insertStatus()
 	default:
 		break;
 	}
-	cout << "Video Status Uploaded!" << endl;
+	cout << "Video Status Uploaded!" << endl << endl;
 }
 
 void VideoStatus::display() throw(const char*)

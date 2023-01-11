@@ -22,15 +22,15 @@ public:
 	// when an entity wants to insert a status
 	virtual void insertStatus()
 	{
-		cout << "Please insert your status: ";
+		cout << "Please insert text: ";
 		cin.ignore();
 		getline(cin, _text);
 
-		cout << "\nPlease enter image's url: ";
+		cout << "Please enter image's url: ";
 		cin >> _imageUrl;
 		// todo - add throw catch
 
-		cout << "Image Status uploaded!" << endl;
+		cout << "Image Status uploaded!" << endl << endl;
 	}
 };
 

@@ -20,54 +20,36 @@ void Entity::createStatus() throw (const char*)
 	if (status_type_choice < 1 || status_type_choice > 3)
 		throw "Invalid Choice!\n";
 
+	Status* newStatus;
+
 	switch (status_type_choice)
 	{
 	case textStatus:
 	{
-		Status* newStatus = new TextStatus();
+		newStatus = new TextStatus();
 		dynamic_cast<TextStatus*>(newStatus)->insertStatus();
-		_statuses.push_back(newStatus);
+		//_statuses.push_back(newStatus);
 		break;
 	}
 	case imageStatus:
 	{
-		Status* newStatus = new ImageStatus();
+		newStatus = new ImageStatus();
 		dynamic_cast<ImageStatus*>(newStatus)->insertStatus();
-		_statuses.push_back(newStatus);
+		//_statuses.push_back(newStatus);
 		break;
 	}
 	case videoStatus:
 	{
-		Status* newStatus = new VideoStatus();
+		newStatus = new VideoStatus();
 		dynamic_cast<VideoStatus*>(newStatus)->insertStatus();
-		_statuses.push_back(newStatus);
+		//_statuses.push_back(newStatus);
 		break;
 	}
 	default:
 		break;
 	}
 
-	/*Status* newStatus = new Status();
-	newStatus->getStatusInfo(*newStatus);
 	_statuses.push_back(newStatus);
-	cout << "Status Uploaded!" << endl << endl;*/
-
-	// todo: let the user choose between:
-	// 1 - text status
-	// 2 - image status
-	// 3 - video status
-
-	/*
-	* Example
-	* user chose: 3
-	* Status* newStatus = new VideoStatus();
-	* newStatus->getStatusInfo(*newStatus); // using Polymorphizem
-	* _statuses.push_back(newStatus);
-	*/
-
-	// new Status appears in initiate statuses
-
-	
 }
 
 void Entity::displayAllStatuses() const throw (const char*)
