@@ -3,9 +3,55 @@
 using namespace std;
 #include "User.h"
 #include "Status.h"
+#include "TextStatus.h"
+#include "ImageStatus.h"
 
-void Entity::createStatus()
+
+void Entity::createStatus() throw (const char*)
 {
+	int status_type_choice;
+	cout << "Please choose what kind of status to upload:" << endl;
+	cout << "1 - Text Status" << endl << "2 - Image Status" << endl << "3 - Video Status" << endl;
+	cin >> status_type_choice;
+
+	if (status_type_choice < 1 || status_type_choice > 3)
+		throw "Invalid Choice!\n";
+
+	switch (status_type_choice)
+	{
+	case textStatus:
+	{
+		Status* newStatus = new TextStatus();
+		newStatus->insertStatus(*newStatus);
+		_statuses.push_back(newStatus);
+		cout << "Status Uploaded!" << endl << endl;
+		break;
+	}
+	case imageStatus:
+	{
+		Status* newStatus = new ImageStatus();
+		dynamic_cast<ImageStatus*>(newStatus)->insertStatus();
+		_statuses.push_back(newStatus);
+		cout << "Status Uploaded!" << endl << endl;
+		break;
+	}
+	case videoStatus:
+	{
+		/*Status* newStatus = new VideoStatus();
+		newStatus->insertStatus(*newStatus);
+		_statuses.push_back(newStatus);
+		cout << "Status Uploaded!" << endl << endl;
+		break;*/
+	}
+	default:
+		break;
+	}
+
+	/*Status* newStatus = new Status();
+	newStatus->getStatusInfo(*newStatus);
+	_statuses.push_back(newStatus);
+	cout << "Status Uploaded!" << endl << endl;*/
+
 	// todo: let the user choose between:
 	// 1 - text status
 	// 2 - image status
@@ -19,11 +65,9 @@ void Entity::createStatus()
 	* _statuses.push_back(newStatus);
 	*/
 
-	Status* newStatus = new Status();
-	newStatus->getStatusInfo(*newStatus);
-	_statuses.push_back(newStatus);
-	cout << "Status Uploaded!" << endl << endl;
-	_statuses.push_back(newStatus);
+	// new Status appears in initiate statuses
+
+	
 }
 
 void Entity::displayAllStatuses() const throw (const char*)

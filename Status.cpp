@@ -5,14 +5,7 @@
 using namespace std;
 #include "Status.h"
 
-// when an entity wants to insert a status
-void Status::getStatusInfo(Status& newStatus)
-{
-	string text;
-	cout << "Please insert your status: ";
-	getline(cin, text);
-	newStatus._text = text;
-}
+
 
 // checks if 2 statuses are identical in their text
 bool Status::operator==(const Status& other) const

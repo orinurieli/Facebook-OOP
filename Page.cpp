@@ -64,20 +64,6 @@ Page* Page::askForPageName(Operation& system) // *returns a pointer because NULL
 		return nullptr;
 }
 
-// creates a status for a page
-void Page::createStatusForPage(Status* initStatus)
-{
-	if (initStatus)
-		_statuses.push_back(initStatus);
-	else // a user creates a new status on his own
-	{
-		Status* newStatus = new Status();
-		newStatus->getStatusInfo(*newStatus);
-		_statuses.push_back(newStatus);
-		cout << "Status Uploaded!" << endl << endl;
-	}
-}
-
 // receives fan and adds him to the page's fan list
 void Page::addFanToPage(Operation& system, User& currentUser)
 {

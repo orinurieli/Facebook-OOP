@@ -15,22 +15,6 @@ class Page;
 //	_numOfPages = numPages;
 //}
 
-// if init status is null, asks the user to insert text and adds the status the statuses vector.
-// it it's not null - adds the status the vector
-void User::createStatusForUser(Status* initStatus)
-{
-	if (initStatus != nullptr)
-		_statuses.push_back(initStatus);
-	else
-	{
-		Status* newStatus = new Status();
-		newStatus->getStatusInfo(*newStatus);
-		cout << "Status Uploaded!" << endl << endl;
-		_statuses.push_back(newStatus);
-	}
-	//_numOfStatuses++;
-}
-
 // this function connects 2 users to be friends
 void User::addFriend(Operation& system) throw (const char*)
 {

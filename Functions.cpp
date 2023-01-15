@@ -119,24 +119,19 @@ void initiateStatuses(Operation& system)
 	int num_of_users = system.getNumOfUsers();
 	int num_of_pages = system.getNumOfPages();
 
-	for (int i = 0; i < num_of_users; i++)
+	/*for (int i = 0; i < num_of_users; i++)
 	{
 		Clock date;
 		Status* newStatus = new Status("Hello world", date.getDate());
 		all_users[i]->pushToStatusesList(*newStatus);
-		//all_users[i]->getStatusesList().push_back(newStatus);
-		//all_users[i]->getAllStatuses().push_back(newStatus);
-		//_statuses.push_back(initStatus);
-		//all_users[i]->createStatusForUser(newStatus);
-	}
+	}*/
 
-	for (int i = 0; i < num_of_pages; i++)
+	/*for (int i = 0; i < num_of_pages; i++)
 	{
 		Clock date;
 		Status* newStatus = new Status("Hello world", date.getDate());
 		all_pages[i]->pushToStatusesList(*newStatus);
-		//all_pages[i]->createStatusForPage(newStatus);
-	}
+	}*/
 }
 
 // ################ menu ################

@@ -39,7 +39,6 @@ public:
 	ostream& operator<<(ostream& out);
 
 	Page* askForPageName(Operation& system); // *returns a pointer because NULL can be returned*
-	void createStatusForPage(Status* initStatus); // *pointer because it can also be null*
 	void addFanToPage(Operation& system, User& currentUser);
 	void removeFan(User& removeUser);
 

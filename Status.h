@@ -7,21 +7,37 @@
 #include <vector>
 #include "Clock.h"
 
+#include <iostream>
+using namespace std;
+
 class Status
 {
-private:
+protected:
 	string _text;
 	Clock _time;
-
-	// todo: move Ctors to private - Abstract Class 
-public:
 	Status() : _text("") {}
 	Status(const string& text, Clock& time) : _text(text), _time(time) {}
 
-	const string& getText() const { return _text; }
-	Clock& getStatusTime() { return _time; }
+	// todo: move Ctors to private - Abstract Class 
+public:
+	//Status() : _text("") {}
+	//Status(const string& text, Clock& time) : _text(text), _time(time) {}
 
-	virtual void getStatusInfo(Status& newStatus);
+	const string& getText() const { return _text; }
+	const Clock& getStatusTime() { return _time; }
+	void setText(string& newText) { _text = newText; }
+
+	// when an entity wants to insert a status
+	virtual void insertStatus(Status& newStatus)
+	{
+		string text;
+		cout << "Please insert your status: ";
+		cin.ignore();
+		getline(cin, text);
+		newStatus._text = text;
+		cout << "Status uploaded!" << endl;
+	}
+
 	virtual void display();
 
 	bool operator==(const Status& other) const;
