@@ -86,8 +86,9 @@ istream& Page::operator>>(istream& in)
 	for (int i = 0; i < numFriends; i++) {
 		string friendName;
 		in >> friendName;
-		Clock friendBirthday;
-		// in >> friendBirthday;
+		int day, month, year;
+		in >> day >> month >> year;
+		Clock friendBirthday(day, month, year);
 
 		page->getFriendsList().push_back(new User(friendName, friendBirthday));
 	}
