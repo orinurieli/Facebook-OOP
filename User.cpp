@@ -225,16 +225,32 @@ bool User::operator>(const Page& fanPage) const
 	return (_friends.size() > fanPage.getFriendsList().size());
 }
 
-ostream& User::operator<<(ostream& out) {
+ostream& User::operator<<(ostream& out)
+{
 	// User Properties
 	out << _name << " ";
-	// todo: operator << Clock doesnt work
+	// out << _birthday;
 	out << _birthday.getDay() << " ";
 	out << _birthday.getMonth() << " ";
 	out << _birthday.getYear() << " ";
-	out << _birthday.getHours() << " ";
-	out << _birthday.getMinutes() << " ";
-	out << _birthday.getSeconds() << " ";
+	//out << _birthday.getHours() << " ";
+	//out << _birthday.getMinutes() << " ";
+	//out << _birthday.getSeconds() << " ";
+
+	// User Friends
+	out << _friends.size();
+	for (int i = 0; i < _friends.size(); i++) {
+		out << " ";
+		out << _friends[i]->getName();
+		//out << _friends[i]->getBirthday();
+
+		out << _friends[i]->getBirthday().getDay() << " ";
+		out << _friends[i]->getBirthday().getMonth() << " ";
+		out << _friends[i]->getBirthday().getYear() << " ";
+		/*out << _friends[i]->getBirthday().getHours() << " ";
+		out << _friends[i]->getBirthday().getMinutes() << " ";
+		out << _friends[i]->getBirthday().getSeconds() << " ";*/
+	}
 
 	// User Pages
 	out << _likedPages.size();
@@ -251,22 +267,159 @@ ostream& User::operator<<(ostream& out) {
 		out << classType;
 		out << _statuses[i]->getText();
 		out << " ";
+		//out << _statuses[i]->getStatusTime();
+
 		out << _statuses[i]->getStatusTime().getDay() << " ";
 		out << _statuses[i]->getStatusTime().getMonth() << " ";
 		out << _statuses[i]->getStatusTime().getYear() << " ";
-		out << _statuses[i]->getStatusTime().getHours() << " ";
+		/*out << _statuses[i]->getStatusTime().getHours() << " ";
 		out << _statuses[i]->getStatusTime().getMinutes() << " ";
-		out << _statuses[i]->getStatusTime().getSeconds() << " ";
+		out << _statuses[i]->getStatusTime().getSeconds() << " ";*/
 
-		/*if (classType.compare("VideoStatus"))
+		if (classType.compare("VideoStatus"))
 			cout << dynamic_cast<VideoStatus*>(_statuses[i])->getVideoUrl();
 		else if (classType.compare("ImageStatus"))
-			cout << dynamic_cast<ImageStatus*>(_statuses[i])->getImageUrl();*/
-
+			cout << dynamic_cast<ImageStatus*>(_statuses[i])->getImageUrl();
 	}
 
 	return out;
 }
+
+istream& operator>>(istream& in, User& user) {
+	string username, friendName, pageName, classType, text, imageUrl, videoUrl;
+	int numFriends, numPages, numStatuses, day, month, year;
+	Clock birthday, statusTime;
+	User* newFriend;
+	Page* page;
+	Status* status;
+
+	// read user name
+	in >> username;
+	user.setUserName(username);
+
+	// read user birthday
+	in >> day >> month >> year;
+	birthday = Clock(day, month, year);
+	user.setBirthday(birthday);
+
+	// read number of friends
+	in >> numFriends;
+
+	// read friends
+	for (int i = 0; i < numFriends; i++) {
+		in >> friendName;
+		in >> day >> month >> year;
+		birthday = Clock(day, month, year);
+		newFriend = new User(friendName, birthday);
+		user.getFriendsList().push_back(newFriend);
+	}
+
+	// read number of liked pages
+	in >> numPages;
+
+	// read liked pages
+	for (int i = 0; i < numPages; i++) {
+		in >> pageName;
+		page = new Page(pageName);
+		user.getLikedPagesList().push_back(page);
+	}
+
+	// read number of statuses
+	in >> numStatuses;
+
+	// read statuses
+	for (int i = 0; i < numStatuses; i++) {
+		in >> classType;
+		in >> text;
+		in >> day >> month >> year;
+		statusTime = Clock(day, month, year);
+
+		if (classType == "TextStatus") {
+			status = new TextStatus(text, statusTime);
+		}
+		else if (classType == "ImageStatus") {
+			in >> imageUrl;
+			status = new ImageStatus(text, statusTime, imageUrl);
+		}
+		else {
+			in >> videoUrl;
+			status = new VideoStatus(text, statusTime, videoUrl);
+		}
+		user.getStatusesList().push_back(status);
+	}
+
+	return in;
+}
+
+
+
+//istream& User::operator>>(istream& in)
+//{
+//	int friendsSize, pagesSize;
+//	string name;
+//	Clock birthday;
+//
+//	// User Properties
+//	in >> name;
+//	in >> birthday;
+//
+//	User* user = new User(name, birthday);
+//
+//	// User Friends
+//	in >> friendsSize;
+//	for (int i = 0; i < friendsSize; i++) {
+//		string friendName;
+//		Clock friendBirthday;
+//		in >> friendName;
+//		in >> friendBirthday;
+//
+//		User* newFriend = new User(friendName, friendBirthday);
+//		user._friends.push_back(newFriend);
+//	}
+//
+//	// User Pages
+//	in >> pagesSize;
+//	for (int i = 0; i < pagesSize; i++) {
+//		string pageName;
+//		in >> pageName;
+//
+//		Page* page = new Page(pageName);
+//		user._likedPages.push_back(page);
+//	}
+//
+//	// User Statuses
+//	int statusesSize;
+//	in >> statusesSize;
+//	for (int i = 0; i < statusesSize; i++) {
+//		string classType;
+//		string text;
+//		Clock statusTime;
+//		in >> classType;
+//		in >> text;
+//		in >> statusTime;
+//
+//		if (classType == "VideoStatus") {
+//			string videoUrl;
+//			in >> videoUrl;
+//			VideoStatus* videoStatus = new VideoStatus(text, statusTime, videoUrl);
+//			user._statuses.push_back(videoStatus);
+//		}
+//		else if (classType == "ImageStatus") {
+//			string imageUrl;
+//			in >> imageUrl;
+//			ImageStatus* imageStatus = new ImageStatus(text, statusTime, imageUrl);
+//			user._statuses.push_back(imageStatus);
+//		}
+//		else {
+//			Status* status = new TextStatus(text, statusTime);
+//			user._statuses.push_back(status);
+//		}
+//	}
+//
+//	return in;
+//}
+
+
 
 // check if the user liked a certain page
 bool User::PageExistInLikedPages(const string& pageName)

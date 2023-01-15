@@ -9,6 +9,7 @@ using namespace std;
 #include "Operation.h"
 #include "Entity.h"
 
+
 class Page : public Entity
 {
 private:
@@ -37,6 +38,7 @@ public:
 	bool operator<(User& currentUser);
 	bool operator>(User& currentUser);
 	ostream& operator<<(ostream& out);
+	istream& operator>>(istream& in);
 
 	Page* askForPageName(Operation& system); // *returns a pointer because NULL can be returned*
 	void addFanToPage(Operation& system, User& currentUser);

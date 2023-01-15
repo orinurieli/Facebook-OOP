@@ -15,6 +15,7 @@ Operation::Operation()
 // initiate the program with users and pages
 void Operation::initiateData(vector<User*> initUsers, vector<Page*> initPages)
 {
+	//readObjects("Facebook_DataBase", initUsers, initPages);
 	_allUsers = initiateUsers();
 	_allPages = initiatePages(*this, _allUsers);
 	initiateStatuses(*this);

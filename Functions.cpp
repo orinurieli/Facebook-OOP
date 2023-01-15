@@ -455,6 +455,7 @@ void readObjects(const string& filename, vector<User*> users, vector<Page*> page
 	in >> numUsers;
 
 	// Read Users
+	users.resize(numUsers);
 	for (int i = 0; i < numUsers; i++) {
 		Clock birthday(1, 7, 1997);
 		User* user = new User("Ori Nurieli", birthday);;
@@ -469,6 +470,7 @@ void readObjects(const string& filename, vector<User*> users, vector<Page*> page
 	in >> numPages;
 
 	// Read Pages
+	pages.resize(numPages);
 	for (int i = 0; i < numPages; i++) {
 		Page* page = new Page("temp");
 		//in >> page;

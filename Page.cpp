@@ -36,13 +36,95 @@ bool Page::operator>(User& currentUser)
 
 ostream& Page::operator<<(ostream& out) {
 	out << getName();
-	/*for (int i = 0; i < _frineds.size(); i++) {
+
+	out << _friends.size();
+	for (int i = 0; i < _friends.size(); i++) {
 		out << " ";
-		out << _friends[i].getName();
-	}*/
+		out << _friends[i]->getName();
+		// out << _friends[i]->getBirthday();
+		out << _friends[i]->getBirthday().getDay() << " ";
+		out << _friends[i]->getBirthday().getMonth() << " ";
+		out << _friends[i]->getBirthday().getYear() << " ";
+		out << _friends[i]->getBirthday().getHours() << " ";
+		out << _friends[i]->getBirthday().getMinutes() << " ";
+		out << _friends[i]->getBirthday().getSeconds() << " ";
+	}
+
+	out << _statuses.size();
+	for (int i = 0; i < _statuses.size(); i++) {
+		string classType = typeid(*_statuses[i]).name() + 6;
+
+		out << " ";
+		out << classType;
+		out << _statuses[i]->getText();
+		out << " ";
+		// out << _statuses[i]->getStatusTime();
+		out << _statuses[i]->getStatusTime().getDay() << " ";
+		out << _statuses[i]->getStatusTime().getMonth() << " ";
+		out << _statuses[i]->getStatusTime().getYear() << " ";
+		out << _statuses[i]->getStatusTime().getHours() << " ";
+		out << _statuses[i]->getStatusTime().getMinutes() << " ";
+		out << _statuses[i]->getStatusTime().getSeconds() << " ";
+
+		if (classType.compare("VideoStatus"))
+			cout << dynamic_cast<VideoStatus*>(_statuses[i])->getVideoUrl();
+		else if (classType.compare("ImageStatus"))
+			cout << dynamic_cast<ImageStatus*>(_statuses[i])->getImageUrl();
+	}
 
 	return out;
 }
+
+istream& Page::operator>>(istream& in)
+{
+	string name;
+	in >> name;
+	Page* page = new Page(name);
+
+	int numFriends;
+	in >> numFriends;
+	for (int i = 0; i < numFriends; i++) {
+		string friendName;
+		in >> friendName;
+		Clock friendBirthday;
+		// in >> friendBirthday;
+
+		page->getFriendsList().push_back(new User(friendName, friendBirthday));
+	}
+
+	int numStatuses;
+	in >> numStatuses;
+	for (int i = 0; i < numStatuses; i++) {
+		string statusType;
+		in >> statusType;
+		string text;
+		in >> text;
+		int day, month, year;
+		in >> day >> month >> year;
+		Clock statusTime = Clock(day, month, year);
+
+		if (statusType == "VideoStatus") {
+			string videoUrl;
+			in >> videoUrl;
+			// create a new VideoStatus object and add it to the page's statuses
+			page->getStatusesList().push_back(new VideoStatus(text, statusTime, videoUrl));
+		}
+		else if (statusType == "ImageStatus") {
+			string imageUrl;
+			in >> imageUrl;
+			// create a new ImageStatus object and add it to the page's statuses
+			page->getStatusesList().push_back(new ImageStatus(text, statusTime, imageUrl));
+		}
+		else {
+			// create a new Status object and add it to the page's statuses
+			page->getStatusesList().push_back(new TextStatus(text, statusTime));
+		}
+	}
+
+	return in;
+}
+
+
 
 // ask from user name of a page and checks if the page exists in the system
 Page* Page::askForPageName(Operation& system) // *returns a pointer because NULL can be returned*

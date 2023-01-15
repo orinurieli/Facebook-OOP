@@ -5,10 +5,9 @@
 #include <string>
 using namespace std;
 
-#include "Status.h"
-//#include "TextStatus.h"
-//#include "ImageStatus.h"
-//#include "VideoStatus.h"
+#include "TextStatus.h"
+#include "ImageStatus.h"
+#include "VideoStatus.h"
 #include "Clock.h"
 
 #define NOT_FOUND -1
@@ -16,9 +15,11 @@ using namespace std;
 #define FRIEND 2
 
 #include "Page.h"
-class Operation;
-//class Entity;
 #include "Entity.h"
+class Operation;
+class Entity;
+class Page;
+class Clock;
 
 class User : public Entity
 {
@@ -40,7 +41,6 @@ public:
 
 	const string& getUserName() const { return _name; }
 	const Clock getBirthday() const { return _birthday; }
-	//vector<User*> getFriendsList() const { return _friendsList; }
 	vector<User*> getFriendsList() const { return _friends; }
 	vector<Page*> getLikedPagesList() { return _likedPages; }
 	vector<Status*> getAllStatuses() const { return _statuses; }
@@ -48,7 +48,7 @@ public:
 	void setUserName(string& username) { _name = username; };
 	void setBirthday(Clock& birthday) { _birthday = birthday; }
 	void pushToStatusesList(Status& newStatus) { _statuses.push_back(&newStatus); }
-	
+
 	void addFriend(Operation& system);
 	void cancelFriendship(Operation& system);
 	void removeFriendFromFriendList(int indexToRemove);
@@ -59,6 +59,7 @@ public:
 	User& operator+=(User& other);
 	User& operator+=(Page& fanPage);
 	ostream& operator<<(ostream& out);
+	istream& operator>>(istream& in);
 
 	bool operator<(const User& other) const;
 	bool operator>(const User& other) const;
