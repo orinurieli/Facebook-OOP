@@ -9,7 +9,7 @@ class Status;
 #include "TextStatus.h"
 
 // todo - make entity abstaract. move c'tors to private and make name in the ctors of page and user
-enum StatusType{textStatus=1, imageStatus, videoStatus};
+enum StatusType { textStatus = 1, imageStatus, videoStatus };
 
 class Entity
 {
