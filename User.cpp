@@ -6,15 +6,6 @@ using namespace std;
 
 class Page;
 
-// c'tor
-//User::User(const string& name, Clock& birthday, int numFriends, int numPages) : Entity(name, 0, 0)
-//{
-//	//_name = name;
-//	_birthday = birthday;
-//	//_numOfFriends = numFriends;
-//	_numOfPages = numPages;
-//}
-
 // this function connects 2 users to be friends
 void User::addFriend(Operation& system) throw (const char*)
 {
@@ -30,7 +21,6 @@ void User::addFriend(Operation& system) throw (const char*)
 		throw "You can't add yourself as a friend.";
 		return;
 	}
-	//if (searchFriendInFriendList(*friendToAdd) != NOT_FOUND)
 	if (searchMemberInFriendList(*friendToAdd) != NOT_FOUND)
 	{
 		throw "Friend is already on your friend list.";
@@ -300,7 +290,16 @@ istream& operator>>(istream& in, User& user) {
 	for (int i = 0; i < numPages; i++) {
 		in >> pageName;
 		page = new Page(pageName);
-		user.getLikedPagesList().push_back(page);
+
+		// TODO delete later this remark
+		// ORI i changed it to this becauase i turned the getters to const ref
+		vector<Page*> liked_pages = user.getLikedPagesList();
+		liked_pages.push_back(page);
+		// ^
+		// |
+		//user.getLikedPagesList().push_back(page);
+
+		// needs to check if it creates a new object or not
 	}
 
 	// read number of statuses

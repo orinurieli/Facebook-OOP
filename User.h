@@ -28,12 +28,14 @@ public:
 	User(const string& name, Clock& birthday) : Entity(name), _birthday(birthday) {}
 	User(const User&) = delete; // we delete the copy c'tor because we dont want to duplicate a user
 
-	const Clock getBirthday() const { return _birthday; }
-	vector<Page*> getLikedPagesList() { return _likedPages; }
+	const Clock& getBirthday() const { return _birthday; }
+	const vector<Page*>& getLikedPagesList() const { return _likedPages; }
 	void setBirthday(Clock& birthday) { _birthday = birthday; }
 
 	void addFriend(Operation& system);
 	void cancelFriendship(Operation& system);
+
+
 	void likePage(Operation& system);
 	void dislikePage(Operation& system);
 	void displayRecentStatusesOfaFriend(Operation& system) const; // 10 most recent statuses of all his friends

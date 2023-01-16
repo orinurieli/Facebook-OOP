@@ -10,6 +10,8 @@ class Status;
 // todo - make entity abstaract. move c'tors to private and make name in the ctors of page and user
 enum StatusType { textStatus = 1, imageStatus, videoStatus };
 #define NOT_FOUND -1
+#define USER 1
+#define PAGE 0
 
 class Entity
 {

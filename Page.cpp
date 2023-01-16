@@ -11,30 +11,6 @@ Page& Page::operator+=(User& currentUser)
 	return *this;
 }
 
-// compare number of fans between two pages
-bool Page::operator<(Page& other)
-{
-	return (_friends.size() < other._friends.size());
-}
-
-// compare number of fans between two pages
-bool Page::operator>(Page& other)
-{
-	return (_friends.size() > other._friends.size());
-}
-
-// compare the page's number of fans to a user's number of friends
-bool Page::operator<(User& currentUser)
-{
-	return (_friends.size() < currentUser.getFriendsList().size());
-}
-
-// compare the page's number of fans to a user's number of friends
-bool Page::operator>(User& currentUser)
-{
-	return (_friends.size() > currentUser.getFriendsList().size());
-}
-
 ostream& Page::operator<<(ostream& out) {
 	out << getName();
 
