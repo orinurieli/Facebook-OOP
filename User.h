@@ -36,7 +36,6 @@ public:
 
 	const string& getUserName() const { return _name; }
 	const Clock getBirthday() const { return _birthday; }
-	//vector<User*> getFriendsList() const { return _friendsList; }
 	vector<User*> getFriendsList() const { return _friends; }
 	vector<Page*> getLikedPagesList() { return _likedPages; }
 	vector<Status*> getAllStatuses() const { return _statuses; }
