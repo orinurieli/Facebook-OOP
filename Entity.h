@@ -8,7 +8,7 @@ class User;
 class Status;
 
 // todo - make entity abstaract. move c'tors to private and make name in the ctors of page and user
-enum StatusType{textStatus=1, imageStatus, videoStatus};
+enum StatusType { textStatus = 1, imageStatus, videoStatus };
 
 class Entity
 {
@@ -25,8 +25,8 @@ public:
 	vector<User*> getFriendsList() const { return _friends; }
 	vector<Status*> getStatusesList() const { return _statuses; }
 
-	void pushToFriendsList(User& newFriend)	{_friends.push_back(&newFriend);}
-	void pushToStatusesList(Status& newStatus){	_statuses.push_back(&newStatus); }
+	void pushToFriendsList(User& newFriend) { _friends.push_back(&newFriend); }
+	void pushToStatusesList(Status& newStatus) { _statuses.push_back(&newStatus); }
 
 	void createStatus();
 	void displayAllStatuses() const;

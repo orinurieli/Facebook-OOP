@@ -4,17 +4,22 @@
 #include <vector>
 #include <string>
 using namespace std;
-#include "Status.h"
+
+#include "TextStatus.h"
+#include "ImageStatus.h"
+#include "VideoStatus.h"
 #include "Clock.h"
 
 #define NOT_FOUND -1
 #define USER 1
 #define FRIEND 2
 
-class Page;
-class Operation;
-//class Entity;
+#include "Page.h"
 #include "Entity.h"
+class Operation;
+class Entity;
+class Page;
+class Clock;
 
 class User : public Entity
 {
@@ -43,7 +48,7 @@ public:
 	void setUserName(string& username) { _name = username; };
 	void setBirthday(Clock& birthday) { _birthday = birthday; }
 	void pushToStatusesList(Status& newStatus) { _statuses.push_back(&newStatus); }
-	
+
 	void addFriend(Operation& system);
 	void cancelFriendship(Operation& system);
 	void removeFriendFromFriendList(int indexToRemove);
@@ -54,7 +59,7 @@ public:
 	User& operator+=(User& other);
 	User& operator+=(Page& fanPage);
 	ostream& operator<<(ostream& out);
-
+	istream& operator>>(istream& in);
 
 	bool operator<(const User& other) const;
 	bool operator>(const User& other) const;

@@ -27,6 +27,7 @@ int main()
 			userChoice = displayMenu();
 			if (userChoice == Exit)
 			{
+				// storeObjects("Facebook_DataBase", system.getAllUsers(), system.getAllPages());
 				cout << "Goodbye.";
 				break;
 			}

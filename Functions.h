@@ -1,15 +1,16 @@
 #ifndef __FUNCTIONS_H
 #define __FUNCTIONS_H
 
-#include "Operation.h"
-#include "User.h"
-#include "Page.h"
-
 #include <fstream>
 #include <vector>
 #include <string>
 class User;
 class Page;
+class Operation;
+
+#include "Operation.h"
+#include "User.h"
+#include "Page.h"
 
 #define NOT_FOUND -1
 #define PAGE 0

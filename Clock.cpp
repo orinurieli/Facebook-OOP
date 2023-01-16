@@ -126,3 +126,37 @@ Clock& Clock::getBirthdayInput() noexcept(false)
 	Clock res(d, m, y);
 	return res;
 }
+
+ostream& Clock::operator<<(ostream& out) //const
+{
+	out << " ";
+	out << this->getDay();
+	out << " ";
+	out << this->getMonth();
+	out << " ";
+	out << this->getYear();
+	out << " ";
+	out << this->getHours();
+	out << " ";
+	out << this->getMinutes();
+	out << " ";
+	out << this->getSeconds();
+	out << " ";
+
+	return out;
+}
+
+istream& Clock::operator>>(istream& in)
+{
+	int day, month, year, hours, minutes, seconds;
+	in >> day >> month >> year >> hours >> minutes >> seconds;
+
+	/*Clock.setDay(day);
+	Clock.setMonth(month);
+	Clock.setYear(year);
+	Clock.setHours(hours);
+	Clock.setMinutes(minutes);
+	Clock.setSeconds(seconds);*/
+
+	return in;
+}
