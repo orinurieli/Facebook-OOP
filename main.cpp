@@ -1,6 +1,6 @@
 // Gon Etgar 316354653 
 // Ori Nurieli 208952341
-// Ex3 - continue
+// Ex3
 #include <iostream>
 #include <vector>
 #include <string>
@@ -25,6 +25,7 @@ int main()
 		try
 		{
 			userChoice = displayMenu();
+
 			if (userChoice == Exit)
 			{
 				// storeObjects("Facebook_DataBase", system.getAllUsers(), system.getAllPages());

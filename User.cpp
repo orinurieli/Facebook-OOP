@@ -30,7 +30,8 @@ void User::addFriend(Operation& system) throw (const char*)
 		throw "You can't add yourself as a friend.";
 		return;
 	}
-	if (searchFriendInFriendList(*friendToAdd) != NOT_FOUND)
+	//if (searchFriendInFriendList(*friendToAdd) != NOT_FOUND)
+	if (searchMemberInFriendList(*friendToAdd) != NOT_FOUND)
 	{
 		throw "Friend is already on your friend list.";
 		return;
@@ -47,36 +48,20 @@ void User::cancelFriendship(Operation& system) throw (const char*)
 	if (friend_to_delete == nullptr)
 		return;
 
-	int friend_index = this->searchFriendInFriendList(*friend_to_delete);
+	// checks if the friend is in the friends list
+	int friend_index = searchMemberInFriendList(*friend_to_delete);
 	if (friend_index == NOT_FOUND)
 	{
 		throw "User is not on your friend list.";
 		return;
 	}
 
-	int user_index = friend_to_delete->searchFriendInFriendList(*this);
-	// no need checking again beacause adding a friend is mutual. we only need the index.
+	int user_index = friend_to_delete->searchMemberInFriendList(*this); // no need checking again beacause adding a friend is mutual. we only need the index.
 
-	this->removeFriendFromFriendList(friend_index);
-	friend_to_delete->removeFriendFromFriendList(user_index);
+	this->_friends.erase(this->_friends.begin() + friend_index);
+	friend_to_delete->_friends.erase(friend_to_delete->_friends.begin() + user_index);
 
 	cout << endl << _name << ", you have removed " << friend_to_delete->_name << " from your friend list." << endl << endl;
-}
-
-// removes "friendToRemove" from friend list, if he's not in the end of the array, switch between the last friend to him. 
-void User::removeFriendFromFriendList(int indexToRemove)
-{
-	int num_of_friends = _friends.size();
-	_friends[indexToRemove] = nullptr;
-
-	if (num_of_friends > 1 && indexToRemove != num_of_friends - 1)
-	{
-		// if friend is not last, and there is more than 1 friend on the array - swap them
-		//_friendsList[indexToRemove] = _friendsList[_numOfFriends - 1];
-		//_friendsList[_numOfFriends - 1] = nullptr;
-		_friends[indexToRemove] = _friends[num_of_friends - 1];
-		_friends[num_of_friends - 1] = nullptr;
-	}
 }
 
 // adds the page to the user's liked pages
@@ -138,7 +123,7 @@ void User::dislikePage(Operation& system) throw (const char*)
 	if (!found)
 		throw "Page was not found on your Liked Pages list.";
 	else
-		cout << endl << this->getUserName() << " disliked " << page_to_dislike->getName() << endl << endl;
+		cout << endl << this->getName() << " disliked " << page_to_dislike->getName() << endl << endl;
 }
 
 // 10 most recent statuses of all his friends 
@@ -152,16 +137,10 @@ void User::displayRecentStatusesOfaFriend(Operation& system) const throw (const 
 
 	for (int i = 0; i < num_of_friends; i++) // go over friends list
 	{
-		//cout << "Friend's name: " << _friendsList[i]->getUserName() << endl;
-		//cout << _friendsList[i]->getUserName() << "'s 10 Most Recent Statuses Are:" << endl;
-		//vector<Status*> friend_status_list = _friendsList[i]->getAllStatuses();
-		//int num_statuses = _friendsList[i]->getNumOfStatuses();
-
-
-		cout << "Friend's name: " << _friends[i]->getUserName() << endl;
-		cout << _friends[i]->getUserName() << "'s 10 Most Recent Statuses Are:" << endl;
-		vector<Status*> friend_status_list = _friends[i]->getAllStatuses();
-		int num_statuses = _friends[i]->getAllStatuses().size();
+		cout << "Friend's name: " << _friends[i]->getName() << endl;
+		cout << _friends[i]->getName() << "'s 10 Most Recent Statuses Are:" << endl;
+		vector<Status*> friend_status_list = _friends[i]->getStatusesList();
+		int num_statuses = _friends[i]->getStatusesList().size();
 
 		if (num_statuses == 0)
 			throw "No statuses to display.";
@@ -295,7 +274,7 @@ istream& operator>>(istream& in, User& user) {
 
 	// read user name
 	in >> username;
-	user.setUserName(username);
+	user.setName(username);
 
 	// read user birthday
 	in >> day >> month >> year;
@@ -433,21 +412,21 @@ bool User::PageExistInLikedPages(const string& pageName)
 }
 
 // searches a friend in the user's friend list, returns the friend index in the vector, or -1 if not found
-int User::searchFriendInFriendList(User& other)
-{
-	int friend_to_delete_index = NOT_FOUND;
-	int num_of_friends = _friends.size();
-
-	if (_friends.size() > 0) // if user has friends 
-	{
-		for (int i = 0; i < num_of_friends && friend_to_delete_index == NOT_FOUND; i++)
-		{
-			if (_friends[i]->_name.compare(other._name) == 0)
-				friend_to_delete_index = i;
-		}
-	}
-	return friend_to_delete_index;
-}
+//int User::searchFriendInFriendList(User& other)
+//{
+//	int friend_to_delete_index = NOT_FOUND;
+//	int num_of_friends = _friends.size();
+//
+//	if (num_of_friends > 0) // if user has friends 
+//	{
+//		for (int i = 0; i < num_of_friends && friend_to_delete_index == NOT_FOUND; i++)
+//		{
+//			if (_friends[i]->_name.compare(other._name) == 0)
+//				friend_to_delete_index = i;
+//		}
+//	}
+//	return friend_to_delete_index;
+//}
 
 // d'tor
 User::~User()

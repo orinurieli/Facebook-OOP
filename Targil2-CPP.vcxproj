@@ -142,10 +142,12 @@
     <ClCompile Include="Clock.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Functions.cpp" />
+    <ClCompile Include="ImageStatus.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Operation.cpp" />
     <ClCompile Include="Page.cpp" />
     <ClCompile Include="Status.cpp" />
+    <ClCompile Include="TextStatus.cpp" />
     <ClCompile Include="User.cpp" />
     <ClCompile Include="VideoStatus.cpp" />
   </ItemGroup>

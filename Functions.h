@@ -12,6 +12,7 @@ class Operation;
 #include "User.h"
 #include "Page.h"
 
+#define CLEAR_BUFFER -1
 #define NOT_FOUND -1
 #define PAGE 0
 #define USER 1

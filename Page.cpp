@@ -2,6 +2,7 @@
 using namespace std;
 
 #include "Page.h"
+#include "Operation.h"
 
 // adds user to fan list
 Page& Page::operator+=(User& currentUser)

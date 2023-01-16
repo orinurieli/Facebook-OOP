@@ -6,18 +6,12 @@
 using namespace std;
 
 #include "User.h"
-#include "Operation.h"
 #include "Entity.h"
+class Operation;
 
 
 class Page : public Entity
 {
-private:
-	/*string _name;
-	vector<User*> _fansList;
-	vector<Status*>_statuses;
-	int _numOfFans = 0;
-	int _numOfStatuses = 0;*/
 public:
 	//Page(const string& name) : _name(name) {}
 

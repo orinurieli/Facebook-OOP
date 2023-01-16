@@ -14,24 +14,14 @@ private:
 
 public:
 	ImageStatus() : Status() {}
-	ImageStatus(const string& text, Clock& time, const string& imageUrl)
-		: Status(text, time), _imageUrl(imageUrl) {}
+	ImageStatus(const string& text, Clock& time, const string& imageUrl) : Status(text, time), _imageUrl(imageUrl) {}
 
 	const string& getImageUrl() const { return _imageUrl; }
+	virtual void insertStatus() override;
+	virtual void display() override;
 
-	// when an entity wants to insert a status
-	virtual void insertStatus()
-	{
-		cout << "Please insert text: ";
-		cin.ignore();
-		getline(cin, _text);
-
-		cout << "Please enter image's url: ";
-		cin >> _imageUrl;
-		// todo - add throw catch
-
-		cout << "Image Status uploaded!" << endl << endl;
-	}
+	bool operator==(const ImageStatus& other) const { return(_text == other._text && _imageUrl == other._imageUrl); } // checks if 2 statuses are identical
+	bool operator!=(const ImageStatus& other) const { return(_text != other._text || _imageUrl == other._imageUrl); } // checks if 2 statuses are not identical
 };
 
 #endif

@@ -9,20 +9,15 @@ using namespace std;
 
 class TextStatus : public Status
 {
-
 public:
-	//TextStatus() : Status("init", new Clock()) {};
 	TextStatus() : Status()	{}
 	TextStatus(const string& text, Clock& time)	: Status(text, time) {}
 
-	// when an entity wants to insert a status
-	virtual void insertStatus()
-	{
-		cout << "Please insert text: ";
-		cin.ignore();
-		getline(cin, _text);
-		cout << "Text Status Uploaded!" << endl << endl;
-	}
+	virtual void insertStatus() override;
+	virtual void display() override;
+
+	bool operator==(const TextStatus& other) const { return(_text == other._text); } // checks if 2 statuses are identical
+	bool operator!=(const TextStatus& other) const { return(_text != other._text); } // checks if 2 statuses are not identical
 
 };
 
