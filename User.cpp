@@ -410,23 +410,6 @@ bool User::PageExistInLikedPages(const string& pageName)
 	return false;
 }
 
-// searches a friend in the user's friend list, returns the friend index in the vector, or -1 if not found
-//int User::searchFriendInFriendList(User& other)
-//{
-//	int friend_to_delete_index = NOT_FOUND;
-//	int num_of_friends = _friends.size();
-//
-//	if (num_of_friends > 0) // if user has friends 
-//	{
-//		for (int i = 0; i < num_of_friends && friend_to_delete_index == NOT_FOUND; i++)
-//		{
-//			if (_friends[i]->_name.compare(other._name) == 0)
-//				friend_to_delete_index = i;
-//		}
-//	}
-//	return friend_to_delete_index;
-//}
-
 // d'tor
 User::~User()
 {

@@ -4,13 +4,6 @@ using namespace std;
 #include "Page.h"
 #include "Operation.h"
 
-// adds user to fan list
-Page& Page::operator+=(User& currentUser)
-{
-	_friends.push_back(&currentUser);
-	return *this;
-}
-
 ostream& Page::operator<<(ostream& out) {
 	out << getName();
 
@@ -128,6 +121,13 @@ Page* Page::askForPageName(Operation& system) // *returns a pointer because NULL
 void Page::addFanToPage(Operation& system, User& currentUser)
 {
 	*this += currentUser;
+}
+
+// adds user to fan list
+Page& Page::operator+=(User& currentUser)
+{
+	_friends.push_back(&currentUser);
+	return *this;
 }
 
 // this function receives pointer to a user and removes it from array of fans.

@@ -7,12 +7,12 @@ using namespace std;
 class User;
 class Status;
 
-// todo - make entity abstaract. move c'tors to private and make name in the ctors of page and user
 enum StatusType { textStatus = 1, imageStatus, videoStatus };
 #define NOT_FOUND -1
 #define USER 1
 #define PAGE 0
 
+// todo - make entity abstaract. move c'tors to private and make name in the ctors of page and user
 class Entity
 {
 protected:
@@ -33,10 +33,10 @@ public:
 	void pushToFriendsList(User& newFriend) { _friends.push_back(&newFriend); }
 	void pushToStatusesList(Status& newStatus) { _statuses.push_back(&newStatus); }
 	int searchMemberInFriendList(User& friendToSearch);
-
 	void createStatus();
 	void displayAllStatuses() const;
 	void displayAllFriendsOrFans(int userOrPage) const;
+
 	
 	~Entity() {}
 };

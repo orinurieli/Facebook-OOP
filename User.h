@@ -34,8 +34,6 @@ public:
 
 	void addFriend(Operation& system);
 	void cancelFriendship(Operation& system);
-
-
 	void likePage(Operation& system);
 	void dislikePage(Operation& system);
 	void displayRecentStatusesOfaFriend(Operation& system) const; // 10 most recent statuses of all his friends
