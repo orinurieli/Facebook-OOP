@@ -431,10 +431,10 @@ void readObjects(const string& filename, vector<User*>& users, vector<Page*>& pa
 	// Read Users
 	for (int i = 0; i < numUsers; i++) {
 		Clock bday(15, 4, 1990);
-		User* user = new User("Ori", bday);
+		User* user = new User("temp", bday);
 		in >> *user;
 
-		cout << "pushing user:" << user->getName() << endl;
+		cout << "pushing user:" << user->getName() << endl << endl;
 		users.push_back(user);
 	}
 
@@ -456,7 +456,7 @@ void readObjects(const string& filename, vector<User*>& users, vector<Page*>& pa
 }
 
 
-
+// Global Operators
 ostream& operator<<(ostream& out, const User& user)
 {
 	out << user.getName() << endl;
@@ -465,19 +465,12 @@ ostream& operator<<(ostream& out, const User& user)
 	Clock _birthday = user.getBirthday();
 	out << _birthday.getDay() << " ";
 	out << _birthday.getMonth() << " ";
-	out << _birthday.getYear() << " ";
-
-	cout << "bday:  ";
-	cout << _birthday.getDay() << ".";
-	cout << _birthday.getMonth() << ".";
-	cout << _birthday.getYear() << ".";
-	cout << endl;
+	out << _birthday.getYear() << endl;
 
 	vector<User*> _friends = user.getFriendsList();
-	out << _friends.size();
+	out << _friends.size() << " ";
 	for (int i = 0; i < _friends.size(); i++) {
-		out << " ";
-		out << _friends[i]->getName();
+		out << _friends[i]->getName() << endl;
 		out << _friends[i]->getBirthday().getDay() << " ";
 		out << _friends[i]->getBirthday().getMonth() << " ";
 		out << _friends[i]->getBirthday().getYear() << " ";
@@ -487,22 +480,21 @@ ostream& operator<<(ostream& out, const User& user)
 
 
 	vector<Page*> _pages = user.getLikedPagesList();
-	out << _pages.size();
+	out << _pages.size() << " ";;
 	for (int i = 0; i < _pages.size(); i++) {
-		out << " ";
-		out << _pages[i]->getName();
+		out << _pages[i]->getName() << endl;
 	}
 
 	cout << "pages: " << user.getLikedPagesList().size() << endl;
 
 	vector<Status*> _statuses = user.getStatusesList();
-	out << _statuses.size();
+	out << _statuses.size() << " ";;
 	for (int i = 0; i < _statuses.size(); i++) {
 		string classType = typeid(*_statuses[i]).name() + 6;
 		out << " ";
 		out << classType;
 		out << " ";
-		out << _statuses[i]->getText();
+		out << _statuses[i]->getText() << endl;
 		out << " ";
 		out << _statuses[i]->getStatusTime().getDay() << " ";
 		out << _statuses[i]->getStatusTime().getMonth() << " ";
@@ -532,10 +524,11 @@ istream& operator>>(istream& in, User& user)
 	vector<Page*> _pages;
 	vector<Status*> _statuses;
 
-	cout << " inside '>>' operator" << endl;
-	in >> name;
+	getline(in, name);
 	user.setName(name);
-	cout << "reading " << user.getName() << " from file.." << endl;
+
+	// todo: check if need to "eat" the space after line
+	cout << "- reading " << user.getName() << " from file -" << endl;
 
 	in >> day >> month >> year;
 	_birthday = Clock(day, month, year);
@@ -543,18 +536,19 @@ istream& operator>>(istream& in, User& user)
 
 	in >> friendsSize;
 	for (int i = 0; i < friendsSize; i++) {
-		in >> friendName >> friendDay >> friendMonth >> friendYear;
+		getline(in, friendName);
+		in >> friendDay >> friendMonth >> friendYear;
 		Clock friendBday(friendDay, friendMonth, friendYear);
 		User* newFriend = new User(friendName, friendBday);
 		//newFriend->setBirthday(Clock(friendDay, friendMonth, friendYear));
 
 		_friends.push_back(newFriend);
 	}
-	user.setFriendsList(_friends);
+	user.setFriendsList(_friends); // todo: setFriendsList needs virtual?
 
 	in >> pagesSize;
 	for (int i = 0; i < pagesSize; i++) {
-		in >> pageName;
+		getline(in, pageName);
 		Page* page = new Page(pageName);
 		_pages.push_back(page);
 	}
@@ -562,7 +556,9 @@ istream& operator>>(istream& in, User& user)
 
 	in >> statusesSize;
 	for (int i = 0; i < statusesSize; i++) {
-		in >> classType >> text >> statusDay >> statusMonth >> statusYear;
+		in >> classType;
+		getline(in, text);
+		in >> statusDay >> statusMonth >> statusYear;
 		Clock statusTime(statusDay, statusMonth, statusYear);
 
 		if (classType == "VideoStatus") {
@@ -582,7 +578,7 @@ istream& operator>>(istream& in, User& user)
 	}
 	user.setStatusesList(_statuses);
 
-	cout << "Done reading " << user.getName() << endl;
+	cout << "Done reading " << user.getName() << endl << endl;
 
 	return in;
 }
@@ -591,7 +587,6 @@ istream& operator>>(istream& in, User& user)
 
 ostream& operator<<(ostream& out, const Page& page)
 {
-	cout << " inside page '<<' operator" << endl;
 	out << page.getName();
 	cout << "writing " << page.getName() << " to file.." << endl;
 
