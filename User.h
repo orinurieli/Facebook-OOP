@@ -14,6 +14,7 @@ using namespace std;
 #include "ImageStatus.h"
 #include "VideoStatus.h"
 #include "Status.h"
+
 class Operation;
 class Page;
 
@@ -32,8 +33,9 @@ public:
 	const Clock& getBirthday() const { return _birthday; }
 	const vector<Page*>& getLikedPagesList() const { return _likedPages; }
 
-	void setUserName(const string& username) { _name = username; };
-	void setBirthday(const Clock& birthday) { _birthday = birthday; }
+	void setUserName(string& username) { _name = username; };
+	void setBirthday(Clock& birthday) { _birthday = birthday; }
+	void setLikedPagesList(vector<Page*> likedPages) { _likedPages = likedPages; }
 
 	void addFriend(Operation& system);
 	void cancelFriendship(Operation& system);
@@ -44,7 +46,7 @@ public:
 	User& operator+=(User& other);
 	User& operator+=(Page& fanPage);
 	friend ostream& operator<<(ostream& out, const User& user);
-	istream& operator>>(istream& in);
+	friend istream& operator>>(istream& in, User& user);
 
 	bool operator<(const User& other) const;
 	bool operator>(const User& other) const;

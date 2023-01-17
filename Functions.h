@@ -11,6 +11,7 @@ class Operation;
 #include "Operation.h"
 #include "User.h"
 #include "Page.h"
+#include "Clock.h"
 
 #define CLEAR_BUFFER -1
 #define NOT_FOUND -1
@@ -40,7 +41,7 @@ User* askForUsername(Operation& system, int flag);
 
 // Files Functions
 void storeObjects(const string& filename, vector<User*> users, vector<Page*> pages);
-void readObjects(const string& filename, vector<User*> users, vector<Page*> pages);
+void readObjects(const string& filename, vector<User*>& users, vector<Page*>& pages);
 
 
 void newTerminate();
