@@ -17,15 +17,16 @@ void Operation::initiateData(vector<User*> initUsers, vector<Page*> initPages)
 {
 	const string& FILE_NAME = "Facebook_DataBase.txt";
 
-	readObjects(FILE_NAME, initUsers, initPages);
+	// todo: write names of users in different line and read it using getLine
+	//readObjects(FILE_NAME, initUsers, initPages);
 
 	cout << "reading from file...   "
 		<< this->getAllUsers().size() << " users and "
 		<< this->getAllPages().size() << " pages" << endl << endl;
 
-	/*_allUsers = initiateUsers();
+	_allUsers = initiateUsers();
 	_allPages = initiatePages(*this, _allUsers);
-	initiateStatuses(*this);*/
+	initiateStatuses(*this);
 }
 
 

@@ -459,7 +459,7 @@ void readObjects(const string& filename, vector<User*>& users, vector<Page*>& pa
 
 ostream& operator<<(ostream& out, const User& user)
 {
-	out << user.getName();
+	out << user.getName() << endl;
 	cout << "- Writing " << user.getName() << " to file - " << endl;
 
 	Clock _birthday = user.getBirthday();
