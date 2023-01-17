@@ -20,6 +20,7 @@ private:
 	vector<Page*> _allPages;
 	int _numOfUsers;
 	int _numOfPages;
+
 public:
 	Operation();
 

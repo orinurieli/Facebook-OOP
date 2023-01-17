@@ -225,65 +225,107 @@ bool User::operator>(const Page& fanPage) const
 	return (_friends.size() > fanPage.getFriendsList().size());
 }
 
-ostream& User::operator<<(ostream& out)
-{
-	// User Properties
-	out << _name << " ";
-	// out << _birthday;
-	out << _birthday.getDay() << " ";
-	out << _birthday.getMonth() << " ";
-	out << _birthday.getYear() << " ";
-	//out << _birthday.getHours() << " ";
-	//out << _birthday.getMinutes() << " ";
-	//out << _birthday.getSeconds() << " ";
+//ostream& User::operator<<(ostream& out, const User& user)
+//{
+//	out << user._name;
+//	out << user._birthday.getDay();
+//	out << user._birthday.getMonth();
+//	out << user._birthday.getYear();
+//
+//	out << user._friends.size();
+//	for (int i = 0; i < user._friends.size(); i++) {
+//		out << " ";
+//		out << user._friends[i]->getName();
+//		out << user._friends[i]->getBirthday().getDay();
+//		out << user._friends[i]->getBirthday().getMonth();
+//		out << user._friends[i]->getBirthday().getYear();
+//	}
+//
+//	out << user._likedPages.size();
+//	for (int i = 0; i < user._likedPages.size(); i++) {
+//		out << " ";
+//		out << user._likedPages[i]->getName();
+//	}
+//
+//	out << user._statuses.size();
+//	for (int i = 0; i < user._statuses.size(); i++) {
+//		string classType = typeid(*user._statuses[i]).name() + 6;
+//		out << " ";
+//		out << classType;
+//		out << user._statuses[i]->getText();
+//		out << " ";
+//		out << user._statuses[i]->getStatusTime().getDay();
+//		out << user._statuses[i]->getStatusTime().getMonth();
+//		out << user._statuses[i]->getStatusTime().getYear();
+//		if (classType.compare("VideoStatus"))
+//			out << dynamic_cast<VideoStatus*>(user._statuses[i])->getVideoUrl();
+//		else if (classType.compare("ImageStatus"))
+//			out << dynamic_cast<ImageStatus*>(user._statuses[i])->getImageUrl();
+//	}
+//
+//	return out;
+//}
 
-	// User Friends
-	out << _friends.size();
-	for (int i = 0; i < _friends.size(); i++) {
-		out << " ";
-		out << _friends[i]->getName();
-		//out << _friends[i]->getBirthday();
 
-		out << _friends[i]->getBirthday().getDay() << " ";
-		out << _friends[i]->getBirthday().getMonth() << " ";
-		out << _friends[i]->getBirthday().getYear() << " ";
-		/*out << _friends[i]->getBirthday().getHours() << " ";
-		out << _friends[i]->getBirthday().getMinutes() << " ";
-		out << _friends[i]->getBirthday().getSeconds() << " ";*/
-	}
-
-	// User Pages
-	out << _likedPages.size();
-	for (int i = 0; i < _likedPages.size(); i++) {
-		out << " ";
-		out << _likedPages[i]->getName();
-	}
-
-	// User Statuses
-	out << _statuses.size();
-	for (int i = 0; i < _statuses.size(); i++) {
-		string classType = typeid(*_statuses[i]).name() + 6;
-		out << " ";
-		out << classType;
-		out << _statuses[i]->getText();
-		out << " ";
-		//out << _statuses[i]->getStatusTime();
-
-		out << _statuses[i]->getStatusTime().getDay() << " ";
-		out << _statuses[i]->getStatusTime().getMonth() << " ";
-		out << _statuses[i]->getStatusTime().getYear() << " ";
-		/*out << _statuses[i]->getStatusTime().getHours() << " ";
-		out << _statuses[i]->getStatusTime().getMinutes() << " ";
-		out << _statuses[i]->getStatusTime().getSeconds() << " ";*/
-
-		if (classType.compare("VideoStatus"))
-			cout << dynamic_cast<VideoStatus*>(_statuses[i])->getVideoUrl();
-		else if (classType.compare("ImageStatus"))
-			cout << dynamic_cast<ImageStatus*>(_statuses[i])->getImageUrl();
-	}
-
-	return out;
-}
+//ostream& User::operator<<(ostream& out)
+//{
+//	// User Properties
+//	out << _name;
+//	// out << _birthday;
+//	out << _birthday.getDay();
+//	out << _birthday.getMonth();
+//	out << _birthday.getYear();
+//	//out << _birthday.getHours() << " ";
+//	//out << _birthday.getMinutes() << " ";
+//	//out << _birthday.getSeconds() << " ";
+//
+//	// User Friends
+//	out << _friends.size();
+//	for (int i = 0; i < _friends.size(); i++) {
+//		out << " ";
+//		out << _friends[i]->getName();
+//		//out << _friends[i]->getBirthday();
+//
+//		out << _friends[i]->getBirthday().getDay();
+//		out << _friends[i]->getBirthday().getMonth();
+//		out << _friends[i]->getBirthday().getYear();
+//		/*out << _friends[i]->getBirthday().getHours() << " ";
+//		out << _friends[i]->getBirthday().getMinutes() << " ";
+//		out << _friends[i]->getBirthday().getSeconds() << " ";*/
+//	}
+//
+//	// User Pages
+//	out << _likedPages.size();
+//	for (int i = 0; i < _likedPages.size(); i++) {
+//		out << " ";
+//		out << _likedPages[i]->getName();
+//	}
+//
+//	// User Statuses
+//	out << _statuses.size();
+//	for (int i = 0; i < _statuses.size(); i++) {
+//		string classType = typeid(*_statuses[i]).name() + 6;
+//		out << " ";
+//		out << classType;
+//		out << _statuses[i]->getText();
+//		out << " ";
+//		//out << _statuses[i]->getStatusTime();
+//
+//		out << _statuses[i]->getStatusTime().getDay();
+//		out << _statuses[i]->getStatusTime().getMonth();
+//		out << _statuses[i]->getStatusTime().getYear();
+//		/*out << _statuses[i]->getStatusTime().getHours() << " ";
+//		out << _statuses[i]->getStatusTime().getMinutes() << " ";
+//		out << _statuses[i]->getStatusTime().getSeconds() << " ";*/
+//
+//		if (classType.compare("VideoStatus"))
+//			cout << dynamic_cast<VideoStatus*>(_statuses[i])->getVideoUrl();
+//		else if (classType.compare("ImageStatus"))
+//			cout << dynamic_cast<ImageStatus*>(_statuses[i])->getImageUrl();
+//	}
+//
+//	return out;
+//}
 
 istream& operator>>(istream& in, User& user) {
 	string username, friendName, pageName, classType, text, imageUrl, videoUrl;

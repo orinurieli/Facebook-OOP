@@ -42,7 +42,7 @@ public:
 	const string& getUserName() const { return _name; }
 	const Clock getBirthday() const { return _birthday; }
 	vector<User*> getFriendsList() const { return _friends; }
-	vector<Page*> getLikedPagesList() { return _likedPages; }
+	vector<Page*> getLikedPagesList() const { return _likedPages; }
 	vector<Status*> getAllStatuses() const { return _statuses; }
 
 	void setUserName(string& username) { _name = username; };
@@ -58,7 +58,7 @@ public:
 
 	User& operator+=(User& other);
 	User& operator+=(Page& fanPage);
-	ostream& operator<<(ostream& out);
+	friend ostream& operator<<(ostream& out, const User& user);
 	istream& operator>>(istream& in);
 
 	bool operator<(const User& other) const;

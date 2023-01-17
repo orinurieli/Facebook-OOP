@@ -429,6 +429,8 @@ void storeObjects(const string& filename, vector<User*> users, vector<Page*> pag
 
 	// Write Users
 	for (const User* user : users) {
+		//if (user != nullptr)
+		//	out << *user;
 		out << user;
 	}
 
@@ -448,7 +450,8 @@ void storeObjects(const string& filename, vector<User*> users, vector<Page*> pag
 void readObjects(const string& filename, vector<User*> users, vector<Page*> pages)
 {
 	// Open file 
-	ifstream in(filename, ios::trunc);
+	cout << "opening " << filename << "...." << endl;
+	ifstream in(filename);
 
 	// Read number of Users
 	int numUsers;
@@ -478,4 +481,57 @@ void readObjects(const string& filename, vector<User*> users, vector<Page*> page
 	}
 
 	in.close();
+}
+
+
+ostream& operator<<(ostream& out, const User* user)
+{
+	cout << " inside << operator" << endl;
+	out << user->getName();
+	cout << user->getName();
+	Clock _birthday = user->getBirthday();
+	out << _birthday.getDay();
+	out << _birthday.getMonth();
+	out << _birthday.getYear();
+	cout << _birthday.getDay();
+	cout << _birthday.getMonth();
+	cout << _birthday.getYear();
+
+
+
+	vector<User*> _friends = user->getFriendsList();
+	out << _friends.size();
+	for (int i = 0; i < _friends.size(); i++) {
+		out << " ";
+		out << _friends[i]->getName();
+		out << _friends[i]->getBirthday().getDay();
+		out << _friends[i]->getBirthday().getMonth();
+		out << _friends[i]->getBirthday().getYear();
+	}
+
+	vector<Page*> _pages = user->getLikedPagesList();
+	out << _pages.size();
+	for (int i = 0; i < _pages.size(); i++) {
+		out << " ";
+		out << _pages[i]->getName();
+	}
+
+	vector<Status*> _statuses = user->getStatusesList();
+	out << _statuses.size();
+	for (int i = 0; i < _statuses.size(); i++) {
+		string classType = typeid(*_statuses[i]).name() + 6;
+		out << " ";
+		out << classType;
+		out << _statuses[i]->getText();
+		out << " ";
+		out << _statuses[i]->getStatusTime().getDay();
+		out << _statuses[i]->getStatusTime().getMonth();
+		out << _statuses[i]->getStatusTime().getYear();
+		if (classType.compare("VideoStatus"))
+			out << dynamic_cast<VideoStatus*>(_statuses[i])->getVideoUrl();
+		else if (classType.compare("ImageStatus"))
+			out << dynamic_cast<ImageStatus*>(_statuses[i])->getImageUrl();
+	}
+
+	return out;
 }

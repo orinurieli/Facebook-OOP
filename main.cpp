@@ -12,6 +12,8 @@ using namespace std;
 #include "Page.h"
 #include "Functions.h"
 
+const string& FILE_NAME = "Facebook_DataBase.txt";
+
 int main()
 {
 	Operation system;
@@ -27,8 +29,14 @@ int main()
 			userChoice = displayMenu();
 			if (userChoice == Exit)
 			{
-				// storeObjects("Facebook_DataBase", system.getAllUsers(), system.getAllPages());
+				cout << "inserting data to file...   "
+					<< system.getAllUsers().size() << " users and "
+					<< system.getAllPages().size() << " pages" << endl;
+
+				storeObjects(FILE_NAME, system.getAllUsers(), system.getAllPages());
 				cout << "Goodbye.";
+				// todo: delete next line- only for debug
+				cin >> userChoice;
 				break;
 			}
 
