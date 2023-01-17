@@ -515,7 +515,7 @@ ostream& operator<<(ostream& out, const User& user)
 			out << dynamic_cast<ImageStatus*>(_statuses[i])->getImageUrl();
 	}
 
-	cout << "statuses: " << user.getAllStatuses().size() << endl;
+	cout << "statuses: " << user.getStatusesList().size() << endl;
 
 	cout << "Done writing " << user.getName() << endl;
 
