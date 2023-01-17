@@ -2,37 +2,7 @@
 using namespace std;
 
 #include "Page.h"
-
-// adds user to fan list
-Page& Page::operator+=(User& currentUser)
-{
-	_friends.push_back(&currentUser);
-	return *this;
-}
-
-// compare number of fans between two pages
-bool Page::operator<(Page& other)
-{
-	return (_friends.size() < other._friends.size());
-}
-
-// compare number of fans between two pages
-bool Page::operator>(Page& other)
-{
-	return (_friends.size() > other._friends.size());
-}
-
-// compare the page's number of fans to a user's number of friends
-bool Page::operator<(User& currentUser)
-{
-	return (_friends.size() < currentUser.getFriendsList().size());
-}
-
-// compare the page's number of fans to a user's number of friends
-bool Page::operator>(User& currentUser)
-{
-	return (_friends.size() > currentUser.getFriendsList().size());
-}
+#include "Operation.h"
 
 ostream& Page::operator<<(ostream& out) {
 	out << getName();
@@ -151,6 +121,13 @@ Page* Page::askForPageName(Operation& system) // *returns a pointer because NULL
 void Page::addFanToPage(Operation& system, User& currentUser)
 {
 	*this += currentUser;
+}
+
+// adds user to fan list
+Page& Page::operator+=(User& currentUser)
+{
+	_friends.push_back(&currentUser);
+	return *this;
 }
 
 // this function receives pointer to a user and removes it from array of fans.

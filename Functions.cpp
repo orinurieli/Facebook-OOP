@@ -15,12 +15,6 @@ vector<User*> initiateUsers()
 	Clock birthday4(1, 7, 1997);
 	Clock birthday5(21, 10, 1996);
 
-	/*User* user1 = new User("Keren Kalif", birthday1, 2, 1);
-	User* user2 = new User("Steve Jobs", birthday2, 2, 1);
-	User* user3 = new User("Mark Zuckerberg", birthday3, 3, 2);
-	User* user4 = new User("Ori Nurieli", birthday4, 1, 3);
-	User* user5 = new User("Gon Etgar", birthday5, 2, 3);*/
-
 	User* user1 = new User("Keren Kalif", birthday1);
 	User* user2 = new User("Steve Jobs", birthday2);
 	User* user3 = new User("Mark Zuckerberg", birthday3);
@@ -73,12 +67,6 @@ vector<Page*> initiatePages(Operation& system, vector<User*> allUsers)
 	Page* page4 = new Page(led);
 	Page* page5 = new Page(cakes);
 
-	//Page* page1 = new Page((string)"Maccabi Haifa");
-	//Page* page2 = new Page((string)"Harry Potter");
-	//Page* page3 = new Page((string)"Pink Floyd");
-	//Page* page4 = new Page((string)"Led Zeppelin");
-	//Page* page5 = new Page((string)"Cakes");
-
 	initPages.push_back(page1);
 	initPages.push_back(page2);
 	initPages.push_back(page3);
@@ -119,19 +107,19 @@ void initiateStatuses(Operation& system)
 	int num_of_users = system.getNumOfUsers();
 	int num_of_pages = system.getNumOfPages();
 
-	/*for (int i = 0; i < num_of_users; i++)
+	for (int i = 0; i < num_of_users; i++)
 	{
 		Clock date;
-		Status* newStatus = new Status("Hello world", date.getDate());
+		Status* newStatus = new TextStatus("Hello world", date.getDate());
 		all_users[i]->pushToStatusesList(*newStatus);
-	}*/
+	}
 
-	/*for (int i = 0; i < num_of_pages; i++)
+	for (int i = 0; i < num_of_pages; i++)
 	{
 		Clock date;
-		Status* newStatus = new Status("Hello world", date.getDate());
+		Status* newStatus = new TextStatus("Hello world", date.getDate());
 		all_pages[i]->pushToStatusesList(*newStatus);
-	}*/
+	}
 }
 
 // ################ menu ################
@@ -157,12 +145,12 @@ int displayMenu() throw (const char*)
 	if (cin >> choice) {
 
 
-		if (choice > 0 && choice < 13)
+		if (choice > 0 && choice <= Exit)
 			return choice;
 		else
 		{
 			throw "Invalid Choice!";
-			return 12; // maybe causing an error
+			return Exit; // maybe causing an error // TODO?
 		}
 	}
 	else {
@@ -183,7 +171,7 @@ int doesUserExist(string& name, Operation& system)
 
 	for (index = 0; index < num_of_users; index++)
 	{
-		if (allUsers[index]->getUserName().compare(name) == 0)
+		if (allUsers[index]->getName().compare(name) == 0)
 			return index;
 	}
 
@@ -208,7 +196,7 @@ int doesPageExist(string& name, Operation& system)
 // in order to navigate the menu to the right entity, we ask if it's a user or a page
 int askUserOrPage() noexcept(false)
 {
-	int userOrPage = -1;
+	int userOrPage = NOT_FOUND;
 	cout << "Choose: " << endl << "0 - Page" << endl << "1 - User" << endl;
 
 	while (userOrPage != 0 && userOrPage != 1)
@@ -259,7 +247,6 @@ void getUserInput(Operation& system) throw (const char*)
 		return;
 	}
 
-	//User* user_to_add = new User(username, birthday, 0, 0);
 	User* user_to_add = new User(username, birthday);
 	system.addUserToOperation(*user_to_add);
 }
@@ -291,27 +278,9 @@ void addPageToSystem(Operation& system) noexcept(false)
 		}
 	}
 
-	//Page* pageToAdd = new Page(pageName); // deleted in ~Operation
 	Page* pageToAdd = new Page(pageName); // deleted in ~Operation
 	system.addPageToOperation(*pageToAdd);
 }
-
-
-// after we asked if page or user, return by pointer the right entity
-//void askForEntityUserOrPage(User* current_user, Page* current_page, Operation& system) // return pointer because null can be returned
-//{
-//	int entity = askUserOrPage();
-//
-//	if (entity == USER)
-//	{
-//		current_user = askForUsername(system, USER);
-//	}
-//	else // entity == PAGE
-//	{
-//		current_page = getPageDetails(system, -1); // -1 for clean buffer
-//	}
-//}
-
 
 // if the user choose an option from the menu that can be either for a page or a user, the function navigates to the right function.
 void getUserOrPageInput(int userChoice, Operation& system) noexcept(false)
@@ -344,7 +313,7 @@ void getUserOrPageInput(int userChoice, Operation& system) noexcept(false)
 	}
 	else // userOrPage == PAGE
 	{
-		Page* fan_page = getPageDetails(system, -1);
+		Page* fan_page = getPageDetails(system, CLEAR_BUFFER);
 
 		if (fan_page)
 		{
@@ -369,7 +338,7 @@ void getUserOrPageInput(int userChoice, Operation& system) noexcept(false)
 
 // asks for a page name and search it in the system.
 // returns pointer to the page, and null if not found
-Page* getPageDetails(Operation& system, int clearBuffer)
+Page* getPageDetails(Operation& system, int clearBuffer) // returns pointer because null can be returned
 {
 	vector<Page*> allPages = system.getAllPages();
 	string page_name;

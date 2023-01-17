@@ -35,7 +35,7 @@ void Operation::addUserToOperation(User& userToAdd)
 {
 	_allUsers.push_back(&userToAdd);
 	_numOfUsers++;
-	cout << endl << "Hey, " << userToAdd.getUserName() << " Welcome to Facebook :) " << endl << endl;
+	cout << endl << "Hey, " << userToAdd.getName() << " Welcome to Facebook :) " << endl << endl;
 }
 
 // insert a new page to the allPages vector
@@ -58,7 +58,7 @@ void Operation::displayAllEntities() const noexcept(false)
 
 	for (int i = 0; i < _numOfUsers; i++)
 	{
-		cout << _allUsers[i]->getUserName() << endl << "Birthday: ";
+		cout << _allUsers[i]->getName() << endl << "Birthday: ";
 		Clock b = _allUsers[i]->getBirthday();
 		b.displayDate();
 		cout << endl << endl;
@@ -74,11 +74,7 @@ void Operation::displayAllEntities() const noexcept(false)
 // this function navigates the user's choice from the menu to the relevent functions
 void Operation::handleMenu(int userChoice) noexcept(false)
 {
-	// first ask if it's a page or a user
 	User* current_user = nullptr;
-	// Page* current_page = nullptr;
-	// askForEntityUserOrPage(current_user, current_page, *this);
-
 
 	if (userChoice > 0 && userChoice < Exit)
 	{

@@ -10,41 +10,22 @@
 #include <iostream>
 using namespace std;
 
+// this class is an abstract class of status. cannot make objects type of status, needs to be specific: text, image or video.
 class Status
 {
 protected:
-	string _text;
+	string _text; // all types of statuses can have text
 	Clock _time;
 	Status() : _text("") {}
 	Status(const string& text, Clock& time) : _text(text), _time(time) {}
 
-	// todo: move Ctors to private - Abstract Class 
 public:
-	//Status() : _text("") {}
-	//Status(const string& text, Clock& time) : _text(text), _time(time) {}
-
 	const string& getText() const { return _text; }
 	const Clock& getStatusTime() { return _time; }
 	void setText(string& newText) { _text = newText; }
 
-	// when an entity wants to insert a status
-	virtual void insertStatus(Status& newStatus)
-	{
-		// todo -> find out what to do in here
-
-
-		/*string text;
-		cout << "Please insert your status: ";
-		cin.ignore();
-		getline(cin, text);
-		newStatus._text = text;
-		cout << "Status uploaded!" << endl;*/
-	}
-
-	virtual void display();
-
-	bool operator==(const Status& other) const;
-	bool operator!=(const Status& other) const;
+	virtual void insertStatus() = 0; // when an entity wants to insert a status
+	virtual void display() = 0; // this function prints a status
 
 	virtual ~Status() {};
 };

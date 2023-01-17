@@ -1,10 +1,6 @@
 #include "VideoStatus.h"
 
-const string& VideoStatus::getVideoUrl() const
-{
-	return _videoUrl;
-}
-
+// to create a new video status
 void VideoStatus::insertStatus()
 {
 	int videoChoice;
@@ -41,11 +37,23 @@ void VideoStatus::insertStatus()
 	cout << "Video Status Uploaded!" << endl << endl;
 }
 
+// this function displays the video status
 void VideoStatus::display() throw(const char*)
 {
+	cout << "-----------------------------------" << endl;
+	cout << "Text: " << _text << endl;
+	// show video?
+
 	string command = "start " + _videoUrl;
 	int result = system(command.c_str());
 
 	if (result != 0)
 		throw "Error displaying video";
-};
+
+	cout << "Uploaded on: ";
+	_time.displayDate();
+	cout << " | ";
+	_time.displayHour();
+	cout << endl;
+	cout << "-----------------------------------" << endl;
+}
