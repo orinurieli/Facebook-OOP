@@ -17,11 +17,11 @@ public:
 
 	Page& operator+=(User& currentUser);
 	bool operator<(Page& other) { return (_friends.size() < other._friends.size()); } // compare number of fans between two pages
-	bool operator>(Page& other) {return (_friends.size() > other._friends.size()); } // compare number of fans between two pages
+	bool operator>(Page& other) { return (_friends.size() > other._friends.size()); } // compare number of fans between two pages
 	bool operator<(User& currentUser) { return (_friends.size() < currentUser.getFriendsList().size()); } // compare the page's number of fans to a user's number of friends
 	bool operator>(User& currentUser) { return (_friends.size() > currentUser.getFriendsList().size()); } // compare the page's number of fans to a user's number of friends
-	ostream& operator<<(ostream& out);
-	istream& operator>>(istream& in);
+	friend ostream& operator<<(ostream& out, const Page& user);
+	friend istream& operator>>(istream& in, Page& user);
 
 	Page* askForPageName(Operation& system); // *returns a pointer because NULL can be returned*
 

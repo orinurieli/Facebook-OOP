@@ -398,9 +398,9 @@ void storeObjects(const string& filename, vector<User*> users, vector<Page*> pag
 
 	// Write Users
 	for (const User* user : users) {
-		//if (user != nullptr)
-		//	out << *user;
-		out << user;
+		if (user != nullptr)
+			out << *user;
+		cout << endl;
 	}
 
 	// Write number of Pages
@@ -409,43 +409,46 @@ void storeObjects(const string& filename, vector<User*> users, vector<Page*> pag
 
 	// Write Pages
 	for (const Page* page : pages) {
-		out << page;
+		if (page != nullptr)
+			out << *page;
+		cout << endl;
 	}
 
 	out.close();
 }
 
-// users and pages that are stored in Operation
-void readObjects(const string& filename, vector<User*> users, vector<Page*> pages)
+void readObjects(const string& filename, vector<User*>& users, vector<Page*>& pages)
 {
 	// Open file 
-	cout << "opening " << filename << "...." << endl;
+	cout << "Opening " << filename << endl;
 	ifstream in(filename);
 
 	// Read number of Users
 	int numUsers;
 	in >> numUsers;
+	cout << "reading " << numUsers << " users" << endl;
 
 	// Read Users
-	users.resize(numUsers);
 	for (int i = 0; i < numUsers; i++) {
-		Clock birthday(1, 7, 1997);
-		User* user = new User("Ori Nurieli", birthday);;
+		Clock bday(15, 4, 1990);
+		User* user = new User("Ori", bday);
+		in >> *user;
 
-		// todo: operator >> for user and page!!
-		//in >> user;
+		cout << "pushing user:" << user->getName() << endl;
 		users.push_back(user);
 	}
 
 	// Read number of Pages
 	int numPages;
 	in >> numPages;
+	cout << "reading " << numPages << " pages" << endl;
 
 	// Read Pages
-	pages.resize(numPages);
 	for (int i = 0; i < numPages; i++) {
 		Page* page = new Page("temp");
-		//in >> page;
+		in >> *page;
+
+		cout << "pushing page:" << page->getName() << endl;
 		pages.push_back(page);
 	}
 
@@ -453,22 +456,146 @@ void readObjects(const string& filename, vector<User*> users, vector<Page*> page
 }
 
 
-ostream& operator<<(ostream& out, const User* user)
+
+ostream& operator<<(ostream& out, const User& user)
 {
-	cout << " inside << operator" << endl;
-	out << user->getName();
-	cout << user->getName();
-	Clock _birthday = user->getBirthday();
-	out << _birthday.getDay();
-	out << _birthday.getMonth();
-	out << _birthday.getYear();
-	cout << _birthday.getDay();
-	cout << _birthday.getMonth();
-	cout << _birthday.getYear();
+	out << user.getName();
+	cout << "- Writing " << user.getName() << " to file - " << endl;
+
+	Clock _birthday = user.getBirthday();
+	out << _birthday.getDay() << " ";
+	out << _birthday.getMonth() << " ";
+	out << _birthday.getYear() << " ";
+
+	cout << "bday:  ";
+	cout << _birthday.getDay() << ".";
+	cout << _birthday.getMonth() << ".";
+	cout << _birthday.getYear() << ".";
+	cout << endl;
+
+	vector<User*> _friends = user.getFriendsList();
+	out << _friends.size();
+	for (int i = 0; i < _friends.size(); i++) {
+		out << " ";
+		out << _friends[i]->getName();
+		out << _friends[i]->getBirthday().getDay() << " ";
+		out << _friends[i]->getBirthday().getMonth() << " ";
+		out << _friends[i]->getBirthday().getYear() << " ";
+	}
+
+	cout << "friends: " << user.getFriendsList().size() << endl;
+
+
+	vector<Page*> _pages = user.getLikedPagesList();
+	out << _pages.size();
+	for (int i = 0; i < _pages.size(); i++) {
+		out << " ";
+		out << _pages[i]->getName();
+	}
+
+	cout << "pages: " << user.getLikedPagesList().size() << endl;
+
+	vector<Status*> _statuses = user.getStatusesList();
+	out << _statuses.size();
+	for (int i = 0; i < _statuses.size(); i++) {
+		string classType = typeid(*_statuses[i]).name() + 6;
+		out << " ";
+		out << classType;
+		out << " ";
+		out << _statuses[i]->getText();
+		out << " ";
+		out << _statuses[i]->getStatusTime().getDay() << " ";
+		out << _statuses[i]->getStatusTime().getMonth() << " ";
+		out << _statuses[i]->getStatusTime().getYear() << " ";
+
+		if (classType == "VideoStatus")
+			out << dynamic_cast<VideoStatus*>(_statuses[i])->getVideoUrl();
+		else if (classType == "ImageStatus")
+			out << dynamic_cast<ImageStatus*>(_statuses[i])->getImageUrl();
+	}
+
+	cout << "statuses: " << user.getAllStatuses().size() << endl;
+
+	cout << "Done writing " << user.getName() << endl;
+
+	return out;
+}
+
+istream& operator>>(istream& in, User& user)
+{
+	int friendsSize, pagesSize, statusesSize;
+	int day, month, year, friendDay, friendMonth, friendYear, statusDay, statusMonth, statusYear;
+	string name, friendName, pageName, classType;
+	string videoUrl, imageUrl, text;
+	Clock _birthday;
+	vector<User*> _friends;
+	vector<Page*> _pages;
+	vector<Status*> _statuses;
+
+	cout << " inside '>>' operator" << endl;
+	in >> name;
+	user.setName(name);
+	cout << "reading " << user.getName() << " from file.." << endl;
+
+	in >> day >> month >> year;
+	_birthday = Clock(day, month, year);
+	user.setBirthday(_birthday);
+
+	in >> friendsSize;
+	for (int i = 0; i < friendsSize; i++) {
+		in >> friendName >> friendDay >> friendMonth >> friendYear;
+		Clock friendBday(friendDay, friendMonth, friendYear);
+		User* newFriend = new User(friendName, friendBday);
+		//newFriend->setBirthday(Clock(friendDay, friendMonth, friendYear));
+
+		_friends.push_back(newFriend);
+	}
+	user.setFriendsList(_friends);
+
+	in >> pagesSize;
+	for (int i = 0; i < pagesSize; i++) {
+		in >> pageName;
+		Page* page = new Page(pageName);
+		_pages.push_back(page);
+	}
+	user.setLikedPagesList(_pages);
+
+	in >> statusesSize;
+	for (int i = 0; i < statusesSize; i++) {
+		in >> classType >> text >> statusDay >> statusMonth >> statusYear;
+		Clock statusTime(statusDay, statusMonth, statusYear);
+
+		if (classType == "VideoStatus") {
+			in >> videoUrl;
+			VideoStatus* status = new VideoStatus(text, statusTime, videoUrl);
+			_statuses.push_back(status);
+		}
+		else if (classType == "ImageStatus") {
+			in >> imageUrl;
+			ImageStatus* status = new ImageStatus(text, statusTime, imageUrl);
+			_statuses.push_back(status);
+		}
+		else {
+			Status* status = new TextStatus(text, statusTime);
+			_statuses.push_back(status);
+		}
+	}
+	user.setStatusesList(_statuses);
+
+	cout << "Done reading " << user.getName() << endl;
+
+	return in;
+}
 
 
 
-	vector<User*> _friends = user->getFriendsList();
+ostream& operator<<(ostream& out, const Page& page)
+{
+	cout << " inside page '<<' operator" << endl;
+	out << page.getName();
+	cout << "writing " << page.getName() << " to file.." << endl;
+
+	vector<User*> _friends = page.getFriendsList();
 	out << _friends.size();
 	for (int i = 0; i < _friends.size(); i++) {
 		out << " ";
@@ -478,14 +605,7 @@ ostream& operator<<(ostream& out, const User* user)
 		out << _friends[i]->getBirthday().getYear();
 	}
 
-	vector<Page*> _pages = user->getLikedPagesList();
-	out << _pages.size();
-	for (int i = 0; i < _pages.size(); i++) {
-		out << " ";
-		out << _pages[i]->getName();
-	}
-
-	vector<Status*> _statuses = user->getStatusesList();
+	vector<Status*> _statuses = page.getStatusesList();
 	out << _statuses.size();
 	for (int i = 0; i < _statuses.size(); i++) {
 		string classType = typeid(*_statuses[i]).name() + 6;
@@ -496,11 +616,72 @@ ostream& operator<<(ostream& out, const User* user)
 		out << _statuses[i]->getStatusTime().getDay();
 		out << _statuses[i]->getStatusTime().getMonth();
 		out << _statuses[i]->getStatusTime().getYear();
-		if (classType.compare("VideoStatus"))
+
+		// todo: error here:
+		if (classType == "VideoStatus")
 			out << dynamic_cast<VideoStatus*>(_statuses[i])->getVideoUrl();
-		else if (classType.compare("ImageStatus"))
+		else if (classType == "ImageStatus")
 			out << dynamic_cast<ImageStatus*>(_statuses[i])->getImageUrl();
 	}
 
+	cout << "Done writing " << page.getName() << endl;
+
 	return out;
 }
+
+istream& operator>>(istream& in, Page& page)
+{
+	string name, friendName, classType;
+	string videoUrl, imageUrl, text;
+	int statusDay, statusMonth, statusYear;
+	int friendDay, friendMonth, friendYear;
+	int friendsSize, statusesSize;
+	Clock _birthday;
+	vector<User*> _friends;
+	vector<Status*> _statuses;
+
+	cout << " inside page '>>' operator" << endl;
+	in >> name;
+	page.setName(name);
+	cout << "reading " << page.getName() << " from file.." << endl;
+
+
+	in >> friendsSize;
+	for (int i = 0; i < friendsSize; i++) {
+		in >> friendName >> friendDay >> friendMonth >> friendYear;
+		Clock friendBday(friendDay, friendMonth, friendYear);
+		User* newFriend = new User(friendName, friendBday);
+		//newFriend->setBirthday(Clock(friendDay, friendMonth, friendYear));
+
+		_friends.push_back(newFriend);
+	}
+	page.setFriendsList(_friends);
+
+	in >> statusesSize;
+	for (int i = 0; i < statusesSize; i++) {
+		in >> classType >> text >> statusDay >> statusMonth >> statusYear;
+		Clock statusTime(statusDay, statusMonth, statusYear);
+
+		if (classType == "VideoStatus") {
+			in >> videoUrl;
+			VideoStatus* status = new VideoStatus(text, statusTime, videoUrl);
+			_statuses.push_back(status);
+		}
+		else if (classType == "ImageStatus") {
+			in >> imageUrl;
+			ImageStatus* status = new ImageStatus(text, statusTime, imageUrl);
+			_statuses.push_back(status);
+		}
+		else {
+			Status* status = new TextStatus(text, statusTime);
+			_statuses.push_back(status);
+		}
+	}
+	page.setStatusesList(_statuses);
+
+	cout << "Done reading " << page.getName() << endl;
+
+	return in;
+}
+
+

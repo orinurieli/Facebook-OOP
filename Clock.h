@@ -34,9 +34,6 @@ public:
 	Clock& getDate() { return *this; }
 	Clock& getBirthdayInput();
 
-	ostream& operator<<(ostream& out);
-	istream& operator>>(istream& in);
-
 	void displayDate() const;
 	void displayHour() const;
 };

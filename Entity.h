@@ -28,7 +28,11 @@ public:
 	vector<User*> getFriendsList() const { return _friends; }
 	vector<Status*> getStatusesList() const { return _statuses; }
 
-	void setName(string& username) { _name = username; };
+	virtual void setName(string& username) { _name = username; };
+	void setFriendsList(vector<User*> friends) { _friends = friends; }
+	void setStatusesList(vector<Status*> statuses) { _statuses = statuses; }
+
+
 
 	void pushToFriendsList(User& newFriend) { _friends.push_back(&newFriend); }
 	void pushToStatusesList(Status& newStatus) { _statuses.push_back(&newStatus); }
@@ -37,7 +41,7 @@ public:
 	void displayAllStatuses() const;
 	void displayAllFriendsOrFans(int userOrPage) const;
 
-	
+
 	~Entity() {}
 };
 
