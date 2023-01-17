@@ -111,14 +111,14 @@ void initiateStatuses(Operation& system)
 	{
 		Clock date;
 		Status* newStatus = new TextStatus("Hello world", date.getDate());
-		all_users[i]->pushToStatusesList(*newStatus);
+		all_users[i]->pushToStatusesList(newStatus);
 	}
 
 	for (int i = 0; i < num_of_pages; i++)
 	{
 		Clock date;
 		Status* newStatus = new TextStatus("Hello world", date.getDate());
-		all_pages[i]->pushToStatusesList(*newStatus);
+		all_pages[i]->pushToStatusesList(newStatus);
 	}
 }
 
@@ -166,8 +166,9 @@ int displayMenu() throw (const char*)
 // returns the user's index in allUsers array, and -1 if not found.
 int doesUserExist(string& name, Operation& system)
 {
-	int index, num_of_users = system.getNumOfUsers();
+	//int index, num_of_users = system.getNumOfUsers();
 	vector<User*> allUsers = system.getAllUsers();
+	int index, num_of_users = allUsers.size();
 
 	for (index = 0; index < num_of_users; index++)
 	{

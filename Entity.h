@@ -25,19 +25,18 @@ public:
 	Entity(const Entity& other) = delete; // don't want to clone an entity
 
 	const string& getName() const { return _name; }
-	vector<User*> getFriendsList() const { return _friends; }
-	vector<Status*> getStatusesList() const { return _statuses; }
+	const vector<User*>& getFriendsList() const { return _friends; }
+	const vector<Status*>& getStatusesList() const { return _statuses; }
 
-	void setName(string& username) { _name = username; };
+	void setName(const string& username) { _name = username; };
 
 	void pushToFriendsList(User& newFriend) { _friends.push_back(&newFriend); }
-	void pushToStatusesList(Status& newStatus) { _statuses.push_back(&newStatus); }
-	int searchMemberInFriendList(User& friendToSearch);
+	void pushToStatusesList(Status* newStatus) { _statuses.push_back(newStatus); }
+	int searchMemberInFriendList(const User& friendToSearch);
 	void createStatus();
 	void displayAllStatuses() const;
 	void displayAllFriendsOrFans(int userOrPage) const;
 
-	
 	~Entity() {}
 };
 

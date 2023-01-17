@@ -24,13 +24,13 @@ private:
 public:
 	Operation();
 
-	vector<User*> getAllUsers() { return _allUsers; };
-	vector<Page*> getAllPages() { return _allPages; };
+	const vector<User*>& getAllUsers() { return _allUsers; };
+	const vector<Page*>& getAllPages() { return _allPages; };
 
 	const int getNumOfPages() const { return _numOfPages; };
 	const int getNumOfUsers() const { return _numOfUsers; };
 
-	void initiateData(vector<User*> initUsers, vector<Page*> initPages);
+	void initiateData(vector<User*>& initUsers, vector<Page*>& initPages);
 	void addUserToOperation(User& userToAdd);
 	void addPageToOperation(Page& pageToAdd);
 	void displayAllEntities() const;

@@ -70,7 +70,8 @@ void User::likePage(Operation& system) throw (const char*)
 	}
 
 	*this += *fan_page; // add page to the user's likedPages list
-	fan_page->addFanToPage(system, *this); // add user to the page's fansList
+	*fan_page += *this; // add user to the page's fansList
+	//fan_page->addFanToPage(*this); // todo - delete later if it works
 	cout << _name << " liked " << fan_page->getName() << endl << endl;
 }
 
@@ -322,7 +323,9 @@ istream& operator>>(istream& in, User& user) {
 		in >> day >> month >> year;
 		birthday = Clock(day, month, year);
 		newFriend = new User(friendName, birthday);
-		user.getFriendsList().push_back(newFriend);
+		// TODO delete later this remark -> changed it to this because of the const ref
+		//user.getFriendsList().push_back(newFriend);
+		user.pushToFriendsList(*newFriend);
 	}
 
 	// read number of liked pages
@@ -340,7 +343,6 @@ istream& operator>>(istream& in, User& user) {
 		// ^
 		// |
 		//user.getLikedPagesList().push_back(page);
-
 		// needs to check if it creates a new object or not
 	}
 
@@ -365,7 +367,8 @@ istream& operator>>(istream& in, User& user) {
 			in >> videoUrl;
 			status = new VideoStatus(text, statusTime, videoUrl);
 		}
-		user.getStatusesList().push_back(status);
+		//user.getStatusesList().push_back(status);
+		user.pushToStatusesList(status);
 	}
 
 	return in;

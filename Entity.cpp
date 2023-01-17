@@ -8,7 +8,7 @@ using namespace std;
 #include "VideoStatus.h"
 
 // searches in friends list (of either a user or a pgae) for a certain user. returns the friend's index, or -1 
-int Entity::searchMemberInFriendList(User& friendToSearch)
+int Entity::searchMemberInFriendList(const User& friendToSearch)
 {
 	int friend_to_delete_index = NOT_FOUND;
 	int num_of_friends = _friends.size();
