@@ -387,29 +387,28 @@ void newTerminate()
 	cout << "oops, looks like a problem occured." << endl << "Please call support and don't lower our grade :)" << endl << endl;
 }
 
-
+// this function writes the facebook's data into the file
 void storeObjects(const string& filename, vector<User*> users, vector<Page*> pages)
 {
-	// Open file 
-	ofstream out(filename, ios::trunc);
+	ofstream out(filename, ios::trunc); // open file 
 
-	// Write number of Users 
-	int numUsers = users.size();
+	int numUsers = users.size(); // write number of users 
 	out << numUsers;
 
-	// Write Users
-	for (const User* user : users) {
+	
+	for (const User* user : users) // write users
+	{
 		if (user != nullptr)
 			out << *user;
 		cout << endl;
 	}
-
-	// Write number of Pages
-	int numPages = pages.size();
+	
+	int numPages = pages.size(); // write number of pages
 	out << numPages;
 
-	// Write Pages
-	for (const Page* page : pages) {
+	
+	for (const Page* page : pages) // write pages
+	{
 		if (page != nullptr)
 			out << *page;
 		cout << endl;
@@ -418,6 +417,7 @@ void storeObjects(const string& filename, vector<User*> users, vector<Page*> pag
 	out.close();
 }
 
+// this function reads the facebook's data from the file
 void readObjects(const string& filename, vector<User*>& users, vector<Page*>& pages)
 {
 	// open file 
@@ -455,7 +455,6 @@ void readObjects(const string& filename, vector<User*>& users, vector<Page*>& pa
 
 	in.close();
 }
-
 
 // global operators
 ostream& operator<<(ostream& out, const User& user)
