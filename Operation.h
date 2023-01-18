@@ -18,8 +18,8 @@ class Operation
 private:
 	vector<User*> _allUsers;
 	vector<Page*> _allPages;
-	int _numOfUsers;
-	int _numOfPages;
+	//int _numOfUsers;
+	//int _numOfPages;
 
 public:
 	Operation();
@@ -27,8 +27,8 @@ public:
 	const vector<User*>& getAllUsers() { return _allUsers; };
 	const vector<Page*>& getAllPages() { return _allPages; };
 
-	const int getNumOfPages() const { return _numOfPages; };
-	const int getNumOfUsers() const { return _numOfUsers; };
+	//const int getNumOfPages() const { return _numOfPages; };
+	//const int getNumOfUsers() const { return _numOfUsers; };
 
 	void initiateData(vector<User*>& initUsers, vector<Page*>& initPages);
 	void addUserToOperation(User& userToAdd);

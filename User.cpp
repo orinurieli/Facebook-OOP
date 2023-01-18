@@ -207,6 +207,21 @@ bool User::PageExistInLikedPages(const string& pageName)
 	return false;
 }
 
+// returns the user's address, and null if not found
+User* User::searchUserInAllUsers(Operation& system, const string& nameToSearch)// *returns pointer because null can be returned*
+{
+	vector<User*> all_users = system.getAllUsers();
+	int num_of_users = all_users.size();
+
+	for (int i = 0; i < num_of_users; i++)
+	{
+		if (all_users[i]->getName().compare(nameToSearch) == 0)
+			return all_users[i];
+	}
+
+	return nullptr;
+}
+
 // d'tor
 User::~User()
 {

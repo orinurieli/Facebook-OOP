@@ -543,12 +543,12 @@ istream& operator>>(istream& in, User& user)
 		// todo: get friend from _allUsers and push the address
 		// doesUserExist()
 		// push user if does exist
-
+		//int friendIndex = doesUserExist(friendName, system); // TODO- problem with system
 		User* newFriend = new User(friendName, friendBday);
-
 		_friends.push_back(newFriend);
 	}
-	if (_friends.size() > 0)user.setFriendsList(_friends); // todo: setFriendsList needs virtual?
+	if (_friends.size() > 0)
+		user.setFriendsList(_friends); // todo: setFriendsList needs virtual?
 
 	in >> pagesSize;
 	for (int i = 0; i < pagesSize; i++) {
@@ -556,7 +556,8 @@ istream& operator>>(istream& in, User& user)
 		Page* page = new Page(pageName);
 		_pages.push_back(page);
 	}
-	if (_pages.size() > 0)user.setLikedPagesList(_pages);
+	if (_pages.size() > 0)
+		user.setLikedPagesList(_pages);
 
 	in >> statusesSize;
 	for (int i = 0; i < statusesSize; i++) {
@@ -580,7 +581,8 @@ istream& operator>>(istream& in, User& user)
 			_statuses.push_back(status);
 		}
 	}
-	if (_statuses.size() > 0)user.setStatusesList(_statuses);
+	if (_statuses.size() > 0)
+		user.setStatusesList(_statuses);
 
 	cout << "Done reading " << user.getName() << endl << endl;
 

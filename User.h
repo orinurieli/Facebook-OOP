@@ -53,6 +53,7 @@ public:
 	bool operator<(const Page& fanPage) const;
 	bool operator>(const Page& fanPage) const;
 	bool PageExistInLikedPages(const string& pageName);
+	User* searchUserInAllUsers(Operation& system, const string& nameToSearch); // *returns pointer because null can be returned*
 
 	~User();
 };

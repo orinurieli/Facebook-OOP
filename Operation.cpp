@@ -6,8 +6,8 @@ using namespace std;
 // c'tor
 Operation::Operation()
 {
-	_numOfUsers = 5;
-	_numOfPages = 5;
+	//_numOfUsers = 5;
+	//_numOfPages = 5;
 
 	initiateData(_allUsers, _allPages);
 }
@@ -33,7 +33,7 @@ void Operation::initiateData(vector<User*>& initUsers, vector<Page*>& initPages)
 void Operation::addUserToOperation(User& userToAdd)
 {
 	_allUsers.push_back(&userToAdd);
-	_numOfUsers++;
+	//_numOfUsers++;
 	cout << endl << "Hey, " << userToAdd.getName() << " Welcome to Facebook :) " << endl << endl;
 }
 
@@ -41,7 +41,7 @@ void Operation::addUserToOperation(User& userToAdd)
 void Operation::addPageToOperation(Page& pageToAdd)
 {
 	_allPages.push_back(&pageToAdd);
-	_numOfPages++;
+	//_numOfPages++;
 	cout << "Congrats! Your page: " << pageToAdd.getName() << " is Live on Facebook." << endl << endl;
 }
 
@@ -137,9 +137,12 @@ void Operation::handleMenu(int userChoice) noexcept(false)
 
 Operation::~Operation()
 {
-	for (int i = 0; i < _numOfUsers; i++)
+	int num_of_users = _allUsers.size();
+	int num_of_pages = _allPages.size();
+
+	for (int i = 0; i < num_of_users; i++)
 		delete _allUsers[i];
 
-	for (int i = 0; i < _numOfPages; i++)
+	for (int i = 0; i < num_of_pages; i++)
 		delete _allPages[i];
 }
