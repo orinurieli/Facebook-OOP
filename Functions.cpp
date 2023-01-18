@@ -104,8 +104,8 @@ void initiateStatuses(Operation& system)
 {
 	vector<User*> all_users = system.getAllUsers();
 	vector<Page*> all_pages = system.getAllPages();
-	int num_of_users = system.getNumOfUsers();
-	int num_of_pages = system.getNumOfPages();
+	int num_of_users = system.getAllUsers().size();
+	int num_of_pages = system.getAllPages().size();
 
 	for (int i = 0; i < num_of_users; i++)
 	{
@@ -182,8 +182,8 @@ int doesUserExist(string& name, Operation& system)
 // checks if the page "name" exists in the system. returns the page's index in the allPages array, or -1 if is not found
 int doesPageExist(string& name, Operation& system)
 {
-	int index, num_of_pages = system.getNumOfPages();
 	vector<Page*> allPages = system.getAllPages();
+	int index, num_of_pages = system.getAllPages().size();
 
 	for (index = 0; index < num_of_pages; index++)
 	{
