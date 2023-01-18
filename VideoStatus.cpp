@@ -1,7 +1,7 @@
 #include "VideoStatus.h"
 
 // to create a new video status
-void VideoStatus::insertStatus()
+void VideoStatus::insertStatus() throw (const char*)
 {
 	int videoChoice;
 
@@ -9,14 +9,13 @@ void VideoStatus::insertStatus()
 	cin.ignore();
 	getline(cin, _text);
 
-	cout << "Please insert Video path." << endl;
-	//cout << "Choose between video1.mp4 - video5.mp4:  " << endl;
+	cout << "Please insert Video path:" << endl;
 	cout << "Choose video (1-4): " << endl;
 	cin >> videoChoice;
 
-	// todo - throw catch
+	if (videoChoice < 1 || videoChoice > 4)
+		throw "you can only choose from 1-4.\n";
 
-	// todo - fix later
 	switch (videoChoice)
 	{
 	case 1:
@@ -42,10 +41,11 @@ void VideoStatus::display() throw(const char*)
 {
 	cout << "-----------------------------------" << endl;
 	cout << "Text: " << _text << endl;
-	// show video?
 
 	string command = "start " + _videoUrl;
 	int result = system(command.c_str());
+
+	cout << "Video: " << endl;
 
 	if (result != 0)
 		throw "Error displaying video";
