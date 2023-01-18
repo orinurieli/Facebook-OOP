@@ -122,6 +122,7 @@ void initiateStatuses(Operation& system)
 	}
 }
 
+
 // ################ menu ################
 
 int displayMenu() throw (const char*)
@@ -166,7 +167,6 @@ int displayMenu() throw (const char*)
 // returns the user's index in allUsers array, and -1 if not found.
 int doesUserExist(string& name, Operation& system)
 {
-	//int index, num_of_users = system.getNumOfUsers();
 	vector<User*> allUsers = system.getAllUsers();
 	int index, num_of_users = allUsers.size();
 
