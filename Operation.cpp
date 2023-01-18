@@ -16,10 +16,10 @@ Operation::Operation()
 void Operation::initiateData(vector<User*>& initUsers, vector<Page*>& initPages)
 {
 	const string& FILE_NAME = "Facebook_DataBase.txt";
-	//readObjects(FILE_NAME, initUsers, initPages);
-	_allUsers = initiateUsers();
+	readObjects(FILE_NAME, initUsers, initPages);
+	/*_allUsers = initiateUsers();
 	_allPages = initiatePages(*this, _allUsers);
-	initiateStatuses(*this);
+	initiateStatuses(*this);*/
 
 	/*cout << "reading from file...   "
 		<< this->getAllUsers().size() << " users and "
@@ -55,7 +55,7 @@ void Operation::displayAllEntities() const noexcept(false)
 	}
 	cout << endl << "Users: " << endl << "------" << endl;
 
-	for (int i = 0; i < _numOfUsers; i++)
+	for (int i = 0; i < _allUsers.size(); i++)
 	{
 		cout << _allUsers[i]->getName() << endl << "Birthday: ";
 		Clock b = _allUsers[i]->getBirthday();
@@ -64,7 +64,7 @@ void Operation::displayAllEntities() const noexcept(false)
 	}
 
 	cout << endl << "Pages: " << endl << "------" << endl;
-	for (int i = 0; i < _numOfPages; i++)
+	for (int i = 0; i < _allPages.size(); i++)
 		cout << _allPages[i]->getName() << endl;
 
 	cout << endl;
