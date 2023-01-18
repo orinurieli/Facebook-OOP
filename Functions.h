@@ -40,8 +40,8 @@ Page* getPageDetails(Operation& system, int clearBuffer);
 User* askForUsername(Operation& system, int flag);
 
 // Files Functions
-void storeObjects(const string& filename, vector<User*> users, vector<Page*> pages);
-void readObjects(const string& filename, vector<User*>& users, vector<Page*>& pages);
+//void storeObjects(const string& filename, vector<User*> users, vector<Page*> pages);
+void readObjects(const string& filename, vector<User*>& users, vector<Page*>& pages, Operation& system);
 
 
 void newTerminate();

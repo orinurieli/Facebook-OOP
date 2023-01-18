@@ -18,7 +18,6 @@ public:
 
 	bool operator==(const TextStatus& other) const { return(_text == other._text); } // checks if 2 statuses are identical
 	bool operator!=(const TextStatus& other) const { return(_text != other._text); } // checks if 2 statuses are not identical
-
 };
 
 #endif

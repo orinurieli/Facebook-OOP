@@ -34,7 +34,7 @@ int main()
 					<< system.getAllUsers().size() << " users and "
 					<< system.getAllPages().size() << " pages" << endl;
 
-				storeObjects(FILE_NAME, system.getAllUsers(), system.getAllPages());
+				system.storeObjects(FILE_NAME);
 				cout << "Goodbye.";
 				// todo: delete next line- only for debug
 				cin >> userChoice;

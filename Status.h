@@ -27,6 +27,8 @@ public:
 	virtual void insertStatus() = 0; // when an entity wants to insert a status
 	virtual void display() = 0; // this function prints a status
 
+	friend ostream& operator<<(ostream& out, const Status& status);
+
 	virtual ~Status() {};
 };
 

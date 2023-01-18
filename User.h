@@ -36,6 +36,7 @@ public:
 	void setUserName(string& username) { _name = username; };
 	void setBirthday(Clock& birthday) { _birthday = birthday; }
 	void setLikedPagesList(vector<Page*> likedPages) { _likedPages = likedPages; }
+	void pushToPagesList(Page& newPage) { _likedPages.push_back(&newPage); }
 
 	void addFriend(Operation& system);
 	void cancelFriendship(Operation& system);
@@ -54,6 +55,7 @@ public:
 	bool operator>(const Page& fanPage) const;
 	bool PageExistInLikedPages(const string& pageName);
 	User* searchUserInAllUsers(Operation& system, const string& nameToSearch); // *returns pointer because null can be returned*
+
 
 	~User();
 };
