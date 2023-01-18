@@ -279,7 +279,7 @@ void addPageToSystem(Operation& system) noexcept(false)
 		}
 	}
 
-	Page* pageToAdd = new Page(pageName); // deleted in ~Operation
+	Page* pageToAdd = new Page(pageName);
 	system.addPageToOperation(*pageToAdd);
 }
 
@@ -420,16 +420,16 @@ void storeObjects(const string& filename, vector<User*> users, vector<Page*> pag
 
 void readObjects(const string& filename, vector<User*>& users, vector<Page*>& pages)
 {
-	// Open file 
+	// open file 
 	cout << "Opening " << filename << endl;
 	ifstream in(filename);
 
-	// Read number of Users
+	// read number of users
 	int numUsers;
 	in >> numUsers;
 	cout << "reading " << numUsers << " users" << endl;
 
-	// Read Users
+	// read users
 	for (int i = 0; i < numUsers; i++) {
 		Clock bday(15, 4, 1990);
 		User* user = new User("temp", bday);
@@ -439,12 +439,12 @@ void readObjects(const string& filename, vector<User*>& users, vector<Page*>& pa
 		users.push_back(user);
 	}
 
-	// Read number of Pages
+	// read number of pages
 	int numPages;
 	in >> numPages;
 	cout << "reading " << numPages << " pages" << endl;
 
-	// Read Pages
+	// read pages
 	for (int i = 0; i < numPages; i++) {
 		Page* page = new Page("temp");
 		in >> *page;
@@ -457,7 +457,7 @@ void readObjects(const string& filename, vector<User*>& users, vector<Page*>& pa
 }
 
 
-// Global Operators
+// global operators
 ostream& operator<<(ostream& out, const User& user)
 {
 	out << user.getName() << endl;

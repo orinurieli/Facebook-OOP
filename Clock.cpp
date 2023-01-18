@@ -26,9 +26,9 @@ Clock::Clock(int day, int month, int year) throw (const char*)
 		_day = day;
 		_month = month;
 		_year = year;
-		if (_day > 31 || _day < 0) throw "Invalid Day in Clock C'tor";
-		if (_month > 12 || _month < 1) throw "Invalid Month in Clock C'tor";
-		if (_year > 2023 || _year < 1900) throw "Invalid Year in Clock C'tor";
+		if (_day > maxDay || _day < minDay) throw "Invalid Day in Clock C'tor";
+		if (_month > maxMonth || _month < minMonth) throw "Invalid Month in Clock C'tor";
+		if (_year > maxYear || _year < minYear) throw "Invalid Year in Clock C'tor";
 	}
 	catch (const char* err)
 	{
@@ -78,7 +78,7 @@ Clock& Clock::getBirthdayInput() noexcept(false)
 	{
 		try
 		{
-			if (d > 31 || d < 0) throw invalid_argument("Invalid Day input.");
+			if (d > maxDay || d < minDay) throw invalid_argument("Invalid Day input.");
 			else break;
 		}
 		catch (const invalid_argument& err)
@@ -95,7 +95,7 @@ Clock& Clock::getBirthdayInput() noexcept(false)
 	{
 		try
 		{
-			if (m > 12 || m < 1) throw invalid_argument("Invalid Month input");
+			if (m > maxMonth || m < minMonth) throw invalid_argument("Invalid Month input");
 			else break;
 		}
 		catch (const invalid_argument& err)
@@ -112,7 +112,7 @@ Clock& Clock::getBirthdayInput() noexcept(false)
 	{
 		try
 		{
-			if (y > 2023 || y < 1900) throw invalid_argument("Invalid Year input");
+			if (y > maxYear || y < minYear) throw invalid_argument("Invalid Year input");
 			else break;
 		}
 		catch (const invalid_argument& err)

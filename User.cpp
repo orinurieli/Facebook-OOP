@@ -71,7 +71,6 @@ void User::likePage(Operation& system) throw (const char*)
 
 	*this += *fan_page; // add page to the user's likedPages list
 	*fan_page += *this; // add user to the page's fansList
-	//fan_page->addFanToPage(*this); // todo - delete later if it works
 	cout << _name << " liked " << fan_page->getName() << endl << endl;
 }
 
@@ -87,17 +86,14 @@ void User::dislikePage(Operation& system) throw (const char*)
 		return;
 	}
 
-
-	//if (_numOfPages != _likedPages.size()) throw "miscalculating the size of _likedPages array.";
-
 	int num_of_pages = this->_likedPages.size();
 
 	for (int i = 0; i < num_of_pages && !found; i++)
 	{
-		// we didnt do for both sides!
+		// we didnt do for both sides!-> todo check it?
 		if (page_to_dislike == _likedPages[i]) // page is in likedPages
 		{
-			if (i != num_of_pages - 1) // if it's not the lase one on the vector, put it last
+			if (i != num_of_pages - 1) // if it's not the last one on the vector, put it last
 			{
 				// switch between them
 				Page* tmp = _likedPages[i];
@@ -207,6 +203,8 @@ bool User::PageExistInLikedPages(const string& pageName)
 	return false;
 }
 
+
+// TODO- maybe delete. check if we dont use this function in the program
 // returns the user's address, and null if not found
 User* User::searchUserInAllUsers(Operation& system, const string& nameToSearch)// *returns pointer because null can be returned*
 {

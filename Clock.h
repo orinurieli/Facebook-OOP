@@ -9,6 +9,7 @@ using namespace std;
 #include <string>
 
 enum StringLocation { startDay, endDay, startMonth = 3, endMonth = 4, startYear = 6, endYear = 9 };
+enum Dates{minDay=1, maxDay=31, minMonth=1, maxMonth=12, minYear=1900, maxYear=2023};
 
 class Clock
 {

@@ -29,10 +29,10 @@ void Entity::createStatus() throw (const char*)
 {
 	int status_type_choice;
 	cout << "Please choose what kind of status to upload:" << endl;
-	cout << "1 - Text Status" << endl << "2 - Image Status" << endl << "3 - Video Status" << endl;
+	cout << textStatus << " - Text Status" << endl << imageStatus << " - Image Status" << endl << videoStatus << " - Video Status" << endl;
 	cin >> status_type_choice;
 
-	if (status_type_choice < 1 || status_type_choice > 3)
+	if (status_type_choice < textStatus || status_type_choice > videoStatus)
 		throw "Invalid Choice!\n";
 
 	Status* newStatus;
