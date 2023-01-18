@@ -13,7 +13,7 @@ Operation::Operation()
 }
 
 // initiate the program with users and pages
-void Operation::initiateData(vector<User*> initUsers, vector<Page*> initPages)
+void Operation::initiateData(vector<User*>& initUsers, vector<Page*>& initPages)
 {
 	const string& FILE_NAME = "Facebook_DataBase.txt";
 	//readObjects(FILE_NAME, initUsers, initPages);

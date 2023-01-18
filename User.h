@@ -26,14 +26,12 @@ private:
 
 public:
 	User() = delete;
-	User(const string& name, Clock& birthday) : Entity(name), _birthday(birthday) {}
+	User(const string& name, const Clock& birthday) : Entity(name), _birthday(birthday) {}
 	User(const User&) = delete; // we delete the copy c'tor because we dont want to duplicate a user
 
 	const string& getUserName() const { return _name; }
-	const Clock getBirthday() const { return _birthday; }
-	vector<User*> getFriendsList() const { return _friends; }
-	vector<Page*> getLikedPagesList() const { return _likedPages; }
-	vector<Status*> getAllStatuses() const { return _statuses; }
+	const Clock& getBirthday() const { return _birthday; }
+	const vector<Page*>& getLikedPagesList() const { return _likedPages; }
 
 	void setUserName(string& username) { _name = username; };
 	void setBirthday(Clock& birthday) { _birthday = birthday; }

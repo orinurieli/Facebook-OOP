@@ -70,7 +70,8 @@ void User::likePage(Operation& system) throw (const char*)
 	}
 
 	*this += *fan_page; // add page to the user's likedPages list
-	fan_page->addFanToPage(system, *this); // add user to the page's fansList
+	*fan_page += *this; // add user to the page's fansList
+	//fan_page->addFanToPage(*this); // todo - delete later if it works
 	cout << _name << " liked " << fan_page->getName() << endl << endl;
 }
 

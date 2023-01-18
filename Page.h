@@ -12,7 +12,7 @@ class Page : public Entity
 {
 public:
 	Page() = delete; // don't want to create a page without data
-	Page(const Page* page) = delete; // prevent duplicate
+	Page(const Page& page) = delete; // prevent duplicate
 	Page(const string& name) : Entity(name) {}
 
 	Page& operator+=(User& currentUser);
@@ -24,10 +24,7 @@ public:
 	friend istream& operator>>(istream& in, Page& user);
 
 	Page* askForPageName(Operation& system); // *returns a pointer because NULL can be returned*
-
-
-	void addFanToPage(Operation& system, User& currentUser);
-	void removeFan(User& removeUser);
+	void removeFan(const User& removeUser);
 
 	~Page() {};
 };

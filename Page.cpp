@@ -16,19 +16,12 @@ Page* Page::askForPageName(Operation& system) // *returns a pointer because NULL
 	getline(cin, page_name);
 
 	int index = 0;
-
 	index = doesPageExist(page_name, system);
 
 	if (index >= 0)
 		return allPages[index];
 	else
 		return nullptr;
-}
-
-// receives fan and adds him to the page's fan list
-void Page::addFanToPage(Operation& system, User& currentUser)
-{
-	*this += currentUser;
 }
 
 // adds user to fan list
@@ -39,9 +32,8 @@ Page& Page::operator+=(User& currentUser)
 }
 
 // this function receives pointer to a user and removes it from array of fans.
-void Page::removeFan(User& removeUser) throw (const char*)
+void Page::removeFan(const User& removeUser) throw (const char*)
 {
-	//int num_of_fans = _fansList.size();
 	int num_of_fans = _friends.size();
 	bool found = false;
 
