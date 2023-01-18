@@ -539,8 +539,12 @@ istream& operator>>(istream& in, User& user)
 		getline(in, friendName);
 		in >> friendDay >> friendMonth >> friendYear;
 		Clock friendBday(friendDay, friendMonth, friendYear);
+
+		// todo: get friend from _allUsers and push the address
+		// doesUserExist()
+		// push user if does exist
+
 		User* newFriend = new User(friendName, friendBday);
-		//newFriend->setBirthday(Clock(friendDay, friendMonth, friendYear));
 
 		_friends.push_back(newFriend);
 	}
@@ -646,7 +650,9 @@ istream& operator>>(istream& in, Page& page)
 		Clock friendBday(friendDay, friendMonth, friendYear);
 
 		// todo: get friend from _allUsers and push the address
-		// searchEntityInSystem()
+		// doesUserExist()
+		// push user if does exist
+
 		User* newFriend = new User(friendName, friendBday);
 
 		_friends.push_back(newFriend);
