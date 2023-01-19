@@ -7,7 +7,7 @@
 3. Compile the program using `g++ main.cpp -o facebook`
 4. Run the program using `./facebook`
 
-## Usage
+## OOP Usage
 
 This project emphasizes the usage of OOP programming, building classes, and adhering to the 4 OOP principles: 
 - Encapsulation
@@ -15,7 +15,7 @@ This project emphasizes the usage of OOP programming, building classes, and adhe
 - Polymorphism
 - Abstraction
 
-## Realization of principles
+## Realization Of Principles
 
 - Working with an Abstract class called `Status` is used as a base class for creating different types of status updates. Three classes, `TextStatus`, `ImageStatus`, and `VideoStatus`, inherit from it.
 - We utilized a parent class called Entity for the User and Page classes, which inherit from it and utilize polymorphism for additional functions.
@@ -40,7 +40,7 @@ Please note that text DB file will start empty.
 You can add users with the features we've built and then press 12 to save data.
 The file will be created automatically in your project file.
 
-## Working with File
+## Working with Files
 
 The program uses a file to store the data of users, pages, and status updates. 
 The data is saved to the file when the user chooses option 12 from the main menu 
