@@ -1,6 +1,8 @@
+
 // Gon Etgar 316354653 
 // Ori Nurieli 208952341
 // Ex3
+
 #include <iostream>
 #include <vector>
 #include <string>
@@ -31,6 +33,7 @@ int main()
 			if (userChoice == Exit)
 			{
 				system.storeObjects(FILE_NAME);
+				cout << "Saving data to DB." << endl;
 				cout << "Goodbye.";
 				break;
 			}

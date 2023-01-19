@@ -9,7 +9,7 @@ void ImageStatus::insertStatus() throw (const char*)
 
 	int imageChoice;
 	cout << "Please enter image's url: ";
-	cout << "Choose image (1-4): " << endl;
+	cout << "Choose image (a number between 1-4): " << endl;
 	cin >> imageChoice;
 
 	if (imageChoice < 1 || imageChoice > 4)
@@ -32,7 +32,7 @@ void ImageStatus::insertStatus() throw (const char*)
 	default:
 		break;
 	}
-	
+
 	cout << "Image Status uploaded!" << endl << endl;
 }
 

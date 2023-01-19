@@ -6,7 +6,7 @@ using namespace std;
 Operation::Operation()
 {
 	const string& FILE_NAME = "Facebook_DataBase.txt";
-	readObjects(FILE_NAME); // read from file all datat and inititate the operation
+	readObjects(FILE_NAME); // read from file all data and inititate the operation
 }
 
 // insert a new user to the allUsers vector
@@ -151,7 +151,7 @@ void Operation::storeObjects(const string& filename)
 	writeAllUsersAndPagesToFile(out); // write all names of the entities (users and pages)
 	writeEachUsersDetails(out); // for each user write its details
 	writeEachPagesDetails(out); // for each page write its details
-	
+
 	out.close();
 }
 
@@ -375,7 +375,7 @@ void Operation::readFriendsOrFansFromFile(istream& in, Entity& entity)
 		User tmpFriend; // temp user that dies in the end of the iteration
 		in >> tmpFriend; // read name and birthday
 
-		User* newFriend = searchUserInOperation(tmpFriend.getName()); 
+		User* newFriend = searchUserInOperation(tmpFriend.getName());
 		if (newFriend)
 			entity.pushToFriendsList(*newFriend); // add this friend to the user's friends list
 	}
