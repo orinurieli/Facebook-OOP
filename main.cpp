@@ -30,14 +30,12 @@ int main()
 
 			if (userChoice == Exit)
 			{
-				cout << "inserting data to file...   "
+				/*cout << "inserting data to file...   "
 					<< system.getAllUsers().size() << " users and "
-					<< system.getAllPages().size() << " pages" << endl;
+					<< system.getAllPages().size() << " pages" << endl;*/
 
 				system.storeObjects(FILE_NAME);
 				cout << "Goodbye.";
-				// todo: delete next line- only for debug
-				cin >> userChoice;
 				break;
 			}
 

@@ -41,15 +41,11 @@ void VideoStatus::display() throw(const char*)
 {
 	cout << "-----------------------------------" << endl;
 	cout << "Text: " << _text << endl;
-
-	string command = "start " + _videoUrl;
-	int result = system(command.c_str());
-
-	cout << "Video: " << endl;
-
-	if (result != 0)
-		throw "Error displaying video";
-
+	//string command = "start " + _videoUrl;
+	//int result = system(command.c_str());
+	//if (result != 0)
+		//throw "Error displaying video";
+	cout << "Video: " << _videoUrl << endl;
 	cout << "Uploaded on: ";
 	_time.displayDate();
 	cout << " | ";

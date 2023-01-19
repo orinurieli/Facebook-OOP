@@ -17,12 +17,6 @@ void Operation::initiateData(vector<User*>& initUsers, vector<Page*>& initPages)
 	/*_allUsers = initiateUsers();
 	_allPages = initiatePages(*this, _allUsers);
 	initiateStatuses(*this);*/
-	
-
-
-	/*cout << "reading from file...   "
-		<< this->getAllUsers().size() << " users and "
-		<< this->getAllPages().size() << " pages" << endl << endl;*/
 
 }
 
@@ -233,10 +227,11 @@ void Operation::storeObjects(const string& filename)
 		out << page->getName() << endl;
 	}
 
+	// go over all users
+
 	vector<User*>::iterator itrUsers = _allUsers.begin();
 	vector<User*>::iterator itrUsersEnd = _allUsers.end();
 
-	// go over all users
 	for (; itrUsers != itrUsersEnd; ++itrUsers)
 	{
 		// write friends
@@ -245,7 +240,9 @@ void Operation::storeObjects(const string& filename)
 		vector<User*>::iterator itrFriendsEnd = friends.end();
 		int numFriends = friends.size();
 		out << numFriends; // write number of friends
-
+		if (numFriends == 0)
+			out << endl;
+		
 		for (; itrFriends != itrFriendsEnd; ++itrFriends)
 		{
 			out << (*itrFriends)->getName() << endl; // write friend's name
@@ -257,6 +254,8 @@ void Operation::storeObjects(const string& filename)
 		vector<Page*>::iterator itrPagesEnd = pages.end();
 		int numPages = pages.size();
 		out << numPages;
+		if (numPages == 0)
+			out << endl;
 
 		for (; itrPages != itrPagesEnd; ++itrPages)
 		{
@@ -269,18 +268,98 @@ void Operation::storeObjects(const string& filename)
 		vector<Status*>::iterator itrStatusesEnd = statuses.end();
 		int numStatuses = statuses.size();
 		out << numStatuses;
+		if (numStatuses == 0)
+			out << endl;
 
 		for (; itrStatuses != itrStatusesEnd; ++itrStatuses)
 		{
-			out << typeid(*itrStatuses).name() << endl; // get the status' type (text, image or video)
+			string type;
+
+			if (dynamic_cast<TextStatus*>(*itrStatuses)) // get the status' type (text, image or video)
+			{
+				type = "TextStatus";
+				out << "TextStatus" << endl;
+			}
+			else if (dynamic_cast<ImageStatus*>(*itrStatuses))
+			{
+				type = "ImageStatus";
+				out << "ImageStatus" << endl;
+			}
+			else
+			{
+				type = "VideoStatus";
+				out << "VideoStatus" << endl;
+			}
+			
 			out << (*itrStatuses)->getStatusTime(); // write the date and hour
 			out << (*itrStatuses)->getText() << endl; // write status' text
-			// TODO date
-			// TODO if it's video etc...
+		
+			// write url:
+			if (dynamic_cast<ImageStatus*>(*itrStatuses)) // get the status' type (text, image or video)
+			{
+				out << dynamic_cast<ImageStatus*>(*itrStatuses)->getImageUrl() << endl;
+			}
+			else if (dynamic_cast<VideoStatus*>(*itrStatuses))
+			{
+				out << dynamic_cast<VideoStatus*>(*itrStatuses)->getVideoUrl() << endl;
+			}
 		}
 	}
 
-	// TODO pages
+	// go over all pages
+
+	vector<Page*>::iterator itrPages = _allPages.begin();
+	vector<Page*>::iterator itrPagesEnd = _allPages.end();
+
+	for (; itrPages != itrPagesEnd; ++itrPages)
+	{
+		// write fans
+		vector<User*> fans = (*itrPages)->getFriendsList();
+		vector<User*>::iterator itrFans = fans.begin();
+		vector<User*>::iterator itrFansEnd = fans.end();
+		int numFans = fans.size();
+		out << numFans; // write number of friends
+		if (numFans == 0)
+			out << endl;
+
+		for (; itrFans != itrFansEnd; ++itrFans)
+		{
+			out << (*itrFans)->getName() << endl; // write fans's name
+		}
+
+		// write statuses
+		vector<Status*> statuses = (*itrPages)->getStatusesList();
+		vector<Status*>::iterator itrStatuses = statuses.begin();
+		vector<Status*>::iterator itrStatusesEnd = statuses.end();
+		int numStatuses = statuses.size();
+		out << numStatuses;
+		if (numStatuses == 0)
+			out << endl;
+
+		for (; itrStatuses != itrStatusesEnd; ++itrStatuses)
+		{
+			if (dynamic_cast<TextStatus*>(*itrStatuses)) // get the status' type (text, image or video)
+				out << "TextStatus" << endl;
+			else if (dynamic_cast<ImageStatus*>(*itrStatuses))
+				out << "ImageStatus" << endl;
+			else
+				out << "VideoStatus" << endl;
+			//out << typeid(*itrStatuses).name() << endl; // get the status' type (text, image or video)
+
+			out << (*itrStatuses)->getStatusTime(); // write the date and hour
+			out << (*itrStatuses)->getText() << endl; // write status' text
+
+			// write url:
+			if (dynamic_cast<ImageStatus*>(*itrStatuses)) // get the status' type (text, image or video)
+			{
+				out << dynamic_cast<ImageStatus*>(*itrStatuses)->getImageUrl() << endl;
+			}
+			else if (dynamic_cast<VideoStatus*>(*itrStatuses))
+			{
+				out << dynamic_cast<VideoStatus*>(*itrStatuses)->getVideoUrl() << endl;
+			}
+		}
+	}
 
 	out.close();
 }
@@ -291,7 +370,6 @@ void Operation::storeObjects(const string& filename)
 void Operation::readObjects(const string& filename)
 {
 	ifstream in(filename); // open file for reading
-	char space;
 	int numUsers;
 	in >> numUsers;
 
@@ -321,10 +399,11 @@ void Operation::readObjects(const string& filename)
 		_allPages.push_back(fanPage);
 	}
 
+	// go over all users, and get the details about each one
+
 	vector<User*>::iterator itrUsers = _allUsers.begin();
 	vector<User*>::iterator itrUsersEnd = _allUsers.end();
 
-	// go over all users
 	for (; itrUsers != itrUsersEnd; ++itrUsers)
 	{
 		// read friends
@@ -359,9 +438,8 @@ void Operation::readObjects(const string& filename)
 		int numStatuses;
 		in >> numStatuses;
 
-		for (int i = 0; i < numStatuses; numStatuses++) // go over pages list
+		for (int i = 0; i < numStatuses; i++) // go over statuses list
 		{
-			// TODO - problem with the type
 			string type, text, url;
 			Clock date;
 			getline(in, type); // read status' type (text, image or video)
@@ -369,18 +447,18 @@ void Operation::readObjects(const string& filename)
 			getline(in, text); // read status' text
 			Status* newStatus;
 
-			if (type == "TextStatus")
+			if (type == "TextStatus")// TODO - problem with the type
 			{
 				newStatus = new TextStatus(text, date);
 			}
 			else if (type == "ImageStatus")
 			{
-				in >> url;
+				getline(in, url);
 				newStatus = new ImageStatus(text, date, url);
 			}
 			else //(type == "VideoStatus")
 			{
-				in >> url;
+				getline(in, url);
 				newStatus = new VideoStatus(text, date, url);
 			}
 			
@@ -388,7 +466,60 @@ void Operation::readObjects(const string& filename)
 		}
 	}
 
-	// page
+	// go over all pages and get the details about each one
+	vector<Page*>::iterator itrPages = _allPages.begin();
+	vector<Page*>::iterator itrPagesEnd = _allPages.end();
+
+	for (; itrPages != itrPagesEnd; ++itrPages)
+	{
+		// read fans
+		int numFans;
+		in >> numFans;
+		vector<User*> fans = (*itrPages)->getFriendsList();
+
+		for (int i = 0 ; i < numFans; i++)
+		{
+			string fansName;
+			getline(in, fansName);
+
+			User* newFan = searchUserInOperation(fansName);
+			if (newFan)
+				(*itrPages)->pushToFriendsList(*newFan); // add this fan to the page's fans list
+		}
+
+		// read statuses
+		vector<Status*> statuses = (*itrPages)->getStatusesList();
+
+		int numStatuses;
+		in >> numStatuses;
+
+		for (int i = 0; i < numStatuses; i++)
+		{
+			string type, text, url;
+			Clock date;
+
+			getline(in, type);
+			in >> date;
+			getline(in, text);
+			Status* newStatus;
+
+			if (type == "TextStatus")// TODO - problem with the type
+			{
+				newStatus = new TextStatus(text, date);
+			}
+			else if (type == "ImageStatus")
+			{
+				getline(in, url);
+				newStatus = new ImageStatus(text, date, url);
+			}
+			else //(type == "VideoStatus")
+			{
+				getline(in, url);
+				newStatus = new VideoStatus(text, date, url);
+			}
+			(*itrPages)->pushToStatusesList(newStatus); // add this status to the page's statuses
+		}
+	}
 
 	in.close();
 }
