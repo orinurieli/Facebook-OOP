@@ -201,6 +201,7 @@ void Operation::writeEachUsersDetails(ostream& out)
 	}
 }
 
+// for each page write: fans and statuses
 void Operation::writeEachPagesDetails(ostream& out)
 {
 	vector<Page*>::iterator itrPages = _allPages.begin();
@@ -317,80 +318,14 @@ ostream& operator<<(ostream& out, Status& status)
 
 // ##################### read functions ###################### //
 
-void Operation::readEachUsersDetails(istream& in)
-{
-}
-
-void Operation::readEachPagesDetails(istream& in)
-{
-}
-
 // this function reads the facebook's data from the file
 void Operation::readObjects(const string& filename)
 {
 	ifstream in(filename); // open file for reading
 
 	readAllUsersAndPagesFromFile(in);
-
-	// go over all users, and get the details about each one
-	vector<User*>::iterator itrUsers = _allUsers.begin();
-	vector<User*>::iterator itrUsersEnd = _allUsers.end();
-
-	for (; itrUsers != itrUsersEnd; ++itrUsers)
-	{
-		readFriendsOrFansFromFile(in, **itrUsers);
-		readPagesFromFile(in, **itrUsers);
-		readStatusesFromFile(in, **itrUsers);
-	}
-
-	// go over all pages and get the details about each one
-	vector<Page*>::iterator itrPages = _allPages.begin();
-	vector<Page*>::iterator itrPagesEnd = _allPages.end();
-
-	for (; itrPages != itrPagesEnd; ++itrPages)
-	{
-		readFriendsOrFansFromFile(in, **itrPages);
-		readStatusesFromFile(in, **itrPages);
-		//int numFans;
-		//in >> numFans;
-		//vector<User*> fans = (*itrPages)->getFriendsList();
-		//for (int i = 0 ; i < numFans; i++)
-		//{
-		//	User tmpFan; // temp user that dies in the end of the iteration
-		//	in >> tmpFan; // read name and birthday
-		//	User* newFan = searchUserInOperation(tmpFan.getName());
-		//	if (newFan)
-		//		(*itrPages)->pushToFriendsList(*newFan); // add this fan to the page's fans list
-		//}
-		// read statuses
-		//vector<Status*> statuses = (*itrPages)->getStatusesList();
-		//int numStatuses;
-		//in >> numStatuses;
-		//for (int i = 0; i < numStatuses; i++)
-		//{
-		//	string type, text, url;
-		//	Clock date;
-		//	getline(in, type);
-		//	in >> date;
-		//	getline(in, text);
-		//	Status* newStatus;
-		//	if (type == "TextStatus")// TODO - problem with the type
-		//	{
-		//		newStatus = new TextStatus(text, date);
-		//	}
-		//	else if (type == "ImageStatus")
-		//	{
-		//		getline(in, url);
-		//		newStatus = new ImageStatus(text, date, url);
-		//	}
-		//	else //(type == "VideoStatus")
-		//	{
-		//		getline(in, url);
-		//		newStatus = new VideoStatus(text, date, url);
-		//	}
-		//	(*itrPages)->pushToStatusesList(newStatus); // add this status to the page's statuses
-		//}
-	}
+	readEachUsersDetails(in);
+	readEachPagesDetails(in);
 
 	in.close();
 }
@@ -416,6 +351,33 @@ void Operation::readAllUsersAndPagesFromFile(istream& in)
 		Page* fanPage = new Page(); // allocate temporary page
 		in >> *fanPage; // read page name
 		_allPages.push_back(fanPage); // add to all pages vector
+	}
+}
+
+// for each user read: friends, liked pages and statuses
+void Operation::readEachUsersDetails(istream& in)
+{
+	vector<User*>::iterator itrUsers = _allUsers.begin();
+	vector<User*>::iterator itrUsersEnd = _allUsers.end();
+
+	for (; itrUsers != itrUsersEnd; ++itrUsers)
+	{
+		readFriendsOrFansFromFile(in, **itrUsers);
+		readPagesFromFile(in, **itrUsers);
+		readStatusesFromFile(in, **itrUsers);
+	}
+}
+
+// for each page read: fans and statuses
+void Operation::readEachPagesDetails(istream& in)
+{
+	vector<Page*>::iterator itrPages = _allPages.begin();
+	vector<Page*>::iterator itrPagesEnd = _allPages.end();
+
+	for (; itrPages != itrPagesEnd; ++itrPages)
+	{
+		readFriendsOrFansFromFile(in, **itrPages);
+		readStatusesFromFile(in, **itrPages);
 	}
 }
 
