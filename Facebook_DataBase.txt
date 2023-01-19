@@ -1,41 +1,55 @@
 4Keren Kalif
 15 4 1990 0 0 0Ori Nurieli
 1 7 1997 0 0 0Gon Etgar
-21 10 1996 0 0 0Noa Kirel
-10 4 2001 0 0 0
-3Maccabi Haifa
+21 10 1996 0 0 0noa kirel
+1 3 1990 0 0 0
+4Maccabi Haifa
 Harry Potter
 Cakes
-3Ori Nurieli
-Gon Etgar
-Noa Kirel
+CPP
+2Ori Nurieli
+1 7 1997 0 0 0Gon Etgar
+21 10 1996 0 0 0
 2Cakes
 Harry Potter
 1TextStatus
-19 1 2023 12 35 29Hello world
+19 1 2023 14 29 10Hello world
 1Keren Kalif
+15 4 1990 0 0 0
 1Maccabi Haifa
 1TextStatus
-19 1 2023 12 35 29Hello world
+19 1 2023 14 29 10Hello world
 1Keren Kalif
+15 4 1990 0 0 0
 1Harry Potter
 2TextStatus
-19 1 2023 12 35 29Hello world
+19 1 2023 14 29 10Hello world
 ImageStatus
-19 1 2023 12 35 36THIS IS IMAGE!!
-image4.mp4
-1Keren Kalif
+19 1 2023 14 33 23hellooo
+image2.mp4
 0
-1ImageStatus
-19 1 2023 12 37 55I LOVE CPP
-image3.mp4
+
+0
+0
 1Ori Nurieli
+1 7 1997 0 0 0
 1TextStatus
-19 1 2023 12 35 29Hello world
+19 1 2023 14 29 10Hello world
 2Keren Kalif
-Gon Etgar
-1TextStatus
-19 1 2023 12 35 29Hello world
+15 4 1990 0 0 0Gon Etgar
+21 10 1996 0 0 0
+2TextStatus
+19 1 2023 14 29 10Hello world
+VideoStatus
+19 1 2023 14 34 7HARRY POTTER THE BOY WHO LIVED
+video2.mp4
 1Keren Kalif
-1TextStatus
-19 1 2023 12 35 29Hello world
+15 4 1990 0 0 0
+2TextStatus
+19 1 2023 14 29 10Hello world
+ImageStatus
+19 1 2023 14 33 55I LOVE CAKE
+image3.mp4
+0
+
+0

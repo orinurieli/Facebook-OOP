@@ -11,7 +11,7 @@ class Operation;
 class Page : public Entity
 {
 public:
-	Page() = delete; // don't want to create a page without data
+	Page() : Entity(" ") {}; // in order to read pages from the file
 	Page(const Page& page) = delete; // prevent duplicate
 	Page(const string& name) : Entity(name) {}
 
@@ -20,8 +20,8 @@ public:
 	bool operator>(Page& other) { return (_friends.size() > other._friends.size()); } // compare number of fans between two pages
 	bool operator<(User& currentUser) { return (_friends.size() < currentUser.getFriendsList().size()); } // compare the page's number of fans to a user's number of friends
 	bool operator>(User& currentUser) { return (_friends.size() > currentUser.getFriendsList().size()); } // compare the page's number of fans to a user's number of friends
-	friend ostream& operator<<(ostream& out, const Page& user);
-	friend istream& operator>>(istream& in, Page& user);
+	friend ostream& operator<<(ostream& out, const Page& page);
+	friend istream& operator>>(istream& in, Page& page);
 
 	Page* askForPageName(Operation& system); // *returns a pointer because NULL can be returned*
 	void removeFan(const User& removeUser);

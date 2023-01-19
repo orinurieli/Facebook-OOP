@@ -25,7 +25,7 @@ private:
 	vector<Page*> _likedPages;
 
 public:
-	User() = delete;
+	User() : Entity(" ") {}; // in order to read users from file
 	User(const string& name, const Clock& birthday) : Entity(name), _birthday(birthday) {}
 	User(const User&) = delete; // we delete the copy c'tor because we dont want to duplicate a user
 

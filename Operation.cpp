@@ -162,7 +162,7 @@ Page* Operation::searchPageInOperation(const string& name)
 // writes to file only name and date of birth
 ostream& operator<<(ostream& out, const User& user)
 {
-	out << user.getName();
+	out << user.getName() << endl;
 	out << user.getBirthday();
 	return out;
 }
@@ -181,23 +181,54 @@ ostream& operator<<(ostream& out, const Page& page)
 	return out;
 }
 
-// writes status's text and date to file
-ostream& operator<<(ostream& out, const Status& status)
+// writes status's type, text and date to file
+ostream& operator<<(ostream& out, Status& status)
 {
-	string classType = typeid(status).name() + 6;
-	out << classType << "\n";
-	out << status._text << endl;
-	out << status._time.getDay() << "." << status._time.getMonth() << "." << status._time.getYear() << endl;
-	out << status._time.getHours() << ":" << status._time.getMinutes() << ":" << status._time.getSeconds() << endl;
+	string type;
 
-	if (classType == "VideoStatus")
-		out << "video url" << endl; // TODO
-		//out << dynamic_cast<VideoStatus*>(_statuses[i])->getVideoUrl();
-	else if (classType == "ImageStatus")
-		out << "image url" << endl; // TODO
-		//out << dynamic_cast<ImageStatus*>(_statuses[i])->getImageUrl();
+	if (dynamic_cast<TextStatus*>(&status)) // get the status' type (text, image or video)
+	{
+		type = "TextStatus";
+		out << "TextStatus" << endl;
+	}
+	else if (dynamic_cast<ImageStatus*>(&status))
+	{
+		type = "ImageStatus";
+		out << "ImageStatus" << endl;
+	}
+	else
+	{
+		type = "VideoStatus";
+		out << "VideoStatus" << endl;
+	}
+
+	out << (&status)->getStatusTime(); // write the date and hour
+	out << (&status)->getText() << endl; // write status' text
+
+	// write url:
+	if (type == "ImageStatus") // get the status' type (text, image or video)
+	{
+		out << dynamic_cast<ImageStatus*>(&status)->getImageUrl() << endl;
+	}
+	else if (type == "VideoStatus")
+	{
+		out << dynamic_cast<VideoStatus*>(&status)->getVideoUrl() << endl;
+	}
 
 	return out;
+	//
+	//string classType = typeid(status).name() + 6;
+	//out << classType << "\n";
+	//out << status._text << endl;
+	//out << status._time.getDay() << "." << status._time.getMonth() << "." << status._time.getYear() << endl;
+	//out << status._time.getHours() << ":" << status._time.getMinutes() << ":" << status._time.getSeconds() << endl;
+
+	//if (classType == "VideoStatus")
+	//	out << "video url" << endl; // TODO
+	//	//out << dynamic_cast<VideoStatus*>(_statuses[i])->getVideoUrl();
+	//else if (classType == "ImageStatus")
+	//	out << "image url" << endl; // TODO
+	//	//out << dynamic_cast<ImageStatus*>(_statuses[i])->getImageUrl();
 }
 
 // this function writes the facebook's data into the file
@@ -211,9 +242,7 @@ void Operation::storeObjects(const string& filename)
 	// write all users to the file
 	for (User* user : _allUsers)
 	{
-		// write all users
-		out << user->getName() << endl;
-		out << user->getBirthday();
+		out << *user; // write user and birthday
 	}
 	out << endl; // to seprate the birthday of the last user from the number of pages
 
@@ -223,8 +252,7 @@ void Operation::storeObjects(const string& filename)
 	//write all pages to the file
 	for (Page* page : _allPages)
 	{
-		// write all users
-		out << page->getName() << endl;
+		out << *page;
 	}
 
 	// go over all users
@@ -238,6 +266,7 @@ void Operation::storeObjects(const string& filename)
 		vector<User*> friends = (*itrUsers)->getFriendsList();
 		vector<User*>::iterator itrFriends = friends.begin();
 		vector<User*>::iterator itrFriendsEnd = friends.end();
+
 		int numFriends = friends.size();
 		out << numFriends; // write number of friends
 		if (numFriends == 0)
@@ -245,8 +274,10 @@ void Operation::storeObjects(const string& filename)
 		
 		for (; itrFriends != itrFriendsEnd; ++itrFriends)
 		{
-			out << (*itrFriends)->getName() << endl; // write friend's name
+			//out << (*itrFriends)->getName() << endl; // write friend's name
+			out << **itrFriends; // write friend's name and birthday
 		}
+		out << endl;
 
 		// write pages
 		vector<Page*> pages = (*itrUsers)->getLikedPagesList();
@@ -259,7 +290,8 @@ void Operation::storeObjects(const string& filename)
 
 		for (; itrPages != itrPagesEnd; ++itrPages)
 		{
-			out << (*itrPages)->getName() << endl; // write pages's name
+			out << **itrPages;
+			//out << (*itrPages)->getName() << endl; // write pages's name
 		}
 
 		// write statuses
@@ -273,36 +305,7 @@ void Operation::storeObjects(const string& filename)
 
 		for (; itrStatuses != itrStatusesEnd; ++itrStatuses)
 		{
-			string type;
-
-			if (dynamic_cast<TextStatus*>(*itrStatuses)) // get the status' type (text, image or video)
-			{
-				type = "TextStatus";
-				out << "TextStatus" << endl;
-			}
-			else if (dynamic_cast<ImageStatus*>(*itrStatuses))
-			{
-				type = "ImageStatus";
-				out << "ImageStatus" << endl;
-			}
-			else
-			{
-				type = "VideoStatus";
-				out << "VideoStatus" << endl;
-			}
-			
-			out << (*itrStatuses)->getStatusTime(); // write the date and hour
-			out << (*itrStatuses)->getText() << endl; // write status' text
-		
-			// write url:
-			if (dynamic_cast<ImageStatus*>(*itrStatuses)) // get the status' type (text, image or video)
-			{
-				out << dynamic_cast<ImageStatus*>(*itrStatuses)->getImageUrl() << endl;
-			}
-			else if (dynamic_cast<VideoStatus*>(*itrStatuses))
-			{
-				out << dynamic_cast<VideoStatus*>(*itrStatuses)->getVideoUrl() << endl;
-			}
+			out << **itrStatuses;
 		}
 	}
 
@@ -324,8 +327,10 @@ void Operation::storeObjects(const string& filename)
 
 		for (; itrFans != itrFansEnd; ++itrFans)
 		{
-			out << (*itrFans)->getName() << endl; // write fans's name
+			out << **itrFans; // write fan's name and birthday
+			//out << (*itrFans)->getName() << endl; // write fans's name
 		}
+		out << endl;
 
 		// write statuses
 		vector<Status*> statuses = (*itrPages)->getStatusesList();
@@ -338,26 +343,7 @@ void Operation::storeObjects(const string& filename)
 
 		for (; itrStatuses != itrStatusesEnd; ++itrStatuses)
 		{
-			if (dynamic_cast<TextStatus*>(*itrStatuses)) // get the status' type (text, image or video)
-				out << "TextStatus" << endl;
-			else if (dynamic_cast<ImageStatus*>(*itrStatuses))
-				out << "ImageStatus" << endl;
-			else
-				out << "VideoStatus" << endl;
-			//out << typeid(*itrStatuses).name() << endl; // get the status' type (text, image or video)
-
-			out << (*itrStatuses)->getStatusTime(); // write the date and hour
-			out << (*itrStatuses)->getText() << endl; // write status' text
-
-			// write url:
-			if (dynamic_cast<ImageStatus*>(*itrStatuses)) // get the status' type (text, image or video)
-			{
-				out << dynamic_cast<ImageStatus*>(*itrStatuses)->getImageUrl() << endl;
-			}
-			else if (dynamic_cast<VideoStatus*>(*itrStatuses))
-			{
-				out << dynamic_cast<VideoStatus*>(*itrStatuses)->getVideoUrl() << endl;
-			}
+			out << **itrStatuses;
 		}
 	}
 
@@ -376,13 +362,9 @@ void Operation::readObjects(const string& filename)
 	// read all users from the file and add them to operation
 	for (int i = 0; i < numUsers; i++)
 	{
-		string username;
-		getline(in, username);
-		Clock birthday;
-		in >> birthday;
-
-		User* user = new User(username, birthday);
-		_allUsers.push_back(user);
+		User* user = new User(); // allocate temporary user
+		in >> *user; // read user's name and birthday
+		_allUsers.push_back(user); // add to all users vector
 	}
 
 	int numPages;
@@ -391,12 +373,9 @@ void Operation::readObjects(const string& filename)
 	//read all pages from the file and add them to operation
 	for (int i = 0; i < numPages; i++)
 	{
-		// read all pages
-		string pageName;
-		getline(in, pageName);
-
-		Page* fanPage = new Page(pageName);
-		_allPages.push_back(fanPage);
+		Page* fanPage = new Page(); // allocate temporary page
+		in >> *fanPage; // read page
+		_allPages.push_back(fanPage); // add to all pages vector
 	}
 
 	// go over all users, and get the details about each one
@@ -412,12 +391,12 @@ void Operation::readObjects(const string& filename)
 
 		for (int i = 0 ; i < numFriends; i++) // go over friends list
 		{
-			string friendsName;
-			getline(in, friendsName);
+			User tmpFriend; // temp user that dies in the end of the iteration
+			in >> tmpFriend; // read name and birthday
 
-			User* Friend = searchUserInOperation(friendsName);
-			if (Friend)
-				(*itrUsers)->pushToFriendsList(*Friend); // add this friend to the user's friends list
+			User* newFriend = searchUserInOperation(tmpFriend.getName());
+			if (newFriend)
+				(*itrUsers)->pushToFriendsList(*newFriend); // add this friend to the user's friends list
 		}
 
 		// read pages
@@ -426,12 +405,12 @@ void Operation::readObjects(const string& filename)
 
 		for (int i = 0; i < numPages; i++) // go over pages list
 		{
-			string pageName;
-			getline(in, pageName);
+			Page tmpPage;
+			in >> tmpPage;
 
-			Page* page = searchPageInOperation(pageName);
-			if (page)
-				(*itrUsers)->pushToPagesList(*page); // add this pages to the user's liked pages
+			Page* newPage = searchPageInOperation(tmpPage.getName());
+			if (newPage)
+				(*itrUsers)->pushToPagesList(*newPage); // add this pages to the user's liked pages
 		}
 
 		// read statuses
@@ -447,7 +426,7 @@ void Operation::readObjects(const string& filename)
 			getline(in, text); // read status' text
 			Status* newStatus;
 
-			if (type == "TextStatus")// TODO - problem with the type
+			if (type == "TextStatus")
 			{
 				newStatus = new TextStatus(text, date);
 			}
@@ -461,7 +440,6 @@ void Operation::readObjects(const string& filename)
 				getline(in, url);
 				newStatus = new VideoStatus(text, date, url);
 			}
-			
 			(*itrUsers)->pushToStatusesList(newStatus); // add this status to the user's statuses
 		}
 	}
@@ -479,10 +457,10 @@ void Operation::readObjects(const string& filename)
 
 		for (int i = 0 ; i < numFans; i++)
 		{
-			string fansName;
-			getline(in, fansName);
+			User tmpFan; // temp user that dies in the end of the iteration
+			in >> tmpFan; // read name and birthday
 
-			User* newFan = searchUserInOperation(fansName);
+			User* newFan = searchUserInOperation(tmpFan.getName());
 			if (newFan)
 				(*itrPages)->pushToFriendsList(*newFan); // add this fan to the page's fans list
 		}
@@ -524,16 +502,25 @@ void Operation::readObjects(const string& filename)
 	in.close();
 }
 
+// read user from file
+istream& operator>>(istream& in, User& user)
+{
+	getline(in, user._name);
+	in >> user._birthday;
+	return in;
+}
 
 // read date from file
 istream& operator>>(istream& in, Clock& date)
 {
-	in >> date._day;
-	in >> date._month;
-	in >> date._year;
-	in >> date._hours;
-	in >> date._minutes;
-	in >> date._seconds;
+	in >> date._day >> date._month >> date._year >> date._hours >> date._minutes >> date._seconds;
+	return in;
+}
+
+// read page from file
+istream& operator>>(istream& in, Page& page)
+{
+	getline(in, page._name);
 	return in;
 }
 
