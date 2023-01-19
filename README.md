@@ -95,20 +95,30 @@ catch (std::exception& err)
 }
 ```
 
-## Functions 
-- We have created several functions the User and Page Classes use throughout the program:
+## User Class Instance
+- The class is a representation of a user object in our Facebook project:
 
 ```C++
-const string& getName() const { return _name; }
-const vector<User*>& getFriendsList() const { return _friends; }
-const vector<Status*>& getStatusesList() const { return _statuses; }
-void pushToFriendsList(User& newFriend) { _friends.push_back(&newFriend); }
-void pushToStatusesList(Status* newStatus) { _statuses.push_back(newStatus); }
-int searchMemberInFriendList(const User& friendToSearch);
-void createStatus();
-void displayAllStatuses() const;
-void displayAllFriendsOrFans(int userOrPage) const;
+class User {
+private:
+    string _name;
+    vector<User*> _friends;
+    vector<Page*> _likedPages;
+    vector<Status*> _statuses;
+    Clock _birthday;
+public:
+    void addFriend(Operation& system) throw (const char*);
+    void cancelFriendship(Operation& system) throw (const char*);
+    void likePage(Operation& system) throw (const char*);
+    void dislikePage(Operation& system) throw (const char*);
+    void createNewStatus(Operation& system);
+};
 ```
+  
+- The addFriend function connects two users by taking a username and checking if the friend is already on the list or if the user is adding themselves, then throws an exception.
+- The cancelFriendship function cancels friendship between two users by taking a username and checking if the friend is on the list, then throws an exception if the friend is not found.
+- The likePage function adds a page to the user's liked pages by taking a page's name and checking if the user already liked this page, then throws an exception if the user already liked the page.
+- The dislikePage function removes a page from the user's liked pages by taking a page's name and checking if the page exists, then throws an exception if the page is not found.
   
  ## Contributing
 
