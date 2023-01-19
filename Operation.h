@@ -36,6 +36,14 @@ public:
 	void storeObjects(const string& filename);
 	void readObjects(const string& filename);
 
+	void writeAllUsersAndPagesToFile(ostream& out);
+	void writeEachUsersDetails(ostream& out);
+	void writeEachPagesDetails(ostream& out);
+	void writeFriendsOrFansToFile(ostream& out, Entity& entity);
+	void writePagesToFile(ostream& out, User& user);
+	void writeStatusesToFile(ostream& out, Entity& entity);
+
+
 	~Operation();
 };
 

@@ -128,7 +128,7 @@ void Operation::handleMenu(int userChoice) noexcept(false)
 	}
 }
 
-// searches for a user and returns its pointer, or null if doesn;t exist
+// searches for a user and returns its pointer, or null if not found
 User* Operation::searchUserInOperation(const string& name)// *can return null!*
 {
 	vector<User*>::iterator itr = _allUsers.begin();
@@ -143,7 +143,8 @@ User* Operation::searchUserInOperation(const string& name)// *can return null!*
 	return nullptr;
 }
 
-Page* Operation::searchPageInOperation(const string& name)
+// search for a page in operation by name, return it's pointer or null if not found
+Page* Operation::searchPageInOperation(const string& name)// *can return null!*
 {
 	vector<Page*>::iterator itr = _allPages.begin();
 	vector<Page*>::iterator itrEnd = _allPages.end();
@@ -158,6 +159,106 @@ Page* Operation::searchPageInOperation(const string& name)
 }
 
 // ############# writing functions ################## //
+
+// this function writes the facebook's data into the file
+void Operation::storeObjects(const string& filename)
+{
+	ofstream out(filename, ios::trunc); // open file for writing
+
+	writeAllUsersAndPagesToFile(out); // write all names of the entities (users and pages)
+	writeEachUsersDetails(out); // for each user write its details
+	writeEachPagesDetails(out); // for each page write its details
+	
+	out.close();
+}
+
+// writes all the entities on facebook: users (namd and birthday) and pages (names)
+void Operation::writeAllUsersAndPagesToFile(ostream& out)
+{
+	int numUsers = _allUsers.size(); // write all users to the file
+	out << numUsers;
+	for (User* user : _allUsers)
+		out << *user;
+	out << endl;
+
+	int numPages = _allPages.size(); // write all pages to the file
+	out << numPages;
+	for (Page* page : _allPages)
+		out << *page;
+}
+
+// for each user write: friends, liked pages and statuses
+void Operation::writeEachUsersDetails(ostream& out)
+{
+	vector<User*>::iterator itrUsers = _allUsers.begin();
+	vector<User*>::iterator itrUsersEnd = _allUsers.end();
+
+	for (; itrUsers != itrUsersEnd; ++itrUsers)
+	{
+		writeFriendsOrFansToFile(out, **itrUsers);
+		writePagesToFile(out, **itrUsers);
+		writeStatusesToFile(out, **itrUsers);
+	}
+}
+
+void Operation::writeEachPagesDetails(ostream& out)
+{
+	vector<Page*>::iterator itrPages = _allPages.begin();
+	vector<Page*>::iterator itrPagesEnd = _allPages.end();
+
+	for (; itrPages != itrPagesEnd; ++itrPages)
+	{
+		writeFriendsOrFansToFile(out, **itrPages);
+		writeStatusesToFile(out, **itrPages);
+	}
+}
+
+// write entity's friends/fans to file
+void Operation::writeFriendsOrFansToFile(ostream& out, Entity& entity)
+{
+	vector<User*> friends = entity.getFriendsList();
+	vector<User*>::iterator itrFriends = friends.begin();
+	vector<User*>::iterator itrFriendsEnd = friends.end();
+
+	int numFriends = friends.size();
+	out << numFriends; // write number of friends/fans
+	if (numFriends == 0)
+		out << endl;
+
+	for (; itrFriends != itrFriendsEnd; ++itrFriends)
+		out << **itrFriends; // write name and birthday
+	out << endl;
+}
+
+// write the user's liked pages to the file
+void Operation::writePagesToFile(ostream& out, User& user)
+{
+	vector<Page*> pages = user.getLikedPagesList();
+	vector<Page*>::iterator itrPages = pages.begin();
+	vector<Page*>::iterator itrPagesEnd = pages.end();
+	int numPages = pages.size(); // write number of pages
+	out << numPages;
+	if (numPages == 0)
+		out << endl;
+
+	for (; itrPages != itrPagesEnd; ++itrPages)
+		out << **itrPages; // write page name
+}
+
+// write the entity's statuses to the file
+void Operation::writeStatusesToFile(ostream& out, Entity& entity)
+{
+	vector<Status*> statuses = entity.getStatusesList();
+	vector<Status*>::iterator itrStatuses = statuses.begin();
+	vector<Status*>::iterator itrStatusesEnd = statuses.end();
+	int numStatuses = statuses.size();
+	out << numStatuses; // write number of statuses
+	if (numStatuses == 0)
+		out << endl;
+
+	for (; itrStatuses != itrStatusesEnd; ++itrStatuses)
+		out << **itrStatuses; // write status' details
+}
 
 // writes to file only name and date of birth
 ostream& operator<<(ostream& out, const User& user)
@@ -205,152 +306,16 @@ ostream& operator<<(ostream& out, Status& status)
 	out << (&status)->getStatusTime(); // write the date and hour
 	out << (&status)->getText() << endl; // write status' text
 
-	// write url:
-	if (type == "ImageStatus") // get the status' type (text, image or video)
-	{
+	// write url if it's image/video:
+	if (type == "ImageStatus")
 		out << dynamic_cast<ImageStatus*>(&status)->getImageUrl() << endl;
-	}
 	else if (type == "VideoStatus")
-	{
 		out << dynamic_cast<VideoStatus*>(&status)->getVideoUrl() << endl;
-	}
 
 	return out;
-	//
-	//string classType = typeid(status).name() + 6;
-	//out << classType << "\n";
-	//out << status._text << endl;
-	//out << status._time.getDay() << "." << status._time.getMonth() << "." << status._time.getYear() << endl;
-	//out << status._time.getHours() << ":" << status._time.getMinutes() << ":" << status._time.getSeconds() << endl;
-
-	//if (classType == "VideoStatus")
-	//	out << "video url" << endl; // TODO
-	//	//out << dynamic_cast<VideoStatus*>(_statuses[i])->getVideoUrl();
-	//else if (classType == "ImageStatus")
-	//	out << "image url" << endl; // TODO
-	//	//out << dynamic_cast<ImageStatus*>(_statuses[i])->getImageUrl();
 }
 
-// this function writes the facebook's data into the file
-void Operation::storeObjects(const string& filename)
-{
-	ofstream out(filename, ios::trunc); // open file for writing
-
-	int numUsers = _allUsers.size();
-	out << numUsers; // write number of users 
-
-	// write all users to the file
-	for (User* user : _allUsers)
-	{
-		out << *user; // write user and birthday
-	}
-	out << endl; // to seprate the birthday of the last user from the number of pages
-
-	int numPages = _allPages.size();
-	out << numPages; // write number of pages 
-
-	//write all pages to the file
-	for (Page* page : _allPages)
-	{
-		out << *page;
-	}
-
-	// go over all users
-
-	vector<User*>::iterator itrUsers = _allUsers.begin();
-	vector<User*>::iterator itrUsersEnd = _allUsers.end();
-
-	for (; itrUsers != itrUsersEnd; ++itrUsers)
-	{
-		// write friends
-		vector<User*> friends = (*itrUsers)->getFriendsList();
-		vector<User*>::iterator itrFriends = friends.begin();
-		vector<User*>::iterator itrFriendsEnd = friends.end();
-
-		int numFriends = friends.size();
-		out << numFriends; // write number of friends
-		if (numFriends == 0)
-			out << endl;
-		
-		for (; itrFriends != itrFriendsEnd; ++itrFriends)
-		{
-			//out << (*itrFriends)->getName() << endl; // write friend's name
-			out << **itrFriends; // write friend's name and birthday
-		}
-		out << endl;
-
-		// write pages
-		vector<Page*> pages = (*itrUsers)->getLikedPagesList();
-		vector<Page*>::iterator itrPages = pages.begin();
-		vector<Page*>::iterator itrPagesEnd = pages.end();
-		int numPages = pages.size();
-		out << numPages;
-		if (numPages == 0)
-			out << endl;
-
-		for (; itrPages != itrPagesEnd; ++itrPages)
-		{
-			out << **itrPages;
-			//out << (*itrPages)->getName() << endl; // write pages's name
-		}
-
-		// write statuses
-		vector<Status*> statuses = (*itrUsers)->getStatusesList();
-		vector<Status*>::iterator itrStatuses = statuses.begin();
-		vector<Status*>::iterator itrStatusesEnd = statuses.end();
-		int numStatuses = statuses.size();
-		out << numStatuses;
-		if (numStatuses == 0)
-			out << endl;
-
-		for (; itrStatuses != itrStatusesEnd; ++itrStatuses)
-		{
-			out << **itrStatuses;
-		}
-	}
-
-	// go over all pages
-
-	vector<Page*>::iterator itrPages = _allPages.begin();
-	vector<Page*>::iterator itrPagesEnd = _allPages.end();
-
-	for (; itrPages != itrPagesEnd; ++itrPages)
-	{
-		// write fans
-		vector<User*> fans = (*itrPages)->getFriendsList();
-		vector<User*>::iterator itrFans = fans.begin();
-		vector<User*>::iterator itrFansEnd = fans.end();
-		int numFans = fans.size();
-		out << numFans; // write number of friends
-		if (numFans == 0)
-			out << endl;
-
-		for (; itrFans != itrFansEnd; ++itrFans)
-		{
-			out << **itrFans; // write fan's name and birthday
-			//out << (*itrFans)->getName() << endl; // write fans's name
-		}
-		out << endl;
-
-		// write statuses
-		vector<Status*> statuses = (*itrPages)->getStatusesList();
-		vector<Status*>::iterator itrStatuses = statuses.begin();
-		vector<Status*>::iterator itrStatusesEnd = statuses.end();
-		int numStatuses = statuses.size();
-		out << numStatuses;
-		if (numStatuses == 0)
-			out << endl;
-
-		for (; itrStatuses != itrStatusesEnd; ++itrStatuses)
-		{
-			out << **itrStatuses;
-		}
-	}
-
-	out.close();
-}
-
-// ########### read functions ############# //
+// ##################### read functions ###################### //
 
 // this function reads the facebook's data from the file
 void Operation::readObjects(const string& filename)

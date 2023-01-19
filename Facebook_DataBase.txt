@@ -19,18 +19,21 @@ Harry Potter
 1Maccabi Haifa
 1TextStatus
 19 1 2023 14 29 10Hello world
-1Keren Kalif
-15 4 1990 0 0 0
+2Keren Kalif
+15 4 1990 0 0 0noa kirel
+1 3 1990 0 0 0
 1Harry Potter
 2TextStatus
 19 1 2023 14 29 10Hello world
 ImageStatus
 19 1 2023 14 33 23hellooo
 image2.mp4
-0
-
-0
-0
+1Gon Etgar
+21 10 1996 0 0 0
+1Cakes
+1VideoStatus
+19 1 2023 15 8 59PAAMON
+video2.mp4
 1Ori Nurieli
 1 7 1997 0 0 0
 1TextStatus
@@ -43,8 +46,9 @@ image2.mp4
 VideoStatus
 19 1 2023 14 34 7HARRY POTTER THE BOY WHO LIVED
 video2.mp4
-1Keren Kalif
-15 4 1990 0 0 0
+2Keren Kalif
+15 4 1990 0 0 0noa kirel
+1 3 1990 0 0 0
 2TextStatus
 19 1 2023 14 29 10Hello world
 ImageStatus
