@@ -20,8 +20,6 @@ void Operation::initiateData(vector<User*>& initUsers, vector<Page*>& initPages)
 
 }
 
-
-
 // insert a new user to the allUsers vector
 void Operation::addUserToOperation(User& userToAdd)
 {
