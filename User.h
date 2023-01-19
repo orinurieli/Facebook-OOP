@@ -33,29 +33,23 @@ public:
 	const Clock& getBirthday() const { return _birthday; }
 	const vector<Page*>& getLikedPagesList() const { return _likedPages; }
 
-	void setUserName(string& username) { _name = username; };
-	void setBirthday(Clock& birthday) { _birthday = birthday; }
-	void setLikedPagesList(vector<Page*> likedPages) { _likedPages = likedPages; }
 	void pushToPagesList(Page& newPage) { _likedPages.push_back(&newPage); }
-
 	void addFriend(Operation& system);
 	void cancelFriendship(Operation& system);
 	void likePage(Operation& system);
 	void dislikePage(Operation& system);
-	void displayRecentStatusesOfaFriend(Operation& system) const; // 10 most recent statuses of all his friends
+	void displayRecentStatusesOfaFriend(Operation& system) const;
+	bool PageExistInLikedPages(const string& pageName);
 
 	User& operator+=(User& other);
 	User& operator+=(Page& fanPage);
-	friend ostream& operator<<(ostream& out, const User& user);
-	friend istream& operator>>(istream& in, User& user);
-
 	bool operator<(const User& other) const;
 	bool operator>(const User& other) const;
 	bool operator<(const Page& fanPage) const;
 	bool operator>(const Page& fanPage) const;
-	bool PageExistInLikedPages(const string& pageName);
-	User* searchUserInAllUsers(Operation& system, const string& nameToSearch); // *returns pointer because null can be returned*
-
+	// implamented in Functions.h
+	friend ostream& operator<<(ostream& out, const User& user);
+	friend istream& operator>>(istream& in, User& user);
 
 	~User();
 };

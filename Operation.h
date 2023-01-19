@@ -25,7 +25,6 @@ public:
 	const vector<User*>& getAllUsers() { return _allUsers; };
 	const vector<Page*>& getAllPages() { return _allPages; };
 
-	void initiateData(vector<User*>& initUsers, vector<Page*>& initPages);
 	void addUserToOperation(User& userToAdd);
 	void addPageToOperation(Page& pageToAdd);
 	void displayAllEntities() const;

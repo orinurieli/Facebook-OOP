@@ -15,13 +15,8 @@ Page* Page::askForPageName(Operation& system) // *returns a pointer because NULL
 	cin.ignore();
 	getline(cin, page_name);
 
-	int index = 0;
-	index = doesPageExist(page_name, system);
-
-	if (index >= 0)
-		return allPages[index];
-	else
-		return nullptr;
+	Page* page = searchPageByName(page_name, system);
+	return page;
 }
 
 // adds user to fan list
@@ -39,15 +34,10 @@ void Page::removeFan(const User& removeUser) throw (const char*)
 
 	for (int i = 0; i < num_of_fans && !found; i++)
 	{
-		//if (&removeUser == _fansList[i]) // user is a fan
 		if (&removeUser == _friends[i]) // user is a fan
 		{
 			if (i != num_of_fans - 1) // if it's not the last - put it last
 			{
-				//User* tmp = _fansList[i];
-				//_fansList[i] = _fansList[num_of_fans - 1];
-				//_fansList[num_of_fans - 1] = tmp;
-
 				// switch between them
 				User* tmp = _friends[i];
 				_friends[i] = _friends[num_of_fans - 1];

@@ -4,14 +4,13 @@
 #include <fstream>
 #include <vector>
 #include <string>
-class User;
-class Page;
-class Operation;
-
 #include "Operation.h"
 #include "User.h"
 #include "Page.h"
 #include "Clock.h"
+class User;
+class Page;
+class Operation;
 
 #define CLEAR_BUFFER -1
 #define NOT_FOUND -1
@@ -20,30 +19,15 @@ class Operation;
 #define FRIEND 2
 
 int displayMenu();
-int doesUserExist(string& name, Operation& system);
+User* searchUserByName(string& name, Operation& system); // *can return null!*
+Page* searchPageByName(string& name, Operation& system); // *can return null!*
 int doesPageExist(string& name, Operation& system);
-
-vector<User*> initiateUsers();
-void initiateFriendships(vector<User*> allUsers);
-vector<Page*> initiatePages(Operation& system, vector<User*> allUsers);
-void initiatePageLikes(Operation& system, vector<User*> allUsers, vector<Page*> pages);
-void initiateStatuses(Operation& system);
-
 void getUserInput(Operation& system);
 void addPageToSystem(Operation& system);
-
 int askUserOrPage();
-// void askForEntityUserOrPage(User* current_user, Page* current_page, Operation& system); // return pointer because null can be returned
-
 void getUserOrPageInput(int userChoice, Operation& system);
-Page* getPageDetails(Operation& system, int clearBuffer);
-User* askForUsername(Operation& system, int flag);
-
-// Files Functions
-//void storeObjects(const string& filename, vector<User*> users, vector<Page*> pages);
-void readObjects(const string& filename, vector<User*>& users, vector<Page*>& pages, Operation& system);
-
-
+Page* getPageDetails(Operation& system, int clearBuffer); // *can return null!*
+User* askForUsername(Operation& system, int flag); // *can return null!*
 void newTerminate();
 
 

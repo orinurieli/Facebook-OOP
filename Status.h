@@ -28,7 +28,6 @@ public:
 	virtual void display() = 0; // this function prints a status
 
 	friend ostream& operator<<(ostream& out, Status& status);
-	//friend istream& operator>>(istream& in, Status& status);
 
 	virtual ~Status() {};
 };

@@ -90,7 +90,6 @@ void User::dislikePage(Operation& system) throw (const char*)
 
 	for (int i = 0; i < num_of_pages && !found; i++)
 	{
-		// we didnt do for both sides!-> todo check it?
 		if (page_to_dislike == _likedPages[i]) // page is in likedPages
 		{
 			if (i != num_of_pages - 1) // if it's not the last one on the vector, put it last
@@ -191,7 +190,6 @@ bool User::operator>(const Page& fanPage) const
 	return (_friends.size() > fanPage.getFriendsList().size());
 }
 
-
 // check if the user liked a certain page
 bool User::PageExistInLikedPages(const string& pageName)
 {
@@ -201,23 +199,6 @@ bool User::PageExistInLikedPages(const string& pageName)
 			return true;
 	}
 	return false;
-}
-
-
-// TODO- maybe delete. check if we dont use this function in the program
-// returns the user's address, and null if not found
-User* User::searchUserInAllUsers(Operation& system, const string& nameToSearch)// *returns pointer because null can be returned*
-{
-	vector<User*> all_users = system.getAllUsers();
-	int num_of_users = all_users.size();
-
-	for (int i = 0; i < num_of_users; i++)
-	{
-		if (all_users[i]->getName().compare(nameToSearch) == 0)
-			return all_users[i];
-	}
-
-	return nullptr;
 }
 
 // d'tor

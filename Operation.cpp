@@ -5,26 +5,14 @@ using namespace std;
 // c'tor
 Operation::Operation()
 {
-	initiateData(_allUsers, _allPages);
-}
-
-// initiate the program with users and pages
-void Operation::initiateData(vector<User*>& initUsers, vector<Page*>& initPages)
-{
 	const string& FILE_NAME = "Facebook_DataBase.txt";
-	readObjects(FILE_NAME);
-
-	/*_allUsers = initiateUsers();
-	_allPages = initiatePages(*this, _allUsers);
-	initiateStatuses(*this);*/
-
+	readObjects(FILE_NAME); // read from file all datat and inititate the operation
 }
 
 // insert a new user to the allUsers vector
 void Operation::addUserToOperation(User& userToAdd)
 {
 	_allUsers.push_back(&userToAdd);
-	//_numOfUsers++;
 	cout << endl << "Hey, " << userToAdd.getName() << " Welcome to Facebook :) " << endl << endl;
 }
 
@@ -32,7 +20,6 @@ void Operation::addUserToOperation(User& userToAdd)
 void Operation::addPageToOperation(Page& pageToAdd)
 {
 	_allPages.push_back(&pageToAdd);
-	//_numOfPages++;
 	cout << "Congrats! Your page: " << pageToAdd.getName() << " is Live on Facebook." << endl << endl;
 }
 
@@ -40,7 +27,7 @@ void Operation::addPageToOperation(Page& pageToAdd)
 void Operation::displayAllEntities() const noexcept(false)
 {
 
-	cout << endl << "ALL ENTITIES: " << endl;
+	cout << endl << "all entites: " << endl;
 	if (_allUsers.size() == 0 || _allPages.size() == 0) {
 		throw invalid_argument("No entities on FB yet..");
 	}
@@ -54,7 +41,7 @@ void Operation::displayAllEntities() const noexcept(false)
 		cout << endl << endl;
 	}
 
-	cout << endl << "Pages: " << endl << "------" << endl;
+	cout << "Pages: " << endl << "------" << endl;
 	for (int i = 0; i < _allPages.size(); i++)
 		cout << _allPages[i]->getName() << endl;
 
@@ -156,7 +143,7 @@ Page* Operation::searchPageInOperation(const string& name)// *can return null!*
 	return nullptr;
 }
 
-// ############# writing functions ################## //
+// ############# writing to file functions ################## //
 
 // this function writes the facebook's data into the file
 void Operation::storeObjects(const string& filename)
@@ -314,7 +301,7 @@ ostream& operator<<(ostream& out, Status& status)
 	return out;
 }
 
-// ##################### read functions ###################### //
+// ##################### read from file functions ###################### //
 
 // this function reads the facebook's data from the file
 void Operation::readObjects(const string& filename)
@@ -390,10 +377,9 @@ void Operation::readFriendsOrFansFromFile(istream& in, Entity& entity)
 		User tmpFriend; // temp user that dies in the end of the iteration
 		in >> tmpFriend; // read name and birthday
 
-		User* newFriend = searchUserInOperation(tmpFriend.getName());
+		User* newFriend = searchUserInOperation(tmpFriend.getName()); 
 		if (newFriend)
 			entity.pushToFriendsList(*newFriend); // add this friend to the user's friends list
-			//(*itrUsers)->pushToFriendsList(*newFriend); // add this friend to the user's friends list
 	}
 }
 
@@ -411,7 +397,6 @@ void Operation::readPagesFromFile(istream& in, User& user)
 		Page* newPage = searchPageInOperation(tmpPage.getName());
 		if (newPage)
 			user.pushToPagesList(*newPage); // add this pages to the user's liked pages
-			//(*itrUsers)->pushToPagesList(*newPage); // add this pages to the user's liked pages
 	}
 }
 
@@ -431,9 +416,7 @@ void Operation::readStatusesFromFile(istream& in, Entity& entity)
 		Status* newStatus;
 
 		if (type == "TextStatus")
-		{
 			newStatus = new TextStatus(text, date);
-		}
 		else if (type == "ImageStatus")
 		{
 			getline(in, url);
@@ -445,7 +428,6 @@ void Operation::readStatusesFromFile(istream& in, Entity& entity)
 			newStatus = new VideoStatus(text, date, url);
 		}
 		entity.pushToStatusesList(newStatus); // add this status to the user's statuses
-		//(*itrUsers)->pushToStatusesList(newStatus); // add this status to the user's statuses
 	}
 }
 
@@ -471,6 +453,7 @@ istream& operator>>(istream& in, Page& page)
 	return in;
 }
 
+// d'tor
 Operation::~Operation()
 {
 	int num_of_users = _allUsers.size();

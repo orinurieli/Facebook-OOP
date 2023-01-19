@@ -24,31 +24,13 @@ public:
 	Clock();
 	Clock(int day, int month, int year) throw (const char*); // to enter date manually (e.g. in birthday)
 
-	int getDay() const { return _day; }
-	int getMonth() const { return _month; }
-	int getYear() const { return _year; }
-	int getHours() const { return _hours; }
-	int getMinutes() const { return _minutes; }
-	int getSeconds() const { return _seconds; }
-
-	void setDay(int day) { _day = day; }
-	void setMonth(int month) { _month = month; }
-	void setYear(int year) { _year = year; }
-	void setHours(int hours) { _hours = hours; }
-	void setMinutes(int minutes) { _minutes = minutes; }
-	void setSeconds(int seconds) { _seconds = seconds; }
-
 	int stringToNumber(string& str, int start, int end);
-
-	Clock& getDate() { return *this; }
 	Clock& getBirthdayInput();
-
 	void displayDate() const;
 	void displayHour() const;
 
 	// implamented in Functions.h
 	friend ostream& operator<<(ostream& out, const Clock& date); 
-
 	friend istream& operator>>(istream& in, Clock& date);
 };
 

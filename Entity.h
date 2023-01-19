@@ -12,7 +12,6 @@ enum StatusType { textStatus = 1, imageStatus, videoStatus };
 #define USER 1
 #define PAGE 0
 
-// todo - make entity abstaract. move c'tors to private and make name in the ctors of page and user
 class Entity
 {
 protected:
@@ -27,13 +26,6 @@ public:
 	const string& getName() const { return _name; }
 	const vector<User*>& getFriendsList() const { return _friends; }
 	const vector<Status*>& getStatusesList() const { return _statuses; }
-
-	virtual void setName(string& username) { _name = username; };
-	void setFriendsList(vector<User*> friends) { _friends = friends; }
-	void setStatusesList(vector<Status*> statuses) { _statuses = statuses; }
-
-
-
 	void pushToFriendsList(User& newFriend) { _friends.push_back(&newFriend); }
 	void pushToStatusesList(Status* newStatus) { _statuses.push_back(newStatus); }
 	int searchMemberInFriendList(const User& friendToSearch);
@@ -41,7 +33,7 @@ public:
 	void displayAllStatuses() const;
 	void displayAllFriendsOrFans(int userOrPage) const;
 
-	~Entity() {}
+	virtual ~Entity() {}
 };
 
 #endif
