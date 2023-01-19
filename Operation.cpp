@@ -317,15 +317,91 @@ ostream& operator<<(ostream& out, Status& status)
 
 // ##################### read functions ###################### //
 
+void Operation::readEachUsersDetails(istream& in)
+{
+}
+
+void Operation::readEachPagesDetails(istream& in)
+{
+}
+
 // this function reads the facebook's data from the file
 void Operation::readObjects(const string& filename)
 {
 	ifstream in(filename); // open file for reading
+
+	readAllUsersAndPagesFromFile(in);
+
+	// go over all users, and get the details about each one
+	vector<User*>::iterator itrUsers = _allUsers.begin();
+	vector<User*>::iterator itrUsersEnd = _allUsers.end();
+
+	for (; itrUsers != itrUsersEnd; ++itrUsers)
+	{
+		readFriendsOrFansFromFile(in, **itrUsers);
+		readPagesFromFile(in, **itrUsers);
+		readStatusesFromFile(in, **itrUsers);
+	}
+
+	// go over all pages and get the details about each one
+	vector<Page*>::iterator itrPages = _allPages.begin();
+	vector<Page*>::iterator itrPagesEnd = _allPages.end();
+
+	for (; itrPages != itrPagesEnd; ++itrPages)
+	{
+		readFriendsOrFansFromFile(in, **itrPages);
+		readStatusesFromFile(in, **itrPages);
+		//int numFans;
+		//in >> numFans;
+		//vector<User*> fans = (*itrPages)->getFriendsList();
+		//for (int i = 0 ; i < numFans; i++)
+		//{
+		//	User tmpFan; // temp user that dies in the end of the iteration
+		//	in >> tmpFan; // read name and birthday
+		//	User* newFan = searchUserInOperation(tmpFan.getName());
+		//	if (newFan)
+		//		(*itrPages)->pushToFriendsList(*newFan); // add this fan to the page's fans list
+		//}
+		// read statuses
+		//vector<Status*> statuses = (*itrPages)->getStatusesList();
+		//int numStatuses;
+		//in >> numStatuses;
+		//for (int i = 0; i < numStatuses; i++)
+		//{
+		//	string type, text, url;
+		//	Clock date;
+		//	getline(in, type);
+		//	in >> date;
+		//	getline(in, text);
+		//	Status* newStatus;
+		//	if (type == "TextStatus")// TODO - problem with the type
+		//	{
+		//		newStatus = new TextStatus(text, date);
+		//	}
+		//	else if (type == "ImageStatus")
+		//	{
+		//		getline(in, url);
+		//		newStatus = new ImageStatus(text, date, url);
+		//	}
+		//	else //(type == "VideoStatus")
+		//	{
+		//		getline(in, url);
+		//		newStatus = new VideoStatus(text, date, url);
+		//	}
+		//	(*itrPages)->pushToStatusesList(newStatus); // add this status to the page's statuses
+		//}
+	}
+
+	in.close();
+}
+
+// read all the users and pages from file
+void Operation::readAllUsersAndPagesFromFile(istream& in)
+{
 	int numUsers;
 	in >> numUsers;
 
-	// read all users from the file and add them to operation
-	for (int i = 0; i < numUsers; i++)
+	for (int i = 0; i < numUsers; i++) // read all users from the file and add them to operation
 	{
 		User* user = new User(); // allocate temporary user
 		in >> *user; // read user's name and birthday
@@ -335,136 +411,82 @@ void Operation::readObjects(const string& filename)
 	int numPages;
 	in >> numPages;
 
-	//read all pages from the file and add them to operation
-	for (int i = 0; i < numPages; i++)
+	for (int i = 0; i < numPages; i++) //read all pages from the file and add them to operation
 	{
 		Page* fanPage = new Page(); // allocate temporary page
-		in >> *fanPage; // read page
+		in >> *fanPage; // read page name
 		_allPages.push_back(fanPage); // add to all pages vector
 	}
+}
 
-	// go over all users, and get the details about each one
+// read all friends/fans of the entity from file
+void Operation::readFriendsOrFansFromFile(istream& in, Entity& entity)
+{
+	int numFriends;
+	in >> numFriends; // read number of friends
 
-	vector<User*>::iterator itrUsers = _allUsers.begin();
-	vector<User*>::iterator itrUsersEnd = _allUsers.end();
-
-	for (; itrUsers != itrUsersEnd; ++itrUsers)
+	for (int i = 0; i < numFriends; i++) // go over friends list
 	{
-		// read friends
-		int numFriends;
-		in >> numFriends; // read number of friends
+		User tmpFriend; // temp user that dies in the end of the iteration
+		in >> tmpFriend; // read name and birthday
 
-		for (int i = 0 ; i < numFriends; i++) // go over friends list
-		{
-			User tmpFriend; // temp user that dies in the end of the iteration
-			in >> tmpFriend; // read name and birthday
-
-			User* newFriend = searchUserInOperation(tmpFriend.getName());
-			if (newFriend)
-				(*itrUsers)->pushToFriendsList(*newFriend); // add this friend to the user's friends list
-		}
-
-		// read pages
-		int numPages;
-		in >> numPages;
-
-		for (int i = 0; i < numPages; i++) // go over pages list
-		{
-			Page tmpPage;
-			in >> tmpPage;
-
-			Page* newPage = searchPageInOperation(tmpPage.getName());
-			if (newPage)
-				(*itrUsers)->pushToPagesList(*newPage); // add this pages to the user's liked pages
-		}
-
-		// read statuses
-		int numStatuses;
-		in >> numStatuses;
-
-		for (int i = 0; i < numStatuses; i++) // go over statuses list
-		{
-			string type, text, url;
-			Clock date;
-			getline(in, type); // read status' type (text, image or video)
-			in >> date; // read the status' date and hour
-			getline(in, text); // read status' text
-			Status* newStatus;
-
-			if (type == "TextStatus")
-			{
-				newStatus = new TextStatus(text, date);
-			}
-			else if (type == "ImageStatus")
-			{
-				getline(in, url);
-				newStatus = new ImageStatus(text, date, url);
-			}
-			else //(type == "VideoStatus")
-			{
-				getline(in, url);
-				newStatus = new VideoStatus(text, date, url);
-			}
-			(*itrUsers)->pushToStatusesList(newStatus); // add this status to the user's statuses
-		}
+		User* newFriend = searchUserInOperation(tmpFriend.getName());
+		if (newFriend)
+			entity.pushToFriendsList(*newFriend); // add this friend to the user's friends list
+			//(*itrUsers)->pushToFriendsList(*newFriend); // add this friend to the user's friends list
 	}
+}
 
-	// go over all pages and get the details about each one
-	vector<Page*>::iterator itrPages = _allPages.begin();
-	vector<Page*>::iterator itrPagesEnd = _allPages.end();
+// read all liked pages of user from file
+void Operation::readPagesFromFile(istream& in, User& user)
+{
+	int numPages;
+	in >> numPages;
 
-	for (; itrPages != itrPagesEnd; ++itrPages)
+	for (int i = 0; i < numPages; i++) // go over pages list
 	{
-		// read fans
-		int numFans;
-		in >> numFans;
-		vector<User*> fans = (*itrPages)->getFriendsList();
+		Page tmpPage;
+		in >> tmpPage;
 
-		for (int i = 0 ; i < numFans; i++)
-		{
-			User tmpFan; // temp user that dies in the end of the iteration
-			in >> tmpFan; // read name and birthday
-
-			User* newFan = searchUserInOperation(tmpFan.getName());
-			if (newFan)
-				(*itrPages)->pushToFriendsList(*newFan); // add this fan to the page's fans list
-		}
-
-		// read statuses
-		vector<Status*> statuses = (*itrPages)->getStatusesList();
-
-		int numStatuses;
-		in >> numStatuses;
-
-		for (int i = 0; i < numStatuses; i++)
-		{
-			string type, text, url;
-			Clock date;
-
-			getline(in, type);
-			in >> date;
-			getline(in, text);
-			Status* newStatus;
-
-			if (type == "TextStatus")// TODO - problem with the type
-			{
-				newStatus = new TextStatus(text, date);
-			}
-			else if (type == "ImageStatus")
-			{
-				getline(in, url);
-				newStatus = new ImageStatus(text, date, url);
-			}
-			else //(type == "VideoStatus")
-			{
-				getline(in, url);
-				newStatus = new VideoStatus(text, date, url);
-			}
-			(*itrPages)->pushToStatusesList(newStatus); // add this status to the page's statuses
-		}
+		Page* newPage = searchPageInOperation(tmpPage.getName());
+		if (newPage)
+			user.pushToPagesList(*newPage); // add this pages to the user's liked pages
+			//(*itrUsers)->pushToPagesList(*newPage); // add this pages to the user's liked pages
 	}
+}
 
-	in.close();
+// read all the statuses of the entity from file
+void Operation::readStatusesFromFile(istream& in, Entity& entity)
+{
+	int numStatuses;
+	in >> numStatuses;
+
+	for (int i = 0; i < numStatuses; i++) // go over statuses list
+	{
+		string type, text, url;
+		Clock date;
+		getline(in, type); // read status' type (text, image or video)
+		in >> date; // read the status' date and hour
+		getline(in, text); // read status' text
+		Status* newStatus;
+
+		if (type == "TextStatus")
+		{
+			newStatus = new TextStatus(text, date);
+		}
+		else if (type == "ImageStatus")
+		{
+			getline(in, url);
+			newStatus = new ImageStatus(text, date, url);
+		}
+		else //(type == "VideoStatus")
+		{
+			getline(in, url);
+			newStatus = new VideoStatus(text, date, url);
+		}
+		entity.pushToStatusesList(newStatus); // add this status to the user's statuses
+		//(*itrUsers)->pushToStatusesList(newStatus); // add this status to the user's statuses
+	}
 }
 
 // read user from file

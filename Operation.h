@@ -43,6 +43,13 @@ public:
 	void writePagesToFile(ostream& out, User& user);
 	void writeStatusesToFile(ostream& out, Entity& entity);
 
+	void readAllUsersAndPagesFromFile(istream& in);
+	void readEachUsersDetails(istream& in);
+	void readEachPagesDetails(istream& in);
+	void readFriendsOrFansFromFile(istream& in, Entity& entity);
+	void readPagesFromFile(istream& in, User& user);
+	void readStatusesFromFile(istream& in, Entity& entity);
+
 
 	~Operation();
 };
