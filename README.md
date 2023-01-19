@@ -68,47 +68,47 @@ Here's an example of how we used it:
 
 ```C++
 try
-		{
-			userChoice = displayMenu();
+{
+	userChoice = displayMenu();
 
-			if (userChoice == Exit)
-			{
-				system.storeObjects(FILE_NAME);
-				cout << "Saving data to DB." << endl;
-				cout << "Goodbye.";
-				break;
-			}
+	if (userChoice == Exit)
+	{
+		system.storeObjects(FILE_NAME);
+		cout << "Saving data to DB." << endl;
+		cout << "Goodbye.";
+		break;
+	}
 
-			system.handleMenu(userChoice);
-		}
-		catch (const char* err)
-		{
-			cout << endl << "Error thrown: " << err << endl << endl;
-		}
-		catch (std::invalid_argument& err)
-		{
-			cout << endl << "Invalid Argument: " << err.what() << endl << endl;
-		}
-		catch (std::exception& err)
-		{
-			cout << endl << "General Error: " << err.what() << endl << endl;
-		}
+	system.handleMenu(userChoice);
+}
+catch (const char* err)
+{
+	cout << endl << "Error thrown: " << err << endl << endl;
+}
+catch (std::invalid_argument& err)
+{
+	cout << endl << "Invalid Argument: " << err.what() << endl << endl;
+}
+catch (std::exception& err)
+{
+	cout << endl << "General Error: " << err.what() << endl << endl;
+}
 ```
 
-## Functions We Used
+## Functions 
 - We have created several functions the User and Page Classes use throughout the program:
 
 ```C++
-  const string& getName() const { return _name; }
-	const vector<User*>& getFriendsList() const { return _friends; }
-	const vector<Status*>& getStatusesList() const { return _statuses; }
-	void pushToFriendsList(User& newFriend) { _friends.push_back(&newFriend); }
-	void pushToStatusesList(Status* newStatus) { _statuses.push_back(newStatus); }
-	int searchMemberInFriendList(const User& friendToSearch);
-	void createStatus();
-	void displayAllStatuses() const;
-	void displayAllFriendsOrFans(int userOrPage) const;
-  ```
+const string& getName() const { return _name; }
+const vector<User*>& getFriendsList() const { return _friends; }
+const vector<Status*>& getStatusesList() const { return _statuses; }
+void pushToFriendsList(User& newFriend) { _friends.push_back(&newFriend); }
+void pushToStatusesList(Status* newStatus) { _statuses.push_back(newStatus); }
+int searchMemberInFriendList(const User& friendToSearch);
+void createStatus();
+void displayAllStatuses() const;
+void displayAllFriendsOrFans(int userOrPage) const;
+```
   
  ## Contributing
 
