@@ -5,7 +5,7 @@
 1. Clone the repository using `git clone https://github.com/[username]/cpp-facebook.git`
 2. Navigate to the project directory using `cd cpp-facebook`
 3. Compile the program using `g++ main.cpp -o facebook`
-4. Run the program using `./facebook`
+4. Run the program 
 
 ## OOP Usage
 
@@ -125,4 +125,5 @@ Please ensure that all new code adheres to the 4 OOP principles: Encapsulation, 
 
 ## Author
 
-* **OriNurieli** - *Initial work*
+##### Made by [Ori Nurieli](https://github.com/orinurieli)  
+
