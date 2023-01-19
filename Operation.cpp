@@ -26,13 +26,11 @@ void Operation::addPageToOperation(Page& pageToAdd)
 // prints out all the entities on facebook, the users and pages
 void Operation::displayAllEntities() const noexcept(false)
 {
-
 	cout << endl << "all entites: " << endl;
 	if (_allUsers.size() == 0 || _allPages.size() == 0) {
 		throw invalid_argument("No entities on FB yet..");
 	}
 	cout << endl << "Users: " << endl << "------" << endl;
-
 	for (int i = 0; i < _allUsers.size(); i++)
 	{
 		cout << _allUsers[i]->getName() << endl << "Birthday: ";

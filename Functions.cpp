@@ -72,21 +72,6 @@ Page* searchPageByName(string& name, Operation& system) // *can return null!*
 	return nullptr;
 }
 
-// checks if the page "name" exists in the system. returns the page's index in the allPages array, or -1 if is not found
-int doesPageExist(string& name, Operation& system)
-{
-	vector<Page*> allPages = system.getAllPages();
-	int index, num_of_pages = system.getAllPages().size();
-
-	for (index = 0; index < num_of_pages; index++)
-	{
-		if (allPages[index]->getName().compare(name) == 0)
-			return index;
-	}
-
-	return NOT_FOUND;
-}
-
 // in order to navigate the menu to the right entity, we ask if it's a user or a page
 int askUserOrPage() noexcept(false)
 {
@@ -159,7 +144,6 @@ void addPageToSystem(Operation& system) noexcept(false)
 	{
 		try
 		{
-			//if (doesPageExist(pageName, system) >= 0)
 			if (searchPageByName(pageName, system))
 			{
 				throw "Page name is already taken.";

@@ -21,7 +21,6 @@ class Operation;
 int displayMenu();
 User* searchUserByName(string& name, Operation& system); // *can return null!*
 Page* searchPageByName(string& name, Operation& system); // *can return null!*
-int doesPageExist(string& name, Operation& system);
 void getUserInput(Operation& system);
 void addPageToSystem(Operation& system);
 int askUserOrPage();

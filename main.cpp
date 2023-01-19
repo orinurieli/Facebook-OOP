@@ -30,10 +30,6 @@ int main()
 
 			if (userChoice == Exit)
 			{
-				/*cout << "inserting data to file...   "
-					<< system.getAllUsers().size() << " users and "
-					<< system.getAllPages().size() << " pages" << endl;*/
-
 				system.storeObjects(FILE_NAME);
 				cout << "Goodbye.";
 				break;
